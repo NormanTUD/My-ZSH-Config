@@ -24,5 +24,5 @@ Copy these files to ~/.oh-my-zsh and ~/.zshrc respectively.
 
 ## Screenshots
 
-![SyntaxHighlighting](syntaxhighlighting.png.png "SyntaxHighlighting")
-![Tabccat](tabccat.png.png "Tabccat")
+![SyntaxHighlighting](syntaxhighlighting.png "SyntaxHighlighting")
+![Tabccat](tabccat.png "Tabccat")
