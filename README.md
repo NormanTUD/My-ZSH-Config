@@ -5,4 +5,4 @@ This is the collection of config files needed for my configuration of my ZSH. I 
 
 Install the powerline-fonts (on Debian, sudo apt install fonts-powerline, see https://github.com/powerline/fonts for other systems).
 
-Copy these files to ~/.oh-my-zsh, ~/.zshrc and ~/.zsh respectively.
+Copy these files to ~/.oh-my-zsh and ~/.zshrc respectively.
