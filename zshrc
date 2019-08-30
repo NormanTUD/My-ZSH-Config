@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH="/home/$USER/.oh-my-zsh"
+export ZSH="/home/$USER/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -65,7 +65,6 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(
   git
   alias-tips
-  #mysql-colorize
   colored-man-pages
   colorize
   zsh-autosuggestions
@@ -103,10 +102,9 @@ export EDITOR='vim'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 ZSH_THEME="agnoster"
+
 source /home/$USER/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-# # then source the script
 source $ZSH/oh-my-zsh.sh
 
 setopt inc_append_history
@@ -119,8 +117,10 @@ rationalise-dot() {
         LBUFFER+=.
             fi
 }
+
 zle -N rationalise-dot
 bindkey . rationalise-dot
+
 setopt correct_all
 setopt MENU_COMPLETE
 setopt AUTO_LIST
