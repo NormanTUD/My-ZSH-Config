@@ -21,3 +21,8 @@ Copy these files to ~/.oh-my-zsh and ~/.zshrc respectively.
 * Completion of commands that start similiar with right arrow key
 * Central repository for zsh-history for all open shells
 * ... much more :-)
+
+## Screenshots
+
+![SyntaxHighlighting](i/syntaxhighlighting.png.png?raw=true "SyntaxHighlighting")
+![Tabccat](i/tabccat.png.png?raw=true "Tabccat")
