@@ -26,3 +26,4 @@ Copy these files to ~/.oh-my-zsh and ~/.zshrc respectively.
 
 ![SyntaxHighlighting](syntaxhighlighting.png "SyntaxHighlighting")
 ![Tabccat](tabccat.png "Tabccat")
+![UnknownCommand](unknowncommand.png "UnknownCommand")
