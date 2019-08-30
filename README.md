@@ -15,7 +15,7 @@ Copy these files to ~/.oh-my-zsh and ~/.zshrc respectively.
 * Automatically expand `...` to `../..`, `....` to `../../..` etc.
 * Colorize man-pages
 * Show latest git-status in git-repositories
-* Show aliases (e.g. `git clone ...` shows `Alias tip: g clone ...`
+* Show aliases (e.g. `git clone ...` shows `Alias tip: g clone ...`)
 * Auto-completetion with tab-cycle-through and error-correction
 * Syntax-highlighting like in the `fish`-shell
 * Completion of commands that start similiar with right arrow key
