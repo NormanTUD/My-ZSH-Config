@@ -9,6 +9,10 @@ Install the powerline-fonts (on Debian, sudo apt install fonts-powerline, see ht
 
 Copy these files to ~/.oh-my-zsh and ~/.zshrc respectively.
 
+Also, for autocompletion, run
+
+> git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+
 ## Features
 
 * Barely any need for `cd` anymore (just type the folder name)
