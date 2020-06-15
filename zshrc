@@ -137,3 +137,8 @@ alias lll='exa -l | less'
 alias lla='exa -la'
 alias llt='exa -T'
 alias llfu='exa -bghHliS --git'
+
+alias cp='cp -R'
+alias scp='scp -r'
+alias mkdir='mkdir -p'
+alias lgl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
