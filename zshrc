@@ -130,3 +130,10 @@ setopt AUTO_CD
 setopt CHASE_DOTS
 
 alias gitc="git clone --depth=1 ."
+
+alias ls='exa'
+alias ll='exa -l'
+alias lll='exa -l | less'
+alias lla='exa -la'
+alias llt='exa -T'
+alias llfu='exa -bghHliS --git'
