@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "My-ZSH-Config installer for Debian based systems"
+
 if ! command -v whiptail &> /dev/null; then
 	echo "For this script to work, whiptail needs to be installed. To install automatically, enter your password"
 	sudo aptitude -y install whiptail
@@ -32,6 +34,16 @@ else
 fi
 
 if command -v zsh &> /dev/null; then
+	if [ -f ~/.zshrc ]; then
+		mv ~/.zshrc ~/.zshrc_ORIGINAL
+		echo "Moved ~/.zshrc to ~/.zshrc_ORIGINAL"
+	fi
+
+	if [ -d ~/.zsh ]; then
+		mv ~/.zsh ~/.zsh_ORIGINAL
+		echo "Moved ~/.zsh to ~/.zsh_ORIGINAL"
+	fi
+
 	cp zshrc ~/.zshrc
 	cp -r oh-my-zsh ~/.oh-my-zsh
 	cp -r oh-my-zsh/plugins/zsh-syntax-highlighting/highlighters ~/.oh-my-zsh/plugins/zsh-syntax-highlighting/
@@ -57,7 +69,16 @@ fi
 
 if command -v vim &> /dev/null; then
 	if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This has nothing to do with ZSH, but is just some small vim stuff." 8 78); then
+		if [ -f ~/.vimrc ]; then
+			mv ~/.vimrc ~/.vimrc_ORIGINAL
+			echo "Moved ~/.vimrc to ~/.vimrc_ORIGINAL"
+		fi
 		cp -r vimrc ~/.vimrc
+
+		if [ -d ~/.vim ]; then
+			mv ~/.vim ~/.vim_ORIGINAL
+			echo "Moved ~/.vim to ~/.vim_ORIGINAL"
+		fi
 		cp -r vim ~/.vim
 	fi
 else
