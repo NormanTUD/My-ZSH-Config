@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/home/norman/websites/lennart'
+let g:netrw_dirhist_2='/home/norman/websites/uni'
+let g:netrw_dirhist_3='/home/norman/websites/lennart'
+let g:netrw_dirhist_4='/home/norman/websites/lennart/version_updates'
+let g:netrw_dirhist_5='/home/norman/test/latex_incompatibilites/downloads/mathfam256/mathfam256'
+let g:netrw_dirhist_6='/home/norman'
+let g:netrw_dirhist_7='/home/norman/repos/StupidStraceParser'
+let g:netrw_dirhist_8='/home/norman/mailserver'
+let g:netrw_dirhist_9='/home/norman/repos/My-ZSH-Config'

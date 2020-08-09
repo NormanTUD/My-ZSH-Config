@@ -131,7 +131,6 @@ setopt CHASE_DOTS
 
 alias gitc="git clone --depth=1 ."
 
-alias ls='exa'
 alias ll='exa -l'
 alias lll='exa -l | less'
 alias lla='exa -la'
@@ -144,3 +143,18 @@ alias mkdir='mkdir -p'
 alias lgl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
 
 alias vim="vim -p"
+
+
+# Enable alt arrow keys for movements
+bindkey "^[[1;3C" forward-word
+bindkey "^[[1;3D" backward-word
+
+# Delete next word with alt del
+bindkey '^[[3;3~' kill-word
+
+#powerlevel10k
+source ~/.powerlevel10k/powerlevel10k.zsh-theme
+ZSH_THEME=".powerlevel10k/powerlevel10k"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

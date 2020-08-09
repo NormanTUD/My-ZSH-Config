@@ -1,0 +1,2 @@
+omniperl.vba: call delete('/home/ceolwulf/.vim/ftplugin/perl/omniperl.pl')|call delete('/home/ceolwulf/.vim/ftplugin/perl/omniperl.vim')|call delete('/home/ceolwulf/.vim/doc/omniperl.txt')
+Colorizer-0.10.vmb: call delete('/home/zodiac/.vim/plugin/ColorizerPlugin.vim')|call delete('/home/zodiac/.vim/doc/Colorizer.txt')|call delete('/home/zodiac/.vim/autoload/Colorizer.vim')
