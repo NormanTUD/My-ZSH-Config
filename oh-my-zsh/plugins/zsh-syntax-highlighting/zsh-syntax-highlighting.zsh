@@ -37,8 +37,10 @@ builtin unalias -m '[^+]*'
 
 # Set $0 to the expected value, regardless of functionargzero.
 0=${(%):-%N}
-if false; then
+if true; then
   # $0 is reliable
+  touch $(<"${0:A:h}"/.version
+  touch $(<"${0:A:h}"/.revision-hash)
   typeset -g ZSH_HIGHLIGHT_VERSION=$(<"${0:A:h}"/.version)
   typeset -g ZSH_HIGHLIGHT_REVISION=$(<"${0:A:h}"/.revision-hash)
   if [[ $ZSH_HIGHLIGHT_REVISION == \$Format:* ]]; then
