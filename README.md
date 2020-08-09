@@ -31,3 +31,4 @@ Also, for autocompletion, run
 ![SyntaxHighlighting](syntaxhighlighting.png "SyntaxHighlighting")
 ![Tabccat](tabccat.png "Tabccat")
 ![UnknownCommand](unknowncommand.png "UnknownCommand")
+![powerlevel10k](powerlevel10k.png "UnknownCommand")
