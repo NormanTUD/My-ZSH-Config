@@ -34,8 +34,8 @@ fi
 if command -v zsh &> /dev/null; then
 	cp zshrc ~/.zshrc
 	cp -r oh-my-zsh ~/.oh-my-zsh
-	if ! command -v git &> /dev/null; then
-		git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+	if command -v git &> /dev/null; then
+		git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/plugins/zsh-autosuggestions
 	else
 		echo "Without git, autosuggestions cannot be cloned"
 	fi
