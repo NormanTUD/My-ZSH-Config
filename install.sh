@@ -34,7 +34,7 @@ fi
 if command -v zsh &> /dev/null; then
 	cp zshrc ~/.zshrc
 	cp -r oh-my-zsh ~/.oh-my-zsh
-	cp -r oh-my-zsh/plugins/zsh-syntax-highlighting/highlighters ~/.oh-my-zsh/plugins/zsh-syntax-highlighting/highlighters
+	cp -r oh-my-zsh/plugins/zsh-syntax-highlighting/highlighters ~/.oh-my-zsh/plugins/zsh-syntax-highlighting/
 	if command -v git &> /dev/null; then
 		git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/plugins/zsh-autosuggestions
 	else
