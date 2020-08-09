@@ -131,11 +131,13 @@ setopt CHASE_DOTS
 
 alias gitc="git clone --depth=1 ."
 
-alias ll='exa -l'
-alias lll='exa -l | less'
-alias lla='exa -la'
-alias llt='exa -T'
-alias llfu='exa -bghHliS --git'
+if command -v exa &> /dev/null; then
+	alias ll='exa -l'
+	alias lll='exa -l | less'
+	alias lla='exa -la'
+	alias llt='exa -T'
+	alias llfu='exa -bghHliS --git'
+fi
 
 alias cp='cp -R'
 alias scp='scp -r'
