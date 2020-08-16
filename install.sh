@@ -30,7 +30,7 @@ if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not,
 		sudo aptitude -y install exa
 	fi
 else
-	echo "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"	
+	echo "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"
 fi
 
 if command -v zsh &> /dev/null; then
@@ -73,13 +73,14 @@ if command -v vim &> /dev/null; then
 			mv ~/.vimrc ~/.vimrc_ORIGINAL
 			echo "Moved ~/.vimrc to ~/.vimrc_ORIGINAL"
 		fi
+        cp -r vim_runtime ~/.vim_runtime
 		cp -r vimrc ~/.vimrc
 
-		if [ -d ~/.vim ]; then
-			mv ~/.vim ~/.vim_ORIGINAL
-			echo "Moved ~/.vim to ~/.vim_ORIGINAL"
-		fi
-		cp -r vim ~/.vim
+		#if [ -d ~/.vim ]; then
+		#	mv ~/.vim ~/.vim_ORIGINAL
+		#	echo "Moved ~/.vim to ~/.vim_ORIGINAL"
+		#fi
+		#cp -r vim ~/.vim
 	fi
 else
 	echo "vim does not seem to be installed"

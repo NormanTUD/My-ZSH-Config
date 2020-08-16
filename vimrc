@@ -1,5 +1,3 @@
-"colorscheme darkblue
-colorscheme koehler "set a nice color-scheme for dark consoles
 syntax on "enables syntax-highlighting
 filetype on "looks on filetype for syntax-highlight
 filetype indent on " ???
@@ -102,3 +100,16 @@ set autoindent
 " Set to auto read when a file is changed from the outside
 set autoread
 au FocusGained,BufEnter * checktime
+
+set runtimepath+=~/.vim_runtime
+
+source ~/.vim_runtime/vimrcs/basic.vim
+source ~/.vim_runtime/vimrcs/filetypes.vim
+source ~/.vim_runtime/vimrcs/plugins_config.vim
+source ~/.vim_runtime/vimrcs/extended.vim
+
+try
+source ~/.vim_runtime/my_configs.vim
+catch
+endtry
+
