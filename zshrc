@@ -63,28 +63,21 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
-  alias-tips
-  colored-man-pages
-  colorize
-  zsh-autosuggestions
+	git
+	alias-tips
+	colored-man-pages
+	colorize
+	zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
 export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -97,10 +90,6 @@ export EDITOR='vim'
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 ZSH_THEME="agnoster"
 
 source $HOME/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -111,11 +100,11 @@ setopt inc_append_history
 setopt share_history
 
 rationalise-dot() {
-    if [[ $LBUFFER = *.. ]]; then
-        LBUFFER+=/..
-    else
-        LBUFFER+=.
-            fi
+	if [[ $LBUFFER = *.. ]]; then
+		LBUFFER+=/..
+	else
+		LBUFFER+=.
+	fi
 }
 
 zle -N rationalise-dot
@@ -146,7 +135,6 @@ alias lgl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d
 
 alias vim="vim -p"
 
-
 # Enable alt arrow keys for movements
 bindkey "^[[1;3C" forward-word
 bindkey "^[[1;3D" backward-word
@@ -161,7 +149,6 @@ if [[ -f "~/.powerlevel10k/powerlevel10k.zsh-theme" ]]; then
 	# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 	[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 fi
-
 
 export http_proxy=
 export https_proxy=
