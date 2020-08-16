@@ -75,12 +75,6 @@ if command -v vim &> /dev/null; then
 		fi
         cp -r vim_runtime ~/.vim_runtime
 		cp -r vimrc ~/.vimrc
-
-		#if [ -d ~/.vim ]; then
-		#	mv ~/.vim ~/.vim_ORIGINAL
-		#	echo "Moved ~/.vim to ~/.vim_ORIGINAL"
-		#fi
-		#cp -r vim ~/.vim
 	fi
 else
 	echo "vim does not seem to be installed"
