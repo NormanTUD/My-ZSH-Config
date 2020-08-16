@@ -28,9 +28,11 @@ set modeline "???
 set ls=2 "???
 set backspace=2 "???
 set backup "???
-set cmdheight=2 "???
+set cmdheight=1 "Height of the command line
 set comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:- "???
 set completeopt=menuone,longest "???
+set magic "For regular expressions turn magic on
+set incsearch "Makes search act like search in modern browsers
 set complete-=i "???
 set fillchars=vert:\ ,stl:\ ,stlnc:\ , "???
 set hidden "???
@@ -63,6 +65,12 @@ nmap <F1> :echo<CR>
 imap <F1> <C-o>:echo<CR>
 nmap <F1> <nop>
 set nospell
+set nobackup
+set nowb
+set noswapfile
+set smarttab
+set ai "Auto indent
+set si "Smart indent
 "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 "match OverLength /\%81v.\+/
 
@@ -90,3 +98,7 @@ set colorcolumn=800
 
 let g:colorizer_auto_color = 1
 set autoindent
+
+" Set to auto read when a file is changed from the outside
+set autoread
+au FocusGained,BufEnter * checktime
