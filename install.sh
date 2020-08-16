@@ -79,3 +79,11 @@ if command -v vim &> /dev/null; then
 else
 	echo "vim does not seem to be installed"
 fi
+
+
+if (whiptail --title "Do you want to install fselect too?" --yesno "This allows SQL-like search through the file system." 8 78); then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    source $HOME/.cargo/env
+    echo "source \$HOME/.cargo/env" >> $HOME/.zshrc
+    cargo install fselect
+fi
