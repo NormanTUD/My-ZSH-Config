@@ -4,6 +4,11 @@ echo "My-ZSH-Config installer for Debian based systems"
 
 if ! command -v whiptail &> /dev/null; then
 	echo "For this script to work, whiptail needs to be installed. To install automatically, enter your password"
+	sudo aptitude -y install curl
+fi
+
+if ! command -v whiptail &> /dev/null; then
+	echo "For this script to work, whiptail needs to be installed. To install automatically, enter your password"
 	sudo aptitude -y install whiptail
 fi
 
