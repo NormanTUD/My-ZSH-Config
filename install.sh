@@ -87,6 +87,10 @@ fi
 
 
 if (whiptail --title "Do you want to install fselect too?" --yesno "This allows SQL-like search through the file system." 8 78); then
+    if ! command -v whiptail &> /dev/null; then
+        echo "For this script to work, whiptail needs to be installed. To install automatically, enter your password"
+        sudo aptitude -y install cargo
+    fi
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     source $HOME/.cargo/env
     echo "source \$HOME/.cargo/env" >> $HOME/.zshrc
