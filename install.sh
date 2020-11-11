@@ -78,6 +78,11 @@ if command -v vim &> /dev/null; then
 			mv ~/.vimrc ~/.vimrc_ORIGINAL
 			echo "Moved ~/.vimrc to ~/.vimrc_ORIGINAL"
 		fi
+
+		mkdir -p ~/.vim/pack/tpope/start
+		cd ~/.vim/pack/tpope/start
+		git clone https://tpope.io/vim/surround.git
+		vim -u NONE -c "helptags surround/doc" -c q
         cp -r vim_runtime ~/.vim_runtime
 		cp -r vimrc ~/.vimrc
 	fi
