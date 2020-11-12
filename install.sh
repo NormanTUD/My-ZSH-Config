@@ -1,52 +1,51 @@
 #!/bin/bash
 
-echo "My-ZSH-Config installer for Debian based systems"
+function red_text {
+	echo -e "\e[101m$1\e[0m"
+}
 
-if ! command -v whiptail &> /dev/null; then
-	echo "For this script to work, whiptail needs to be installed. To install automatically, enter your password"
-	sudo aptitude -y install curl
-fi
+function green_text {
+	echo -e "\e[46m\e[103m$1\e[0m"
+}
 
-if ! command -v whiptail &> /dev/null; then
-	echo "For this script to work, whiptail needs to be installed. To install automatically, enter your password"
-	sudo aptitude -y install whiptail
-fi
+function install_if_not_exists {
+	PROGNAME=$1
+	INSTALL=$2
+
+	if [[ -z $INSTALL ]]; then
+		INSTALL=$PROGNAME
+	fi
+
+	if ! which $PROGNAME >/dev/null; then
+		red_text "$PROGNAME could not be found. Enter your user password so you can install it via apt-get."
+		sudo apt-get -y install $INSTALL
+	fi
+}
+
+green_text "My-ZSH-Config installer for Debian based systems"
 
 HASROOTRIGHTS=0
 if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
 	HASROOTRIGHTS=1
-	if ! command -v whiptail &> /dev/null; then
-		sudo aptitude -y install whiptail
-	fi
-
-	if ! command -v zsh &> /dev/null; then
-		sudo aptitude -y install zsh
-	fi
-
-	if ! command -v vim &> /dev/null; then
-		sudo aptitude -y install vim
-	fi
-
-	if ! command -v git &> /dev/null; then
-		sudo aptitude -y install git
-	fi
-
-	if ! command -v exa &> /dev/null; then
-		sudo aptitude -y install exa
-	fi
+	install_if_not_exists "whiptail"
+	install_if_not_exists "curl"
+	install_if_not_exists "zsh"
+	install_if_not_exists "vim"
+	install_if_not_exists "git"
+	install_if_not_exists "exa"
 else
-	echo "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"
+	red_text "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"
 fi
 
 if command -v zsh &> /dev/null; then
 	if [ -f ~/.zshrc ]; then
 		mv ~/.zshrc ~/.zshrc_ORIGINAL
-		echo "Moved ~/.zshrc to ~/.zshrc_ORIGINAL"
+		green_text "Moved ~/.zshrc to ~/.zshrc_ORIGINAL"
 	fi
 
 	if [ -d ~/.zsh ]; then
 		mv ~/.zsh ~/.zsh_ORIGINAL
-		echo "Moved ~/.zsh to ~/.zsh_ORIGINAL"
+		green_text "Moved ~/.zsh to ~/.zsh_ORIGINAL"
 	fi
 
 	cp zshrc ~/.zshrc
@@ -55,7 +54,7 @@ if command -v zsh &> /dev/null; then
 	if command -v git &> /dev/null; then
 		git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/plugins/zsh-autosuggestions
 	else
-		echo "Without git, autosuggestions cannot be cloned"
+		red_text "Without git, autosuggestions cannot be cloned"
 	fi
 
 	if (whiptail --title "Do you want to install powerlevel10k?" --yesno "This will further improve experience with ZSH, but is not needed." 8 78); then
@@ -69,14 +68,14 @@ if command -v zsh &> /dev/null; then
 		fi
 	fi
 else
-	echo "ZSH does not seem to be installed correctly."
+	red_text "ZSH does not seem to be installed correctly."
 fi
 
 if command -v vim &> /dev/null; then
 	if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This has nothing to do with ZSH, but is just some small vim stuff." 8 78); then
 		if [ -f ~/.vimrc ]; then
 			mv ~/.vimrc ~/.vimrc_ORIGINAL
-			echo "Moved ~/.vimrc to ~/.vimrc_ORIGINAL"
+			green_text "Moved ~/.vimrc to ~/.vimrc_ORIGINAL"
 		fi
 
 		mkdir -p ~/.vim/pack/tpope/start
@@ -85,26 +84,9 @@ if command -v vim &> /dev/null; then
 		vim -u NONE -c "helptags surround/doc" -c q
 
 		git clone https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-airline
-		#cd ~/.vim/bundle
-		#git clone https://github.com/valloric/youcompleteme
-		#cd ~/.vim/bundle/YouCompleteMe
-		#git submodule update --init --recursive
-		#sudo python3 install.py --all
-        cp -r vim_runtime ~/.vim_runtime
+		cp -r vim_runtime ~/.vim_runtime
 		cp -r vimrc ~/.vimrc
 	fi
 else
-	echo "vim does not seem to be installed"
-fi
-
-
-if (whiptail --title "Do you want to install fselect too?" --yesno "This allows SQL-like search through the file system." 8 78); then
-    if ! command -v whiptail &> /dev/null; then
-        echo "For this script to work, whiptail needs to be installed. To install automatically, enter your password"
-        sudo aptitude -y install cargo
-    fi
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-    source $HOME/.cargo/env
-    echo "source \$HOME/.cargo/env" >> $HOME/.zshrc
-    cargo install fselect
+	red_text "vim does not seem to be installed"
 fi
