@@ -16,7 +16,9 @@ Copy these files to ~/.oh-my-zsh and ~/.zshrc respectively.
 
 Also, for autocompletion, run
 
-> git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+```console
+git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+```
 
 ## Features
 
