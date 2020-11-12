@@ -102,5 +102,3 @@ set autoread
 au FocusGained,BufEnter * checktime
 
 set runtimepath+=~/.vim_runtime
-
-let g:airline#extensions#tabline#enabled = 1
