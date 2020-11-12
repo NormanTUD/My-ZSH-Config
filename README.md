@@ -1,9 +1,14 @@
 # My-ZSH-Config
 This is the collection of config files needed for my configuration of my ZSH. I did not write most of these myself, but copied them from any number of sources as seemed fit, though, because it was ever only intended for personal use, I never documented these sources. Most of them stem by the project oh-my-zsh.
 
-
-
 ## Installation
+
+Use 
+```console
+bash install.sh
+```
+
+## Manual Installation
 
 Install the powerline-fonts (on Debian, sudo apt install fonts-powerline, see https://github.com/powerline/fonts for other systems).
 
