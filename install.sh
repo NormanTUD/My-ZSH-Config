@@ -62,7 +62,8 @@ if command -v zsh &> /dev/null; then
 
 	if [[ $HASROOTRIGHTS -eq "1" ]]; then
 		if (whiptail --title "Set ZSH as default shell?" --yesno "This needs sudo rights." 8 78); then
-			sudo chsh -s /bin/zsh
+			green_text "Enter your password for setting zsh as default shell"
+			chsh -s /bin/zsh
 		fi
 	fi
 else
