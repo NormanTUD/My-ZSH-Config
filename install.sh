@@ -83,6 +83,12 @@ if command -v vim &> /dev/null; then
 		cd ~/.vim/pack/tpope/start
 		git clone https://tpope.io/vim/surround.git
 		vim -u NONE -c "helptags surround/doc" -c q
+
+		#cd ~/.vim/bundle
+		#git clone https://github.com/valloric/youcompleteme
+		#cd ~/.vim/bundle/YouCompleteMe
+		#git submodule update --init --recursive
+		#sudo python3 install.py --all
         cp -r vim_runtime ~/.vim_runtime
 		cp -r vimrc ~/.vimrc
 	fi
