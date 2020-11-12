@@ -84,6 +84,7 @@ if command -v vim &> /dev/null; then
 		git clone https://tpope.io/vim/surround.git
 		vim -u NONE -c "helptags surround/doc" -c q
 
+		git clone https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-airline
 		#cd ~/.vim/bundle
 		#git clone https://github.com/valloric/youcompleteme
 		#cd ~/.vim/bundle/YouCompleteMe
