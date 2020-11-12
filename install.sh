@@ -57,10 +57,8 @@ if command -v zsh &> /dev/null; then
 		red_text "Without git, autosuggestions cannot be cloned"
 	fi
 
-	if (whiptail --title "Do you want to install powerlevel10k?" --yesno "This will further improve experience with ZSH, but is not needed." 8 78); then
-		cp -r p10k.zsh ~/.p10k.zsh
-		cp -r powerlevel10k/ ~/.powerlevel10k/
-	fi
+	cp -r p10k.zsh ~/.p10k.zsh
+	cp -r powerlevel10k/ ~/.powerlevel10k/
 
 	if [[ $HASROOTRIGHTS -eq "1" ]]; then
 		if (whiptail --title "Set ZSH as default shell?" --yesno "This needs sudo rights." 8 78); then
@@ -72,7 +70,7 @@ else
 fi
 
 if command -v vim &> /dev/null; then
-	if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This has nothing to do with ZSH, but is just some small vim stuff." 8 78); then
+	if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This installs a sane vim environment." 8 78); then
 		if [ -f ~/.vimrc ]; then
 			mv ~/.vimrc ~/.vimrc_ORIGINAL
 			green_text "Moved ~/.vimrc to ~/.vimrc_ORIGINAL"
