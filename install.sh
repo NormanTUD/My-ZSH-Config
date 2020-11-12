@@ -78,14 +78,15 @@ if command -v vim &> /dev/null; then
 			green_text "Moved ~/.vimrc to ~/.vimrc_ORIGINAL"
 		fi
 
+		cp -r vim_runtime ~/.vim_runtime
+		cp -r vimrc ~/.vimrc
+
 		mkdir -p ~/.vim/pack/tpope/start
 		cd ~/.vim/pack/tpope/start
 		git clone https://tpope.io/vim/surround.git
 		vim -u NONE -c "helptags surround/doc" -c q
 
 		git clone https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-airline
-		cp -r vim_runtime ~/.vim_runtime
-		cp -r vimrc ~/.vimrc
 	fi
 else
 	red_text "vim does not seem to be installed"
