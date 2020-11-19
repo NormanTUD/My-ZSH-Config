@@ -163,3 +163,14 @@ function randomtest {
 	cd "$HOME/test/randomtest_$RANDOMNUMBER"
 	set +x
 }
+
+function download_transcription {
+	ID=$1
+	LANG=$2
+
+	if [[ -z $LANG ]]; then
+		INSTALL=en
+	fi
+
+	youtube-dl --write-sub --sub-lang $LANG --skip-download $ID
+}
