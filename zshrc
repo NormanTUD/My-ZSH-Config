@@ -174,3 +174,14 @@ function download_transcription {
 
 	youtube-dl --write-sub --sub-lang $LANG --skip-download $ID
 }
+
+function make_pdf_smaller {
+        if [[ -e $1 ]]; then
+                RANDPDF="$RANDOM$RANDOM$RANDOM.pdf"
+                gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$RANDPDF" "$1"
+                mv "$1" "$1.old"
+                mv "$RANDPDF" "$1"
+        else
+                echo "pdf file $1 not found";
+        fi
+}
