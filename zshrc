@@ -206,3 +206,86 @@ function treesize {
 		}
 	'
 }
+
+function pretty_csv {
+    perl -pe 's/((?<=,)|(?<=^)),/ ,/g;' "$@" | column -t -s, | less  -F -S -X -K
+}
+
+function mytail { tail -n1000000 -f *$1* }
+
+if command -v scontrol; then
+	function slurmlogpath { scontrol show job $1 | grep StdOut | sed -e 's/^\s*StdOut=//' }
+	function stail { tail -f -n100000 `slurmlogpath $1` }
+	function staill { tail -f -n100 `slurmlogpath $1` }
+	function stailn { tail -f -n $1 `slurmlogpath $2` }
+fi
+
+if command -v whypending; then
+	function showmyjobsstatus { 
+	    if [ $# -eq 0 ]; then
+		for i in $(squeue -u $USER | grep -v JOBID | sed -e 's/^\s*//' | sed -e 's/\s.*//'); do 
+		    echo ">>>>>> $i"; whypending $i | egrep "(Position in)|(Estimated)";
+		done 
+	    else 
+		echo ">>>>>> $i"; whypending $1 | egrep "(Position in)|(Estimated)";
+	    fi
+	}
+fi
+
+if command -v squeue; then
+	function ftails {
+		if [ $# -eq 0 ]; then
+			SLURMID=$(squeue -u $USER | cut -d' ' -f11- | sed -e 's/\s.*//' | egrep -v "^\s*$" | sort -nr | head -n1)
+			if [ ! -z $SLURMID ]; then
+				tail -f $(slurmlogpath $SLURMID)
+			fi
+		else
+			tail -f $(slurmlogpath $1)
+		fi
+	}
+fi
+
+function countdown() {
+    secs=$1
+    shift
+    msg=$@
+    while [ $secs -gt 0 ]
+    do
+        printf "\r\033[KWaiting %.d seconds $msg" $((secs--))
+        sleep 1
+    done
+    echo
+}
+
+function myavg () {
+    OUTPUT="count,ave,median,first,last\n"
+    OUTPUT2=$(awk '
+      BEGIN {
+        c = 0;
+        sum = 0;
+      }
+      $1 ~ /^(\-)?[0-9]*(\.[0-9]*)?$/ {
+        a[c++] = $1;
+        sum += $1;
+      }
+      END {
+        ave = sum / c;
+        if( (c % 2) == 1 ) {
+          median = a[ int(c/2) ];
+        } else {
+          median = ( a[c/2] + a[c/2-1] ) / 2;
+        }
+        OFS=",";
+        print c, ave, median, a[0], a[c-1];
+      }
+      ')
+      echo "$OUTPUT$OUTPUT2" | sed -e 's/^/| /' -e 's/,/,| /g' -e 's/$/,|/' | column -t -s,
+}
+
+function mongodbtojson {
+    ip=$1
+    port=$2
+    dbname=$3
+    mongo --quiet mongodb://$ip:$port/$dbname --eval "db.jobs.find().pretty().toArray();"
+}
+
