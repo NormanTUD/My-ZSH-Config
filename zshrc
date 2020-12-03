@@ -164,24 +164,45 @@ function randomtest {
 	set +x
 }
 
-function download_transcription {
-	ID=$1
-	LANG=$2
+if command -v youtube-dl; then
+	function download_transcription {
+		ID=$1
+		LANG=$2
 
-	if [[ -z $LANG ]]; then
-		INSTALL=en
-	fi
+		if [[ -z $LANG ]]; then
+			INSTALL=en
+		fi
 
-	youtube-dl --write-sub --sub-lang $LANG --skip-download $ID
-}
+		youtube-dl --write-sub --sub-lang $LANG --skip-download $ID
+	}
+fi
 
-function make_pdf_smaller {
-        if [[ -e $1 ]]; then
-                RANDPDF="$RANDOM$RANDOM$RANDOM.pdf"
-                gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$RANDPDF" "$1"
-                mv "$1" "$1.old"
-                mv "$RANDPDF" "$1"
-        else
-                echo "pdf file $1 not found";
-        fi
+if command -v gs; then
+	function make_pdf_smaller {
+		if [[ -e $1 ]]; then
+			RANDPDF="$RANDOM$RANDOM$RANDOM.pdf"
+			gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$RANDPDF" "$1"
+			mv "$1" "$1.old"
+			mv "$RANDPDF" "$1"
+		else
+			echo "pdf file $1 not found";
+		fi
+	}
+fi
+
+function treesize {
+	du -k --max-depth=1 | sort -nr | awk '
+		BEGIN {
+			split("KB,MB,GB,TB", Units, ",");
+		}
+		{
+			u = 1;
+			while ($1 >= 1024) {
+				$1 = $1 / 1024;
+				u += 1
+			}
+		$1 = sprintf("%.1f %s", $1, Units[u]);
+		print $0;
+		}
+	'
 }
