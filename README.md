@@ -49,7 +49,7 @@ I defined some functions in here that I sometimes use. These are those functions
 ```console
 countdown $number_of_second			# Counts down the number of seconds given
 randomtest					# Creates a folder in ~/test with a random number as name and cd's into it
-download_transcription $ytid $lang		# Downloads youtube-transcriptions if youtube-dl is installed
+download_transcription $ytid $lang		# Downloads youtube-transcriptions if youtube-dl is installed. Lang is "en" by default when not defined.
 make_pdf_smaller $pdf_file			# Tries to compress a PDF file as much as possible without the compression being visible (only if gs is installed)
 treesize					# Lists directories and files (largest to smallest) in the CWD
 pretty_csv $csv_file				# Creates a pretty csv listing (with aligned columns)
