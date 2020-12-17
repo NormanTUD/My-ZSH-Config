@@ -40,3 +40,31 @@ git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugi
 ![UnknownCommand](unknowncommand.png "UnknownCommand")
 ![powerlevel10k](powerlevel10k.png "powerlevel10k")
 ![everything](fullfeatures.png "everything")
+
+
+## Defined functions
+
+I defined some functions in here that I sometimes use. These are those functions:
+
+```console
+countdown $number_of_second		# Counts down the number of seconds given
+randomtest				# Creates a folder in ~/test with a random number as name and cd's into it
+download_transcription $ytid $lang	# Downloads youtube-transcriptions if youtube-dl is installed
+make_pdf_smaller $pdf_file		# Tries to compress a PDF file as much as possible without the compression being visible (only if gs is installed)
+treesize				# Lists directories and files (largest to smallest) in the CWD
+pretty_csv $csv_file			# Creates a pretty csv listing (with aligned columns)
+mytail $file				# Does `tail -fn1000000 $file`
+program | myavg				# Calculates avg, median, first and last value on the output of `program`
+mongodbtojson $ip $port $dbname		# Exports the MongoDb database given to a csv-file (needs mongodb to be installed)
+```
+
+Some functions are only available on machines where there is a SLURM-installation available.
+
+```console
+slurmlogpath $slurm_id			# Prints the log path of the job to STDOUT
+stail $slurm_id				# Like `mytail $(slurmlogpath $slurm_id)`
+staill $slurm_id			# Like `mytail $(slurmlogpath $slurm_id)`, but only 100 lines before current output (stail less)
+stailn $number_of_lines	$slurm_id	# Like `tail -fn${number_of_lines} $(slurmlogpath $slurmid)`
+showmyjobsstatus			# Lists the status of all currently queued SLURM-jobs for this user and why it's pending (needs `whypending` to be installed)
+ftails $slurm_id			# Like `stail $slurm_id`, but, when no parameter is given, automatically uses the first squeue result of the current user
+```

@@ -282,10 +282,12 @@ function myavg () {
       echo "$OUTPUT$OUTPUT2" | sed -e 's/^/| /' -e 's/,/,| /g' -e 's/$/,|/' | column -t -s,
 }
 
-function mongodbtojson {
-    ip=$1
-    port=$2
-    dbname=$3
-    mongo --quiet mongodb://$ip:$port/$dbname --eval "db.jobs.find().pretty().toArray();"
-}
 
+if command -v mongo; then
+	function mongodbtojson {
+	    ip=$1
+	    port=$2
+	    dbname=$3
+	    mongo --quiet mongodb://$ip:$port/$dbname --eval "db.jobs.find().pretty().toArray();"
+	}
+fi
