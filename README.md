@@ -64,7 +64,7 @@ Some functions are only available on machines where there is a SLURM-installatio
 slurmlogpath $slurm_id			# Prints the log path of the job to STDOUT
 stail $slurm_id				# Like `mytail $(slurmlogpath $slurm_id)`
 staill $slurm_id				# Like `mytail $(slurmlogpath $slurm_id)`, but only 100 lines before current output (stail less)
-stailn $number_of_lines	$slurm_id			# Like `tail -fn${number_of_lines} $(slurmlogpath $slurmid)`
+stailn $number_of_lines $slurm_id		# Like `tail -fn${number_of_lines} $(slurmlogpath $slurmid)`
 showmyjobsstatus				# Lists the status of all currently queued SLURM-jobs for this user and why it's pending (needs `whypending` to be installed)
 ftails $slurm_id				# Like `stail $slurm_id`, but, when no parameter is given, automatically uses the first squeue result of the current user
 ```
