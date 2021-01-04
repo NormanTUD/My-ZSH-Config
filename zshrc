@@ -291,3 +291,9 @@ if command -v mongo; then
 	    mongo --quiet mongodb://$ip:$port/$dbname --eval "db.jobs.find().pretty().toArray();"
 	}
 fi
+
+function mount_iso {
+	sudo umount /media/iso
+	sudo mkdir -p /media/iso
+	sudo mount $1 /media/iso -o loop
+}
