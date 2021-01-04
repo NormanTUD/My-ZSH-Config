@@ -293,7 +293,9 @@ if command -v mongo; then
 fi
 
 function mount_iso {
-	sudo umount /media/iso
-	sudo mkdir -p /media/iso
-	sudo mount $1 /media/iso -o loop
+	TO=/media/iso
+	sudo umount $TO
+	sudo mkdir -p $TO
+	sudo mount $1 $TO -o loop
+	echo "Mounted to $TO"
 }
