@@ -399,6 +399,11 @@ function latextemplate {
 
 		echo "\\\\documentclass{${DOCUMENTCLASS}}" >> $filename_with_tex
 		echo "" >> $filename_with_tex
+		echo "% These are only some keywords for the autocompletion-feature of many editors: section, subsection, subsubsection, paragraph," >> $filename_with_tex
+		echo "% includegraphics, width, linewidth, linespread, figure, wrapfigure, caption, label, footnote, equation, input, cite, citetitle," >> $filename_with_tex
+		echo "% citeauthor, footfullcite, tableofcontents, printbibliography, clearpage, frq, frqq, flq, flqq, grq, grqq, glq, glqq, textit," >> $filename_with_tex
+		echo "% texttt, mathrm, dots, pmatrix, centering, phantom, minipage, ensuremath, hfill, vfill, " >> $filename_with_tex
+		echo "" >> $filename_with_tex
 		if [[ "$DOCUMENTCLASS" = "beamer" ]]; then
 			echo "\\\\usetheme{Dresden}" >> $filename_with_tex
 			echo "\\\\usecolortheme{dolphin}" >>  $filename_with_tex
@@ -520,3 +525,5 @@ function latextemplate {
 		echo "User selected Cancel."
 	fi
 }
+
+alias lt="latextemplate"
