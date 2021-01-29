@@ -320,6 +320,10 @@ function create_digraph {
 		echo "digraph a {" >> $filename_with_dot
 		echo "}" >> $filename_with_dot
 		echo "dot -Tsvg $filename.dot > $filename.svg"
+		vi $filename.dot
+		echo "dot -Tsvg $filename.dot > $filename.svg && firefox $filename.svg" | xclip -selection c
+		echo "dot -Tsvg $filename.dot > $filename.svg && firefox $filename.svg"
+		echo "(This command has been copied to your clipboard. Press CTRL-Shift-V to insert it now.)"
 	else
 		echo "User selected Cancel."
 	fi
@@ -339,7 +343,10 @@ function create_graph {
 		filename_with_dot=${filename}.dot
 		echo "graph a {" >> $filename_with_dot
 		echo "}" >> $filename_with_dot
-		echo "dot -Tsvg $filename.dot > $filename.svg"
+		vi $filename.dot
+		echo "dot -Tsvg $filename.dot > $filename.svg && firefox $filename.svg" | xclip -selection c
+		echo "dot -Tsvg $filename.dot > $filename.svg && firefox $filename.svg"
+		echo "(This command has been copied to your clipboard. Press CTRL-Shift-V to insert it now.)"
 	else
 		echo "User selected Cancel."
 	fi
