@@ -355,3 +355,34 @@ function rcreate_digraph {
 	rtest
 	create_digraph
 }
+
+function latextemplate {
+	filename=""
+	while [[ -z $filename ]]; do
+		filename=$(whiptail --inputbox "Filename without .tex" 8 39 "" --title "Create Graph Dialog" 3>&1 1>&2 2>&3)	
+		if [[ -e "$filename.tex" ]]; then
+			whiptail --title "Warning" --msgbox "There are already files called either $filename.tex. Enter another name please." 8 78
+			filename=""
+		fi
+	done
+
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		filename_with_tex=${filename}.tex
+
+		echo "\\\\documentclass{scrartcl}" >> $filename_with_tex
+		echo "\\\\usepackage[utf8]{inputenc}" >> $filename_with_tex
+		echo "\\\\usepackage[T1]{fontenc}" >> $filename_with_tex
+		echo "\\\\usepackage{fourier}" >> $filename_with_tex
+		echo "\\\\begin{document}" >> $filename_with_tex
+		echo "\\\\end{document}" >> $filename_with_tex
+
+		vi $filename_with_tex
+
+		echo "latexmk -pdf $filename.tex && evince $filename.pdf" | xclip -selection c
+		echo "latexmk -pdf $filename.tex && evince $filename.pdf"
+		echo "(This command has been copied to your clipboard. Press CTRL-Shift-V to insert it now.)"
+	else
+		echo "User selected Cancel."
+	fi
+}
