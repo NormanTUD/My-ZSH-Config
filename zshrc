@@ -379,9 +379,17 @@ function latextemplate {
 		"scrlttr2" "KOMA-class for letters" OFF \
 		"standalone" "Standalone image (e.g. for TikZ)" OFF \
 		"beamer" "For presentations" OFF 3>&1 1>&2 2>&3)
+	exitstatus=$?
+	if [ $exitstatus != 0 ]; then
+		return
+	fi
 
 	AUTHORNAME=$(cat ~/.defaultnamebrief 2>/dev/null)
 	AUTHORNAME=$(whiptail --inputbox "Author name?" 8 39 "$AUTHORNAME" --title "Name of the Author of this document" 3>&1 1>&2 2>&3)
+	exitstatus=$?
+	if [ $exitstatus != 0 ]; then
+		return
+	fi
 
 	TITLE=$(whiptail --inputbox "Title of the paper?" 8 39 "" --title "Title of this paper" 3>&1 1>&2 2>&3)
 
