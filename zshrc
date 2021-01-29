@@ -371,13 +371,17 @@ function latextemplate {
 		filename_with_tex=${filename}.tex
 
 		echo "\\\\documentclass{scrartcl}" >> $filename_with_tex
+		echo "" >> $filename_with_tex
 		echo "\\\\usepackage[utf8]{inputenc}" >> $filename_with_tex
 		echo "\\\\usepackage[T1]{fontenc}" >> $filename_with_tex
 		echo "\\\\usepackage{fourier}" >> $filename_with_tex
 		echo "\\\\begin{document}" >> $filename_with_tex
+		echo "" >> $filename_with_tex
+		echo "" >> $filename_with_tex
+		echo "" >> $filename_with_tex
 		echo "\\\\end{document}" >> $filename_with_tex
 
-		vi $filename_with_tex
+		vi +8 $filename_with_tex
 
 		echo "latexmk -pdf $filename.tex && evince $filename.pdf" | xclip -selection c
 		echo "latexmk -pdf $filename.tex && evince $filename.pdf"
