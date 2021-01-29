@@ -360,32 +360,153 @@ function latextemplate {
 	filename=""
 	while [[ -z $filename ]]; do
 		filename=$(whiptail --inputbox "Filename without .tex" 8 39 "" --title "Create Graph Dialog" 3>&1 1>&2 2>&3)	
+		exitstatus=$?
+		if [ $exitstatus != 0 ]; then
+			return
+		fi
+
 		if [[ -e "$filename.tex" ]]; then
 			whiptail --title "Warning" --msgbox "There are already files called either $filename.tex. Enter another name please." 8 78
 			filename=""
 		fi
 	done
 
+	DOCUMENTCLASS=$(whiptail --title "LaTeX-Documentclass for this document" --radiolist \
+		"Choose a document class" 20 78 10 \
+		"scrartcl" "KOMA-class for articles" ON \
+		"scrbook" "KOMA-class for books" OFF \
+		"scrreprt" "KOMA-class for reports" OFF \
+		"scrlttr2" "KOMA-class for letters" OFF \
+		"standalone" "Standalone image (e.g. for TikZ)" OFF \
+		"beamer" "For presentations" OFF 3>&1 1>&2 2>&3)
+
+	AUTHORNAME=$(cat ~/.defaultnamebrief 2>/dev/null)
+	AUTHORNAME=$(whiptail --inputbox "Author name?" 8 39 "$AUTHORNAME" --title "Name of the Author of this document" 3>&1 1>&2 2>&3)
+
+	TITLE=$(whiptail --inputbox "Title of the paper?" 8 39 "" --title "Title of this paper" 3>&1 1>&2 2>&3)
+
 	exitstatus=$?
 	if [ $exitstatus = 0 ]; then
 		filename_with_tex=${filename}.tex
 
-		echo "\\\\documentclass{scrartcl}" >> $filename_with_tex
+		echo "\\\\documentclass{${DOCUMENTCLASS}}" >> $filename_with_tex
 		echo "" >> $filename_with_tex
+		if [[ "$DOCUMENTCLASS" = "beamer" ]]; then
+			echo "\\\\usetheme{Dresden}" >> $filename_with_tex
+			echo "\\\\usecolortheme{dolphin}" >>  $filename_with_tex
+			echo "\\\\setbeamertemplate{caption}[numbered]" >> $filename_with_tex
+			echo "" >> $filename_with_tex
+		fi
+
+		if [[ $AUTHORNAME ]]; then
+			echo "\\\\usepackage[" >> $filename_with_tex
+			echo "	hidelinks," >> $filename_with_tex
+			echo "	breaklinks=true," >> $filename_with_tex
+			echo "	pdftex," >> $filename_with_tex
+			echo "	pdfauthor={$AUTHORNAME}," >> $filename_with_tex
+			if [[ ! -z $TITLE ]]; then
+				echo "	pdftitle={$TITLE}," >> $filename_with_tex
+			fi
+			echo "	pdfsubject={}," >> $filename_with_tex
+			echo "	pdfkeywords={}," >> $filename_with_tex
+			echo "	pdfproducer={}," >> $filename_with_tex
+			echo "	pdfcreator={}]{hyperref}" >> $filename_with_tex
+		fi
+
+		if [[ ! "$DOCUMENTCLASS" = "beamer" ]]; then
+			echo "\\\\newcommand{\\\\centeredquote}[2]{" >> $filename_with_tex
+			echo "	\\\\hbadness=5000" >> $filename_with_tex
+			echo "	\\\\vspace{-1em}" >> $filename_with_tex
+			echo "	\\\\begin{flushright}" >> $filename_with_tex
+			echo "		\\\\item\\\\frqq\\\\textsl{#1}\\\\flqq\ " >> $filename_with_tex
+			echo "	\\\\end{flushright}" >> $filename_with_tex
+			echo "	\\\\nopagebreak" >> $filename_with_tex
+			echo "	\\\\hfill ---\\\\,\\\\textsc{#2}\\\\newline" >> $filename_with_tex
+			echo "	\\\\vspace{-1em}" >> $filename_with_tex
+			echo "}" >> $filename_with_tex
+			echo "" >> $filename_with_tex
+			echo "\\\\newcommand{\\\\centeredquoteunknownsource}[1]{" >> $filename_with_tex
+			echo "	\\\\hbadness=5000" >> $filename_with_tex
+			echo "	\\\\vspace{-1em}" >> $filename_with_tex
+			echo "	\\\\begin{quotation}" >> $filename_with_tex
+			echo "		\\\\begin{flushright}" >> $filename_with_tex
+			echo "			\\\\item\\\\frqq\\\\textsl{#1}\\\\flqq\\\\ " >> $filename_with_tex
+			echo "		\\\\end{flushright}" >> $filename_with_tex
+			echo "	\\\\end{quotation}" >> $filename_with_tex
+			echo "	\\\\vspace{-1em}" >> $filename_with_tex
+			echo "}" >> $filename_with_tex
+		fi
+
 		echo "\\\\usepackage[utf8]{inputenc}" >> $filename_with_tex
 		echo "\\\\usepackage[T1]{fontenc}" >> $filename_with_tex
+		echo "\\\\usepackage[sc,osf]{mathpazo}" >> $filename_with_tex
 		echo "\\\\usepackage{fourier}" >> $filename_with_tex
+		echo "\\\\usepackage{soulutf8}" >> $filename_with_tex
+		echo "\\\\usepackage{graphicx}" >> $filename_with_tex
+		echo "\\\\usepackage{amsmath}" >> $filename_with_tex
+		echo "\\\\usepackage{amssymb}" >> $filename_with_tex
 		echo "\\\\usepackage[ngerman]{babel}" >> $filename_with_tex
+		echo "" >> $filename_with_tex
+		echo "\\\\emergencystretch2em" >> $filename_with_tex
+		echo "" >> $filename_with_tex
+		if [[ -e "literatur.bib" || -e "../literatur.bib" ]]; then
+			echo "\\\\usepackage[" >> $filename_with_tex
+			echo "	citestyle=authortitle-ibid," >> $filename_with_tex
+			echo "	isbn=true," >> $filename_with_tex
+			echo "	url=true,">> $filename_with_tex
+			echo "	backref=true," >> $filename_with_tex
+			echo "	backrefstyle=none," >> $filename_with_tex
+			echo "	pagetracker=true," >> $filename_with_tex
+			echo "	maxbibnames=50," >> $filename_with_tex
+			echo "	defernumbers=true," >> $filename_with_tex
+			echo "	maxcitenames=10," >> $filename_with_tex
+			echo "	backend=bibtex," >> $filename_with_tex
+			echo "	urldate=comp," >> $filename_with_tex
+			echo "	dateabbrev=false," >> $filename_with_tex
+			echo "	sorting=nty" >> $filename_with_tex
+			echo "]{biblatex}" >> $filename_with_tex
+			if [[ -e "literatur.bib" ]]; then
+				echo "\\\\bibliography{literatur.bib}" >> $filename_with_tex
+			else
+				echo "\\\\bibliography{../literatur.bib}" >> $filename_with_tex
+			fi
+		fi
+
+		echo "" >> $filename_with_tex
 		echo "\\\\begin{document}" >> $filename_with_tex
+		if [[ ! -z $AUTHORNAME ]]; then
+			echo "\\\\author{$AUTHORNAME}" >> $filename_with_tex
+		fi
+		if [[ ! -z $TITLE ]]; then
+			echo "\\\\title{$TITLE}" >> $filename_with_tex
+		fi
 		echo "" >> $filename_with_tex
-		echo "" >> $filename_with_tex
-		echo "" >> $filename_with_tex
+		if [[ "$DOCUMENTCLASS" = "beamer" ]]; then
+			echo "\\\\frame{" >> $filename_with_tex
+			echo "	\\\\begin{itemize}[<+->]" >> $filename_with_tex
+			echo "		 \item Items will be shown step by step" >> $filename_with_tex
+			echo "	\\\\end{itemize}" >> $filename_with_tex
+			echo "}" >> $filename_with_tex
+			echo "" >> $filename_with_tex
+
+			echo "\\\\frame{" >> $filename_with_tex
+			echo "	\\\\begin{itemize}" >> $filename_with_tex
+			echo "		 \item Items will all at once" >> $filename_with_tex
+			echo "	\\\\end{itemize}" >> $filename_with_tex
+			echo "}" >> $filename_with_tex
+			echo "" >> $filename_with_tex
+		fi
+		echo "" >> $filename_with_tex # In the second last fully empty line the cursor will jump to automagically with $LINE_TO_JUMP_TO
+		echo "" >> $filename_with_tex # and this line.
 		echo "\\\\end{document}" >> $filename_with_tex
 
-		vi +9 $filename_with_tex
+		LINE_TO_JUMP_TO=$(grep -nP '^$' $filename_with_tex | tail -n2 | head -n1 | sed -e 's/://')
 
-		echo "latexmk -pdf $filename.tex && evince $filename.pdf" | xclip -selection c
-		echo "latexmk -pdf $filename.tex && evince $filename.pdf"
+		vi +${LINE_TO_JUMP_TO} $filename_with_tex
+
+		COMMAND="latexmk -pdf $filename.tex && evince $filename.pdf"
+		echo "$COMMAND" | xclip -selection c
+		echo "$COMMAND"
 		echo "(This command has been copied to your clipboard. Press CTRL-Shift-V to insert it now.)"
 	else
 		echo "User selected Cancel."
