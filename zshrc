@@ -299,10 +299,16 @@ function mount_iso {
 	sudo mount $1 $TO -o loop
 	echo "Mounted to $TO"
 }
+
 function create_digraph {
 	filename=""
 	while [[ -z $filename ]]; do
 		filename=$(whiptail --inputbox "Filename without .dot" 8 39 "" --title "Create Digraph Dialog" 3>&1 1>&2 2>&3)	
+		exitstatus=$?
+		if [ $exitstatus != 0 ]; then
+			return
+		fi
+
 		if [[ -e "$filename.dot" ]]; then
 			whiptail --title "Warning" --msgbox "There are already files called either $filename.dot or $filename.svg. Enter another name please." 8 78
 			filename=""
@@ -327,6 +333,11 @@ function create_graph {
 	filename=""
 	while [[ -z $filename ]]; do
 		filename=$(whiptail --inputbox "Filename without .dot" 8 39 "" --title "Create Graph Dialog" 3>&1 1>&2 2>&3)	
+		exitstatus=$?
+		if [ $exitstatus != 0 ]; then
+			return
+		fi
+
 		if [[ -e "$filename.dot" ]]; then
 			whiptail --title "Warning" --msgbox "There are already files called either $filename.dot or $filename.svg. Enter another name please." 8 78
 			filename=""
