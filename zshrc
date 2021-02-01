@@ -538,3 +538,15 @@ function latextemplate {
 }
 
 alias lt="latextemplate"
+
+function youtube_playlist_previewer {
+	PLAYLIST=$1
+
+	TMPFILE=$RANDOM.txt
+
+	youtube-dl -j --flat-playlist $PLAYLIST | jq -r '.id' > $TMPFILE
+
+	cat $TMPFILE  | perl -lne 'while (<>) { chomp; $id = $_; print qq#<a href="https://youtube.com/watch?v=$id"><img width="50" src="https://i.ytimg.com/vi/$id/hqdefault.jpg" /></a>#; }' > playlist_preview.html
+
+	firefox playlist_preview.html
+}
