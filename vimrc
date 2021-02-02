@@ -134,7 +134,7 @@ vmap <silent> <Leader>ct y:echo MyCalc(substitute(@0," *\n","+","g"))<CR>:silent
 " Try: :MyCalc 12.7 + sqrt(98)
 command! -nargs=+ MyCalc :echo MyCalc("<args>")
 
-function FrameItemize (...) " For creating Beamer Frames. Example: 'call FrameItemize(5)' creates a frame with 5 items, 'call FrameItemize(10, 1)' creates 10 items shown step by step
+function FrameItemize (...)
 	:normal o\frame{
 	let total = a:1
 	let stepbystep = 0
@@ -168,8 +168,24 @@ function SubSection(name)
 	:normal o
 endfunction
 
+function FrameImage(filename)
+	:normal o\frame{
+	execute ":normal o\\includegraphics[width=\\textwidth]{". a:filename ."}"
+	:normal o}
+endfunction
+
+function FrameImageCaption(filename, caption)
+	:normal o\frame{
+	execute ":normal o\\includegraphics[width=\\textwidth]{". a:filename ."}"
+	execute ":normal o\\caption{". a:caption."}"
+	:normal o}
+endfunction
+
 nnoremap <F2> :call FrameItemize(input('Number of items: '))<CR>
 nnoremap <F3> :call FrameItemize(input('Number of items (step by step): '), 1)<CR>
 
 nnoremap <F4> :call Section(input('Section name: '))<CR>
 nnoremap <F5> :call SubSection(input('Subsection name: '))<CR>
+
+nnoremap <F8> :call FrameImage(input('Filename: '))<CR>
+nnoremap <F9> :call FrameImageCaption(input('Filename: '), input("Caption: "))<CR>
