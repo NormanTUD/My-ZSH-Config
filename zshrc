@@ -423,18 +423,20 @@ function latextemplate {
 		fi
 
 		if [[ $AUTHORNAME ]]; then
-			echo "\\\\usepackage[" >> $filename_with_tex
-			echo "	hidelinks," >> $filename_with_tex
-			echo "	breaklinks=true," >> $filename_with_tex
-			echo "	pdftex," >> $filename_with_tex
-			echo "	pdfauthor={$AUTHORNAME}," >> $filename_with_tex
-			if [[ ! -z $TITLE ]]; then
-				echo "	pdftitle={$TITLE}," >> $filename_with_tex
+			if [[ $DOCUMENTCLASS != "beamer" ]]; then
+				echo "\\\\usepackage[" >> $filename_with_tex
+				echo "	hidelinks," >> $filename_with_tex
+				echo "	breaklinks=true," >> $filename_with_tex
+				echo "	pdftex," >> $filename_with_tex
+				echo "	pdfauthor={$AUTHORNAME}," >> $filename_with_tex
+				if [[ ! -z $TITLE ]]; then
+					echo "	pdftitle={$TITLE}," >> $filename_with_tex
+				fi
+				echo "	pdfsubject={}," >> $filename_with_tex
+				echo "	pdfkeywords={}," >> $filename_with_tex
+				echo "	pdfproducer={}," >> $filename_with_tex
+				echo "	pdfcreator={}]{hyperref}" >> $filename_with_tex
 			fi
-			echo "	pdfsubject={}," >> $filename_with_tex
-			echo "	pdfkeywords={}," >> $filename_with_tex
-			echo "	pdfproducer={}," >> $filename_with_tex
-			echo "	pdfcreator={}]{hyperref}" >> $filename_with_tex
 		fi
 
 		if [[ ! "$DOCUMENTCLASS" = "beamer" ]]; then
@@ -508,14 +510,18 @@ function latextemplate {
 		if [[ "$DOCUMENTCLASS" = "beamer" ]]; then
 			echo "\\\\frame{" >> $filename_with_tex
 			echo "	\\\\begin{itemize}[<+->]" >> $filename_with_tex
-			echo "		\\\\item Items will be shown step by step" >> $filename_with_tex
+			echo "		\\\\item Items will be shown step" >> $filename_with_tex
+			echo "		\\\\item by step" >> $filename_with_tex
+			echo "		\\\\item step" >> $filename_with_tex
 			echo "	\\\\end{itemize}" >> $filename_with_tex
 			echo "}" >> $filename_with_tex
 			echo "" >> $filename_with_tex
 
 			echo "\\\\frame{" >> $filename_with_tex
 			echo "	\\\\begin{itemize}" >> $filename_with_tex
-			echo "		\\\\item Items will all at once" >> $filename_with_tex
+			echo "		\\\\item Items will be shown all" >> $filename_with_tex
+			echo "		\\\\item at" >> $filename_with_tex
+			echo "		\\\\item once" >> $filename_with_tex
 			echo "	\\\\end{itemize}" >> $filename_with_tex
 			echo "}" >> $filename_with_tex
 			echo "" >> $filename_with_tex
