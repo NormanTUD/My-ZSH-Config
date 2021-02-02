@@ -508,14 +508,14 @@ function latextemplate {
 		if [[ "$DOCUMENTCLASS" = "beamer" ]]; then
 			echo "\\\\frame{" >> $filename_with_tex
 			echo "	\\\\begin{itemize}[<+->]" >> $filename_with_tex
-			echo "		 \item Items will be shown step by step" >> $filename_with_tex
+			echo "		\\\\item Items will be shown step by step" >> $filename_with_tex
 			echo "	\\\\end{itemize}" >> $filename_with_tex
 			echo "}" >> $filename_with_tex
 			echo "" >> $filename_with_tex
 
 			echo "\\\\frame{" >> $filename_with_tex
 			echo "	\\\\begin{itemize}" >> $filename_with_tex
-			echo "		 \item Items will all at once" >> $filename_with_tex
+			echo "		\\\\item Items will all at once" >> $filename_with_tex
 			echo "	\\\\end{itemize}" >> $filename_with_tex
 			echo "}" >> $filename_with_tex
 			echo "" >> $filename_with_tex
@@ -528,7 +528,7 @@ function latextemplate {
 
 		vi +${LINE_TO_JUMP_TO} $filename_with_tex
 
-		COMMAND="latexmk -pdf $filename.tex && evince $filename.pdf"
+		COMMAND="latexmk -pdf -halt-on-error $filename.tex && evince $filename.pdf"
 		echo "$COMMAND" | xclip -selection c
 		echo "$COMMAND"
 		echo "(This command has been copied to your clipboard. Press CTRL-Shift-V to insert it now.)"
@@ -549,4 +549,15 @@ function youtube_playlist_previewer {
 	cat $TMPFILE  | perl -lne 'while (<>) { chomp; $id = $_; print qq#<a href="https://youtube.com/watch?v=$id"><img width="80" src="https://i.ytimg.com/vi/$id/hqdefault.jpg" /></a>#; }' > playlist_preview.html
 
 	firefox playlist_preview.html
+}
+
+function clean_latex_tmp_files {
+	rm *.aux
+	rm *.nav
+	rm *.out
+	rm *.snm
+	rm *.toc
+	rm *.fdb_latexmk
+	rm *.fls
+	rm *.log
 }
