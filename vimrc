@@ -158,6 +158,36 @@ function FrameItemize (...)
 	:normal o
 endfunction
 
+
+function Enumerate (...)
+	let total = a:1
+	if total > 0
+		:normal o\begin{enumerate}
+		let cnt = 1
+		echom total
+		while cnt <= total
+			:normal o\item 
+			let cnt += 1
+		endwhile
+		:normal o\end{enumerate}
+	endif
+endfunction
+
+function Itemize (...)
+	let total = a:1
+	if total > 0
+		:normal o\begin{itemize}
+		let cnt = 1
+		echom total
+		while cnt <= total
+			:normal o\item 
+			let cnt += 1
+		endwhile
+		:normal o\end{itemize}
+	endif
+endfunction
+
+
 function Section(name)
 	execute ":normal a\\section{". a:name ."}"
 	:normal o
@@ -187,5 +217,10 @@ nnoremap <F3> :call FrameItemize(input('Number of items (step by step): '), 1)<C
 nnoremap <F4> :call Section(input('Section name: '))<CR>
 nnoremap <F5> :call SubSection(input('Subsection name: '))<CR>
 
+nnoremap <F6> :call Itemize(input('Number of items: '))<CR>
+nnoremap <F7> :call Enumerate(input('Number of items: '))<CR>
+
 nnoremap <F8> :call FrameImage(input('Filename: '))<CR>
 nnoremap <F9> :call FrameImageCaption(input('Filename: '), input("Caption: "))<CR>
+
+
