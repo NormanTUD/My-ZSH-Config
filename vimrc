@@ -133,3 +133,30 @@ vmap <Leader>c- :B s/.*/\=MyCalc(' -' . submatch(0))/<C-Left><C-Left><C-Left><Le
 vmap <silent> <Leader>ct y:echo MyCalc(substitute(@0," *\n","+","g"))<CR>:silent :noh<CR>
 " Try: :MyCalc 12.7 + sqrt(98)
 command! -nargs=+ MyCalc :echo MyCalc("<args>")
+
+function FrameItemize (...) " For creating Beamer Frames. Example: 'call FrameItemize(5)' creates a frame with 5 items, 'call FrameItemize(10, 1)' creates 10 items shown step by step
+	:normal o\frame{
+	let total = a:1
+	let stepbystep = 0
+	if a:0 == 2
+		let stepbystep = 1
+	endif
+	if total > 0
+		:normal o\begin{itemize}
+		if stepbystep
+			:normal a[<+->]
+		endif
+		let cnt = 1
+		echom total
+		while cnt <= total
+			:normal o\item 
+			let cnt += 1
+		endwhile
+		:normal o\end{itemize}
+	endif
+	:normal o}
+	:normal o
+endfunction
+
+nnoremap <F2> :call FrameItemize(input('Number of items: '))<CR>
+nnoremap <F3> :call FrameItemize(input('Number of items (step by step): '), 1)<CR>
