@@ -158,5 +158,18 @@ function FrameItemize (...) " For creating Beamer Frames. Example: 'call FrameIt
 	:normal o
 endfunction
 
+function Section(name)
+	execute ":normal a\\section{". a:name ."}"
+	:normal o
+endfunction
+
+function SubSection(name)
+	execute ":normal a\\subsection{". a:name ."}"
+	:normal o
+endfunction
+
 nnoremap <F2> :call FrameItemize(input('Number of items: '))<CR>
 nnoremap <F3> :call FrameItemize(input('Number of items (step by step): '), 1)<CR>
+
+nnoremap <F4> :call Section(input('Section name: '))<CR>
+nnoremap <F5> :call SubSection(input('Subsection name: '))<CR>
