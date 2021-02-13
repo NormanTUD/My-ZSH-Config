@@ -567,3 +567,7 @@ function clean_latex_tmp_files {
 	rm *.fls
 	rm *.log
 }
+
+export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on'
+
+function "$" () { $@ }
