@@ -571,3 +571,11 @@ function clean_latex_tmp_files {
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on'
 
 function "$" () { $@ }
+
+function mc () {
+	mkdir $1
+	cd $1
+}
+
+
+function forceumountcifs () { umount -a -t cifs -l }
