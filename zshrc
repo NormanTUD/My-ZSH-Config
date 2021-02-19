@@ -578,4 +578,4 @@ function mc () {
 }
 
 
-function forceumountcifs () { umount -a -t cifs -l }
+function forceumountcifs () { sudo umount -a -t cifs -l }
