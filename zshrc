@@ -370,7 +370,7 @@ function rcreate_digraph {
 function latextemplate {
 	filename=""
 	while [[ -z $filename ]]; do
-		filename=$(whiptail --inputbox "Filename without .tex" 8 39 "" --title "Create Graph Dialog" 3>&1 1>&2 2>&3)	
+		filename=$(whiptail --inputbox "Filename without .tex" 8 39 "" --title "Dialog" 3>&1 1>&2 2>&3)	
 		exitstatus=$?
 		if [ $exitstatus != 0 ]; then
 			return
@@ -396,7 +396,7 @@ function latextemplate {
 	fi
 
 	AUTHORNAME=$(cat ~/.defaultnamebrief 2>/dev/null)
-	AUTHORNAME=$(whiptail --inputbox "Author name?" 8 39 "$AUTHORNAME" --title "Name of the Author of this document" 3>&1 1>&2 2>&3)
+	AUTHORNAME=$(whiptail --inputbox "Author name?" 8 49 "$AUTHORNAME" --title "Name of the Author of this document" 3>&1 1>&2 2>&3)
 	exitstatus=$?
 	if [ $exitstatus != 0 ]; then
 		return
@@ -532,7 +532,13 @@ function latextemplate {
 
 		LINE_TO_JUMP_TO=$(grep -nP '^$' $filename_with_tex | tail -n2 | head -n1 | sed -e 's/://')
 
-		vi +${LINE_TO_JUMP_TO} $filename_with_tex
+		if [[ "$EDITOR" == "vim" ]]; then
+			$EDITOR +${LINE_TO_JUMP_TO} $filename_with_tex
+		elif [[ "$EDITOR" == "kate" ]]; then
+			$EDITOR -l ${LINE_TO_JUMP_TO} $filename_with_tex
+		else
+			$EDITOR $filename_with_tex
+		fi
 
 		COMMAND="latexmk -pdf -halt-on-error $filename.tex && evince $filename.pdf"
 		echo "$COMMAND" | xclip -selection c
