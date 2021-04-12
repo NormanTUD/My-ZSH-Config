@@ -164,6 +164,19 @@ function randomtest {
 	set +x
 }
 
+rtest () {
+        set -x
+        RANDOMNUMBER=$(shuf -i 1-100000 -n 1)
+        while [[ -e "$HOME/test/randomtest_$RANDOMNUMBER" ]]
+        do
+                RANDOMNUMBER=$(shuf -i 1-100000 -n 1)
+        done
+        mkdir -p -p "$HOME/test/randomtest_$RANDOMNUMBER"
+        cd "$HOME/test/randomtest_$RANDOMNUMBER"
+        set +x
+}
+
+
 if command -v youtube-dl; then
 	function download_transcription {
 		ID=$1
@@ -559,8 +572,6 @@ function youtube_playlist_previewer {
 	youtube-dl -j --flat-playlist $PLAYLIST | jq -r '.id' > $TMPFILE
 
 	cat $TMPFILE  | perl -lne 'while (<>) { chomp; $id = $_; print qq#<a href="https://youtube.com/watch?v=$id"><img width="80" src="https://i.ytimg.com/vi/$id/hqdefault.jpg" /></a>#; }' > playlist_preview.html
-
-	firefox playlist_preview.html
 }
 
 function clean_latex_tmp_files {
