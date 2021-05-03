@@ -596,3 +596,30 @@ function mc () {
 
 
 function forceumountcifs () { sudo umount -a -t cifs -l }
+
+function jc {
+	(for i in *.java; do 
+		md5sum_filename=".$(echo $i | md5sum | sed -e 's/\s*-//')"
+		md5sum_content="$(cat $i | md5sum | sed -e 's/\s*-//')"
+		RECOMPILE=0
+		if [[ -e $md5sum_filename ]]; then
+			if [[ $(cat $md5sum_filename) =~ "$md5sum_content" ]]; then
+				RECOMPILE=0
+			else
+				RECOMPILE=1
+			fi
+		else
+			RECOMPILE=1
+		fi
+
+		echo "$i:"
+		if [[ "$RECOMPILE" == "1" ]]; then
+			javac $i
+			echo $md5sum_content > $md5sum_filename
+		else
+			echo "No need for recompiling";
+			echo $md5sum_content > $md5sum_filename
+		fi
+
+	done)
+}
