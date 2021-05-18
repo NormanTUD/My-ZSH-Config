@@ -565,13 +565,37 @@ function latextemplate {
 alias lt="latextemplate"
 
 function youtube_playlist_previewer {
-	PLAYLIST=$1
+        PLAYLIST=$1
 
-	TMPFILE=$RANDOM.txt
+        TMPFILE=$RANDOM.txt
 
-	youtube-dl -j --flat-playlist $PLAYLIST | jq -r '.id' > $TMPFILE
+        youtube-dl -j --flat-playlist $PLAYLIST | jq -r '.id' > $TMPFILE
 
-	cat $TMPFILE  | perl -lne 'while (<>) { chomp; $id = $_; print qq#<a href="https://youtube.com/watch?v=$id"><img width="80" src="https://i.ytimg.com/vi/$id/hqdefault.jpg" /></a>#; }' > playlist_preview.html
+        FILENAME=index.html
+
+        echo "<head>" > $FILENAME
+        echo "<style>#images{ text-align:center; margin:50px auto; }" >> $FILENAME
+        echo "#images a{margin:0px 20px; display:inline-block; text-decoration:none; color:black; }" >> $FILENAME
+        echo ".caption { width: 150px; height: 80px; overflow-y: auto; }" >> $FILENAME
+        echo "</style>" >> $FILENAME
+        echo '<meta charset="UTF-8">' >> $FILENAME
+        echo "</head>" >> $FILENAME
+        echo '<div id="images">' >> $FILENAME
+
+        cat $TMPFILE  | perl -lne 'while (<>) { 
+                chomp; 
+                $id = $_; 
+                $title = q##;
+                if(!-e qq#.$id# || -z qq#.$id#) {
+                        system(qq#youtube-dl --get-filename -o "%(title)s" -- $id > .$id#);
+                }
+                $title = qx(cat .$id);
+                print qq#<a href="https://youtube.com/watch?v=$id"><img src="https://i.ytimg.com/vi/$id/hqdefault.jpg" width="150px"><div class="caption">$title</div></a>\n#;
+        }' >> $FILENAME
+
+        echo "</div>" >> $FILENAME
+
+        rm $TMPFILE
 }
 
 function clean_latex_tmp_files {
