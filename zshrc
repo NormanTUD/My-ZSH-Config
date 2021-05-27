@@ -647,3 +647,46 @@ function jc {
 
 	done)
 }
+
+acs () {
+	apt-cache search $1
+}
+
+function arp {
+	let i=0 # define counting variable
+	W=() # define working array
+	while read -r line; do # process file by file
+		let i=$i+1
+		W+=($i "$line")
+	done < <(ls -1 /sys/class/net)
+	FILE=$(dialog --title "Available network devices for ARP-scan" --menu "Chose one" 24 80 17 "${W[@]}" "q" "quit" 3>&2 2>&1 1>&3)
+	clear
+	if [ $? -eq 0 ]; then
+		if [[ "$FILE" =~ "quit" ]]; then
+			return 0
+		fi
+		RESULT=$(ls -1 /sys/class/net | head -n $(($FILE)) | tail -n1)
+	else
+		return $?
+	fi
+
+	if [[ ! -z $RESULT ]]; then
+		if [[ -e /sys/class/net/$RESULT ]]; then
+			sudo arp-scan --interface=$RESULT --localnet
+
+			echo "Press any key to continue"
+			while [ true ] ; do
+				read -t 3 -n 1
+				if [ $? = 0 ] ; then
+					arp
+				else
+					return
+				fi
+			done
+		else
+			return 0
+		fi
+	else
+		return 0
+	fi
+}
