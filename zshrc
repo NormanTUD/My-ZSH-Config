@@ -690,3 +690,37 @@ function arp {
 		return 0
 	fi
 }
+
+
+cut_domian() {
+	set -x
+	id=$1
+	from=$2
+	to=$3
+
+	outputfilename=$(whiptail --inputbox "Name of the file?" 8 39 "Domian, " --title "cut_domian" 3>&1 1>&2 2>&3)
+	if [[ $? != 0 ]]; then
+		return;
+	fi
+	# Domian, Daniel (18) ist Daniel.
+	outputfilename=$(echo $outputfilename | sed -e 's/\.+$//' | sed -e 's/ (/, /g' | sed -e 's/) /, /')
+	outputfilename="$outputfilename.mp4"
+
+	TMPFILEYTDL=".$RANDOM.mp3"
+	youtube-dl -i -x --audio-format mp3 --audio-quality 0  $1 --output=$TMPFILEYTDL
+
+	if [[ ! -e domian.jpg ]]; then
+		wget optimalbliss.de/domian.jpg
+	fi
+
+
+	set -x
+
+	TMPFILEFFMPEG=.$RANDOM.mp3
+	ffmpeg -i $TMPFILEYTDL -ss "$from" -to "$to" $TMPFILEFFMPEG
+
+	ffmpeg -loop 1 -i domian.jpg -i $TMPFILEFFMPEG -c:a copy -c:v libx264 -shortest $outputfilename
+
+	rm $TMPFILEFFMPEG $TMPFILEYTDL
+	echo $outputfilename
+}
