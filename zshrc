@@ -752,3 +752,12 @@ audiodomian () {
 	set +x
 	notify-send "$outputfilename"
 }
+
+audiodomiandir () {
+	for i in $(ls *.hq.ogg); do
+		audiodomian $i
+	done
+	for i in $(ls *.lq.ogg); do
+		audiodomian $i
+	done
+}
