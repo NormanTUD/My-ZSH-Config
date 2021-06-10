@@ -724,3 +724,31 @@ cut_domian() {
 	rm $TMPFILEFFMPEG $TMPFILEYTDL
 	echo $outputfilename
 }
+
+audiodomian () {
+	set -x
+	inputfile=$1
+
+	# Domian_2006-10-03.lq.ogg 
+	outputfilename="$(echo $inputfile | sed -e 's/.*\///' | sed -e 's/-/./g' | sed -e 's/_/ - /g' | sed -e 's/\.[hl]q\.ogg//' | sed -E 's/([0-9]{4})\.([0-9]{1,2})\.([0-9]{1,2})/\3.\2.\1/').mp4"
+
+	if [[ -z $inputfile ]]; then
+		echo "First parameter cannot be empty, must be existing audio file"
+		return
+	fi
+
+
+	if [[ ! -e $inputfile ]]; then
+		echo "First parameter cannot be empty, must be existing audio file"
+		return
+	fi
+
+	if [[ ! -e domian.jpg ]]; then
+		wget optimalbliss.de/domian.jpg
+	fi
+
+	ffmpeg -loop 1 -i domian.jpg -i $inputfile -c:a copy -c:v libx264 -shortest $outputfilename
+
+	set +x
+	notify-send "$outputfilename"
+}
