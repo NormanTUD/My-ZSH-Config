@@ -818,3 +818,12 @@ function ocr_this_folder () {
         done
 }
 
+function merge_all_out_pdfs {
+        outname=gesamt.pdf
+        i=1
+        while [[ -e "$outname" ]]; do
+                outname="gesamt_${i}.pdf"
+                i=$(echo "$i+1" | bc)
+        done
+        pdftk *.pdf cat output gesamt.pdf
+}
