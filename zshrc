@@ -761,3 +761,60 @@ audiodomiandir () {
 		audiodomian $i
 	done
 }
+
+function scan_here () {
+        max_number=$(ls | grep out | grep jpg | sed -e 's/out//' | sed -e 's/\.jpg//' | sort -nr | head -n1)
+        STARTPDF=$(echo "$max_number+1" | bc)
+        echo "Starting at $STARTPDF"
+        scanimage --batch --batch-start=$STARTPDF --source="ADF Duplex" --resolution 300 --format=jpeg --mode Color
+}
+
+function move_empty_scanned_pages {
+        if [[ "$NOMOVE" -eq "1" ]]; then
+                return
+        fi
+
+        echo "Run with 'export NOMOVE=1' to disable auto-moving blank pages"
+
+        mkdir -p "blanks"
+
+        for i in $(ls *.jpg); do
+                echo "${i}"
+                if [[ -e $(dirname "$i")/.$(basename "$i") ]]; then
+                        echo "   protected."
+                        continue
+                fi
+
+                histogram=$(convert "${i}" -threshold 50% -format %c histogram:info:-)
+                #echo $histogram
+                white=$(echo "${histogram}" | grep "white" | cut -d: -f1)
+                black=$(echo "${histogram}" | grep "black" | cut -d: -f1)
+                if [[ -z "$black" ]]; then
+                        black=0
+                fi
+
+                #blank=$(echo "scale=4; ${black}/${white} < 0.005" | bc)
+                #echo $white $black $blank
+                #if [ "${blank}" -eq "1" ]; then
+                if [ "${black}" -lt "100" ]; then
+                        echo "${i} seems to be blank - removing it..."
+                        mv "${i}" "blanks/${i}"
+                fi
+        done
+}
+
+function ocr_this_folder () {
+        for file in *.jpg; do
+                pdfname=$(echo $file | sed -e 's/\..*//');
+                if [[ ! -e "$pdfname.pdf" ]]; then
+                        if [[ ! -e ".$pdfname.pdf_working_on" ]]; then
+                                touch ".$pdfname.pdf_working_on"
+                                tesseract -l deu $file "$pdfname" pdf;
+                                echo "$pdfname.pdf done"
+                        fi
+                else
+                        echo "$pdfname.pdf already exists"
+                fi
+        done
+}
+
