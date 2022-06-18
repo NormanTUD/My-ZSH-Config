@@ -33,6 +33,10 @@ if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not,
 	install_if_not_exists "vim"
 	install_if_not_exists "git"
 	install_if_not_exists "exa"
+	install_if_not_exists "hstr"
+	if command -v hstr &> /dev/null; then
+		hstr --show-configuration >> ~/.zshrc
+	fi
 else
 	red_text "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"
 fi
