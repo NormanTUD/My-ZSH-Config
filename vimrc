@@ -223,4 +223,7 @@ nnoremap <F7> :call Enumerate(input('Number of items: '))<CR>
 nnoremap <F8> :call FrameImage(input('Filename: '))<CR>
 nnoremap <F9> :call FrameImageCaption(input('Filename: '), input("Caption: "))<CR>
 
-
+" keep text selected when doing > and < to indent
+tnoremap <Esc> <C-\><C-n>
+noremap < <gv
+noremap > >gv
