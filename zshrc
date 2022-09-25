@@ -827,3 +827,5 @@ function merge_all_out_pdfs {
         done
         pdftk *.pdf cat output gesamt.pdf
 }
+
+function pn { set -x; for var in "$@"; do play -qn synth 2 pluck $var & sleep 0.25; done; set +x; wait }
