@@ -829,3 +829,20 @@ function merge_all_out_pdfs {
 }
 
 function pn { set -x; for var in "$@"; do play -qn synth 2 pluck $var & sleep 0.25; done; set +x; wait }
+
+function _vlc {
+
+        VIDEOS=()
+
+        IFS=$'\n'
+        for line in $(ls **/*.mp4 **/*.MP4 **/*.mp3 **/*.MP3 **/*.OGV **/*.ogv *.mp4 *.mp3 *.ogv *.MP4 *.MP3 *.OGV); do
+                VIDEOS+=("$line")
+        done
+
+        FILES=$(printf "\n'%s'" "${VIDEOS[@]}")
+
+        eval "_describe 'command' \"($FILES)\""
+}
+
+
+compdef _vlc "vlc"
