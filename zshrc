@@ -846,3 +846,7 @@ function _vlc {
 
 
 compdef _vlc "vlc"
+
+upgr () {
+        sudo apt-get update && sudo apt-get -y upgrade
+}
