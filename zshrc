@@ -120,7 +120,7 @@ setopt CHASE_DOTS
 
 alias gitc="git clone --depth=1 ."
 
-if command -v exa &> /dev/null; then
+if command -v exa 2> /dev/null; then
 	alias ll='exa -l'
 	alias lll='exa -l | less'
 	alias lla='exa -la'
@@ -177,7 +177,7 @@ rtest () {
 }
 
 
-if command -v youtube-dl; then
+if command -v youtube-dl 2>/dev/null; then
 	function download_transcription {
 		ID=$1
 		LANG=$2
@@ -190,7 +190,7 @@ if command -v youtube-dl; then
 	}
 fi
 
-if command -v gs; then
+if command -v gs 2>/dev/null; then
 	function make_pdf_smaller {
 		if [[ -e $1 ]]; then
 			RANDPDF="$RANDOM$RANDOM$RANDOM.pdf"
@@ -226,14 +226,14 @@ function pretty_csv {
 
 function mytail { tail -n1000000 -f *$1* }
 
-if command -v scontrol; then
+if command -v scontrol 2>/dev/null; then
 	function slurmlogpath { scontrol show job $1 | grep StdOut | sed -e 's/^\s*StdOut=//' }
 	function stail { tail -f -n100000 `slurmlogpath $1` }
 	function staill { tail -f -n100 `slurmlogpath $1` }
 	function stailn { tail -f -n $1 `slurmlogpath $2` }
 fi
 
-if command -v whypending; then
+if command -v whypending 2>/dev/null; then
 	function showmyjobsstatus { 
 	    if [ $# -eq 0 ]; then
 		for i in $(squeue -u $USER | grep -v JOBID | sed -e 's/^\s*//' | sed -e 's/\s.*//'); do 
@@ -245,7 +245,7 @@ if command -v whypending; then
 	}
 fi
 
-if command -v squeue; then
+if command -v squeue 2>/dev/null; then
 	function ftails {
 		if [ $# -eq 0 ]; then
 			SLURMID=$(squeue -u $USER | cut -d' ' -f11- | sed -e 's/\s.*//' | egrep -v "^\s*$" | sort -nr | head -n1)
@@ -296,7 +296,7 @@ function myavg () {
 }
 
 
-if command -v mongo; then
+if command -v mongo 2>/dev/null; then
 	function mongodbtojson {
 	    ip=$1
 	    port=$2
