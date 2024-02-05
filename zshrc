@@ -856,3 +856,8 @@ function upgr {
 	sudo apt-get -y upgrade &&
 	sudo apt-get upgrade linux-headers-amd64 linux-image-amd64
 }
+
+mcd () {
+        mkdir -p -p $1
+        cd $1
+}
