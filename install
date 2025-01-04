@@ -74,6 +74,46 @@ else
 	red_text "ZSH does not seem to be installed correctly."
 fi
 
+if command -v apt &> /dev/null; then
+	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
+		sudo apt update
+		sudo apt install -y arp-scan
+		sudo apt install -y aptitude
+		sudo apt install -y cmake
+		sudo apt install -y make
+		sudo apt install -y evince
+		sudo apt install -y ffmpeg
+		sudo apt install -y flatpak
+		sudo apt install -y fonts-powerline
+		sudo apt install -y inkcsape
+		sudo apt install -y inkscape
+		sudo apt install -y kcolorchooser
+		sudo apt install -y kde-connect
+		sudo apt install -y kdeconnect
+		sudo apt install -y kompare
+		sudo apt install -y libopenglrecorder
+		sudo apt install -y libsdl2-dev
+		sudo apt install -y shaderc
+		sudo apt install -y libshaderc1
+		sudo apt install -y libshaderc-dev
+		sudo apt install -y locate
+		sudo apt install -y php
+		sudo apt install -y php-mbstring
+		sudo apt install -y plotutils
+		sudo apt install -y pv
+		sudo apt install -y gnuplot
+		sudo apt install -y python-venv
+		sudo apt install -y simplescreenrecorder
+		sudo apt install -y speedcrunch
+		sudo apt install -y thunderbird
+		sudo apt install -y uuidgen
+		sudo apt install -y uuid-runtime
+		sudo apt install -y xdotool
+		sudo apt install -y xprintidle
+		sudo apt install -y etckeeper
+	fi
+fi
+
 if command -v vim &> /dev/null; then
 	if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This installs a sane vim environment." 8 78); then
 		if [ -f ~/.vimrc ]; then
