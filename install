@@ -111,6 +111,7 @@ if command -v apt &> /dev/null; then
 		sudo apt install -y xdotool
 		sudo apt install -y xprintidle
 		sudo apt install -y etckeeper
+		sudo apt install -y sqlite3
 	fi
 fi
 
