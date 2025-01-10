@@ -861,3 +861,10 @@ mcd () {
         mkdir -p -p $1
         cd $1
 }
+
+function mp4_to_gif {
+	ffmpeg \
+		-i $1 \
+		-r 15 \
+		$1.gif
+}
