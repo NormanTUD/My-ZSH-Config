@@ -34,6 +34,10 @@ if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not,
 	install_if_not_exists "git"
 	install_if_not_exists "exa"
 	install_if_not_exists "hstr"
+	install_if_not_exists "kcolorchooser"
+	install_if_not_exists "ffmpeg"
+	install_if_not_exists "python3"
+	install_if_not_exists "python3-venv"
 	if command -v hstr &> /dev/null; then
 		hstr --show-configuration >> ~/.zshrc
 	fi
