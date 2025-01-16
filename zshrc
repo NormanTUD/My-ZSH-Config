@@ -868,3 +868,7 @@ function mp4_to_gif {
 		-r 15 \
 		$1.gif
 }
+
+ytmp3 () {
+        yt-dlp -x --audio-format mp3 --audio-quality 0 $*
+}
