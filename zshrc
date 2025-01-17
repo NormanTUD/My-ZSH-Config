@@ -177,7 +177,7 @@ rtest () {
 }
 
 
-if command -v youtube-dl >/dev/null; then
+if command -v yt-dlp >/dev/null; then
 	function download_transcription {
 		ID=$1
 		LANG=$2
@@ -186,7 +186,7 @@ if command -v youtube-dl >/dev/null; then
 			INSTALL=en
 		fi
 
-		youtube-dl --write-sub --sub-lang $LANG --skip-download $ID
+		yt-dlp --write-sub --sub-lang $LANG --skip-download $ID
 	}
 fi
 
@@ -565,7 +565,7 @@ function youtube_playlist_previewer {
 
         TMPFILE=$RANDOM.txt
 
-        youtube-dl -j --flat-playlist $PLAYLIST | jq -r '.id' > $TMPFILE
+        yt-dlp -j --flat-playlist $PLAYLIST | jq -r '.id' > $TMPFILE
 
         FILENAME=index.html
 
@@ -583,7 +583,7 @@ function youtube_playlist_previewer {
                 $id = $_; 
                 $title = q##;
                 if(!-e qq#.$id# || -z qq#.$id#) {
-                        system(qq#youtube-dl --get-filename -o "%(title)s" -- $id > .$id#);
+                        system(qq#yt-dlp --get-filename -o "%(title)s" -- $id > .$id#);
                 }
                 $title = qx(cat .$id);
                 print qq#<a href="https://youtube.com/watch?v=$id"><img src="https://i.ytimg.com/vi/$id/hqdefault.jpg" width="150px"><div class="caption">$title</div></a>\n#;
