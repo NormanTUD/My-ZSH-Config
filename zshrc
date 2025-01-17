@@ -872,3 +872,5 @@ function mp4_to_gif {
 ytmp3 () {
         yt-dlp -x --audio-format mp3 --audio-quality 0 $*
 }
+
+PATH=/home/$USER/.local/bin:/home/$USER/repos/smartlocate:$PATH
