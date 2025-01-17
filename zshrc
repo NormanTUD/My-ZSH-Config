@@ -867,3 +867,15 @@ function keep_idle {
 	    sleep $SLEEPTIME
 	done
 }
+
+cpwd() {
+	if command -v xclip &>/dev/null; then
+		pwd | xclip -selection clipboard
+		echo "Der aktuelle Pfad wurde in die Zwischenablage kopiert."
+	elif command -v pbcopy &>/dev/null; then
+		pwd | pbcopy
+		echo "Der aktuelle Pfad wurde in die Zwischenablage kopiert."
+	else
+		echo "Fehler: Weder xclip (Linux) noch pbcopy (macOS) sind verfügbar. Installiere eines dieser Tools."
+	fi
+}
