@@ -691,6 +691,16 @@ function arp {
 	fi
 }
 
+yt () {
+	if ! command -v yt-dlp 2>/dev/null >/dev/null; then
+		curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ~/.local/bin/yt-dlp
+		mkdir -p $HOME/.local/bin/
+		chmod a+rx $HOME/.local/bin/yt-dlp
+		export PATH
+	fi
+
+	yt-dlp $*
+}
 
 cut_domian() {
 	set -x
@@ -707,7 +717,7 @@ cut_domian() {
 	outputfilename="$outputfilename.mp4"
 
 	TMPFILEYTDL=".$RANDOM.mp3"
-	youtube-dl -i -x --audio-format mp3 --audio-quality 0  $1 --output=$TMPFILEYTDL
+	yt -i -x --audio-format mp3 --audio-quality 0  $1 --output=$TMPFILEYTDL
 
 	if [[ ! -e domian.jpg ]]; then
 		wget optimalbliss.de/domian.jpg
@@ -870,7 +880,23 @@ function mp4_to_gif {
 }
 
 ytmp3 () {
-        yt-dlp -x --audio-format mp3 --audio-quality 0 $*
+        yt -x --audio-format mp3 --audio-quality 0 $*
 }
 
 PATH=/home/$USER/.local/bin:/home/$USER/repos/smartlocate:$PATH
+
+function keep_idle {
+	SLEEPTIME=${1:-60}
+
+	while true; do
+	    eval $(xdotool getmouselocation --shell)
+	    
+	    IDLETIME=$(xprintidle)
+	    IDLETIME=$(($IDLETIME/1000))
+	    if [[ $IDLETIME -gt $SLEEPTIME ]]; then
+		xdotool mousemove $X $((Y-1))
+	    fi
+
+	    sleep $SLEEPTIME
+	done
+}
