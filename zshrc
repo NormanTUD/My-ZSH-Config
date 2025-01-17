@@ -220,10 +220,6 @@ function treesize {
 	'
 }
 
-function pretty_csv {
-    perl -pe 's/((?<=,)|(?<=^)),/ ,/g;' "$@" | column -t -s, | less  -F -S -X -K
-}
-
 function mytail { tail -n1000000 -f *$1* }
 
 if command -v scontrol >/dev/null; then
