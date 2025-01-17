@@ -112,6 +112,7 @@ if command -v apt &> /dev/null; then
 		sudo apt install -y xprintidle
 		sudo apt install -y etckeeper
 		sudo apt install -y sqlite3
+		sudo apt install -y python3-pip
 	fi
 fi
 
