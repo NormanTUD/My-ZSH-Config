@@ -851,7 +851,7 @@ function upgr {
 	sudo apt-get update &&
 	sudo apt-get -y upgrade &&
 	sudo apt-get autoremove &&
-	sudo apt-get upgrade linux-headers-amd64 linux-image-amd64 &&
+	sudo apt-get upgrade -y linux-headers-amd64 linux-image-amd64 &&
 	sudo apt-get autoremove
 	sudo apt-get -y upgrade &&
 	sudo apt-get upgrade linux-headers-amd64 linux-image-amd64
