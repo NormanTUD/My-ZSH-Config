@@ -871,11 +871,11 @@ function keep_idle {
 cpwd() {
 	if command -v xclip &>/dev/null; then
 		pwd | xclip -selection clipboard
-		echo "Der aktuelle Pfad wurde in die Zwischenablage kopiert."
+		echo "Current path was copied to the clipboard"
 	elif command -v pbcopy &>/dev/null; then
 		pwd | pbcopy
-		echo "Der aktuelle Pfad wurde in die Zwischenablage kopiert."
+		echo "Current path was copied to the clipboard"
 	else
-		echo "Fehler: Weder xclip (Linux) noch pbcopy (macOS) sind verfügbar. Installiere eines dieser Tools."
+		echo "Error: Neither xclip (Linux) nor pbcopy (macOS) are available. Install one of them."
 	fi
 }
