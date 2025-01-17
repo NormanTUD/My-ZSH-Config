@@ -153,17 +153,6 @@ fi
 export http_proxy=
 export https_proxy=
 
-function randomtest {
-	set -x
-	RANDOMNUMBER=$(shuf -i 1-100000 -n 1)
-	while [[ -e "$HOME/test/randomtest_$RANDOMNUMBER" ]]; do
-		RANDOMNUMBER=$(shuf -i 1-100000 -n 1)
-	done
-	mkdir -p "$HOME/test/randomtest_$RANDOMNUMBER"
-	cd "$HOME/test/randomtest_$RANDOMNUMBER"
-	set +x
-}
-
 rtest () {
         set -x
         RANDOMNUMBER=$(shuf -i 1-100000 -n 1)
