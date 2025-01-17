@@ -834,25 +834,6 @@ function merge_all_out_pdfs {
         pdftk *.pdf cat output gesamt.pdf
 }
 
-function pn { set -x; for var in "$@"; do play -qn synth 2 pluck $var & sleep 0.25; done; set +x; wait }
-
-function _vlc {
-
-        VIDEOS=()
-
-        IFS=$'\n'
-        for line in $(ls **/*.mp4 **/*.MP4 **/*.mp3 **/*.MP3 **/*.OGV **/*.ogv *.mp4 *.mp3 *.ogv *.MP4 *.MP3 *.OGV); do
-                VIDEOS+=("$line")
-        done
-
-        FILES=$(printf "\n'%s'" "${VIDEOS[@]}")
-
-        eval "_describe 'command' \"($FILES)\""
-}
-
-
-compdef _vlc "vlc"
-
 function upgr {
 	sudo apt-get update &&
 	sudo apt-get -y upgrade &&
@@ -869,10 +850,11 @@ mcd () {
 }
 
 function mp4_to_gif {
-	ffmpeg \
-		-i $1 \
-		-r 15 \
-		$1.gif
+	if command -v ffmpeg 2>/dev/null >/dev/null; then
+		ffmpeg -i $1 -r 15 $1.gif
+	else
+		echo "Error: Cannot find ffmpeg. Try installing it."
+	fi
 }
 
 ytmp3 () {
