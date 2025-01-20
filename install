@@ -115,7 +115,9 @@ if command -v apt &> /dev/null; then
 		sudo apt install -y sqlite3
 		sudo apt install -y python3-pip
 		sudo apt install -y pdf2svg
+		sudo apt install -y texlive-full
 		sudo apt install -y texlive-extra-utils
+		sudo apt install -y kdenlive
 	fi
 fi
 
