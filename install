@@ -76,6 +76,7 @@ fi
 
 if command -v apt &> /dev/null; then
 	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
+		sudo dpkg --add-architecture i386
 		sudo apt update
 		sudo apt install -y arp-scan
 		sudo apt install -y aptitude
@@ -118,7 +119,7 @@ if command -v apt &> /dev/null; then
 		sudo apt install -y texlive-full
 		sudo apt install -y texlive-extra-utils
 		sudo apt install -y kdenlive
-		sudo apt install -y wine
+		sudo apt install -y wine wine32:i386
 		sudo usermod -aG docker $USER
 		curl -fsSL https://get.docker.com -o get-docker.sh | bash
 	fi
