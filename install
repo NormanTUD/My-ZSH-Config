@@ -121,8 +121,8 @@ if command -v apt &> /dev/null; then
 		sudo apt install -y kdenlive
 		sudo apt install -y wine wine32:i386
 		sudo apt install -y gdebi
-		sudo usermod -aG docker $USER
 		curl -fsSL https://get.docker.com -o get-docker.sh | bash
+		sudo usermod -aG docker $USER
 	fi
 fi
 
