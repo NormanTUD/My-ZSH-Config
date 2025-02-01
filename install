@@ -120,7 +120,7 @@ if command -v apt &> /dev/null; then
 		sudo apt install -y texlive-extra-utils
 		sudo apt install -y kdenlive
 		sudo apt install -y wine wine32:i386
-		sudo apt install -y gdebi
+		sudo apt install -y gdebi lame vorbis-tools flac libopus0 opus-tools k3b
 		curl -fsSL https://get.docker.com -o get-docker.sh | bash
 		sudo usermod -aG docker $USER
 	fi
