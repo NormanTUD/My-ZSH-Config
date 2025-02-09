@@ -80,6 +80,7 @@ if command -v apt &> /dev/null; then
 		sudo apt update
 		sudo apt install -y arp-scan
 		sudo apt install -y aptitude
+		sudo apt install -y phpmd
 		sudo apt install -y cmake
 		sudo apt install -y make
 		sudo apt install -y evince
