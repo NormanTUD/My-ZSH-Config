@@ -119,6 +119,7 @@ if command -v apt &> /dev/null; then
 		sudo apt install -y texlive-full
 		sudo apt install -y texlive-extra-utils
 		sudo apt install -y kdenlive
+		sudo apt install -y node-npm
 		sudo apt install -y wine wine32:i386
 		sudo apt install -y gdebi lame vorbis-tools flac libopus0 opus-tools k3b
 		curl -fsSL https://get.docker.com -o get-docker.sh | bash
