@@ -165,7 +165,6 @@ rtest () {
         set +x
 }
 
-
 if command -v yt-dlp >/dev/null; then
 	function download_transcription {
 		ID=$1
@@ -279,7 +278,6 @@ function myavg () {
       ')
       echo "$OUTPUT$OUTPUT2" | sed -e 's/^/| /' -e 's/,/,| /g' -e 's/$/,|/' | column -t -s,
 }
-
 
 if command -v mongo >/dev/null; then
 	function mongodbtojson {
@@ -603,7 +601,6 @@ function mc () {
 	cd $1
 }
 
-
 function forceumountcifs () { sudo umount -a -t cifs -l }
 
 function jc {
@@ -708,7 +705,6 @@ cut_domian() {
 		wget optimalbliss.de/domian.jpg
 	fi
 
-
 	set -x
 
 	TMPFILEFFMPEG=.$RANDOM.mp3
@@ -731,7 +727,6 @@ audiodomian () {
 		echo "First parameter cannot be empty, must be existing audio file"
 		return
 	fi
-
 
 	if [[ ! -e $inputfile ]]; then
 		echo "First parameter cannot be empty, must be existing audio file"
@@ -879,3 +874,59 @@ cpwd() {
 		echo "Error: Neither xclip (Linux) nor pbcopy (macOS) are available. Install one of them."
 	fi
 }
+
+if command -v squeue 2>/dev/null >/dev/null; then
+	alias sq="squeue --me"
+
+	function scancel_all {
+		for i in $(squeue --me | grep -v JOBID | sed -e 's#^\s*##' -e 's#\s.*##'); do
+			scancel $i
+		done
+	}
+fi
+
+if [[ -d $HOME/bin/ ]]; then
+	PATH="$PATH:$HOME/bin/"
+fi
+
+function ft {
+	tail -n1000000 -f $1
+}
+
+if command -v sbatch 2>/dev/null >/dev/null; then
+	function _scancel {
+		SQUEUE_OUTPUT=$(squeue -o "%i:%j" -u $USER | grep -v "JOBID:NAME")
+		SCANCEL_COMMANDS=(
+			'--signal=:Signal type (USR1, USR2, INT etc.)'
+			'--batch:Send signal to all batch steps'
+		)
+
+		while IFS= read -r line; do
+			if [[ ! -z $line ]]; then
+				SCANCEL_COMMANDS+=("$line")
+			fi
+		done <<< "$SQUEUE_OUTPUT"
+		SCANCEL_COMMANDS_STR=$(printf "\n'%s'" "${SCANCEL_COMMANDS[@]}")
+		eval "_describe 'command' \"($SCANCEL_COMMANDS_STR)\""
+	}
+
+	compdef _scancel "scancel"
+fi
+
+if command -v ml 2>/dev/null >/dev/null; then
+	function _ml {
+		ML_COMMANDS=(
+			'-t:Show computer parsable output'
+			'unload:Unload a Module'
+			'spider:Search for a module'
+			'avail:Show available modules'
+			'list:List loaded modules'
+		)
+		ML_COMMANDS_STR=$(printf "\n'%s'" "${ML_COMMANDS[@]}")
+		eval "_describe 'command' \"($ML_COMMANDS_STR)\""
+		_values -s ' ' 'flags' $(ml -t avail | sed -e 's#/$##' | tr '\n' ' ')
+	}
+
+	compdef _ml "ml"
+fi
+
