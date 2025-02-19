@@ -79,9 +79,11 @@ fi
 
 if command -v apt &> /dev/null; then
 	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
+		sudo dpkg --add-architecture i386
 		sudo apt update
 		sudo apt install -y arp-scan
 		sudo apt install -y aptitude
+		sudo apt install -y phpmd
 		sudo apt install -y cmake
 		sudo apt install -y make
 		sudo apt install -y evince
@@ -116,6 +118,19 @@ if command -v apt &> /dev/null; then
 		sudo apt install -y xprintidle
 		sudo apt install -y etckeeper
 		sudo apt install -y sqlite3
+		sudo apt install -y python3-pip
+		sudo apt install -y pdf2svg
+		sudo apt install -y texlive-full
+		sudo apt install -y texlive-extra-utils
+		sudo apt install -y kdenlive
+		sudo apt install -y node-npm
+		sudo apt install -y net-tools
+		sudo apt install -y wine wine32:i386
+		sudo apt install -y gdebi lame vorbis-tools flac libopus0 opus-tools k3b
+		sudo apt install -y golang-go
+		go install github.com/claudiodangelis/qrcp@latest
+		curl -fsSL https://get.docker.com -o get-docker.sh | bash
+		sudo usermod -aG docker $USER
 	fi
 fi
 

@@ -153,17 +153,6 @@ fi
 export http_proxy=
 export https_proxy=
 
-function randomtest {
-	set -x
-	RANDOMNUMBER=$(shuf -i 1-100000 -n 1)
-	while [[ -e "$HOME/test/randomtest_$RANDOMNUMBER" ]]; do
-		RANDOMNUMBER=$(shuf -i 1-100000 -n 1)
-	done
-	mkdir -p "$HOME/test/randomtest_$RANDOMNUMBER"
-	cd "$HOME/test/randomtest_$RANDOMNUMBER"
-	set +x
-}
-
 rtest () {
         set -x
         RANDOMNUMBER=$(shuf -i 1-100000 -n 1)
@@ -176,8 +165,7 @@ rtest () {
         set +x
 }
 
-
-if command -v youtube-dl >/dev/null; then
+if command -v yt-dlp >/dev/null; then
 	function download_transcription {
 		ID=$1
 		LANG=$2
@@ -186,7 +174,7 @@ if command -v youtube-dl >/dev/null; then
 			INSTALL=en
 		fi
 
-		youtube-dl --write-sub --sub-lang $LANG --skip-download $ID
+		yt-dlp --write-sub --sub-lang $LANG --skip-download $ID
 	}
 fi
 
@@ -218,10 +206,6 @@ function treesize {
 		print $0;
 		}
 	'
-}
-
-function pretty_csv {
-    perl -pe 's/((?<=,)|(?<=^)),/ ,/g;' "$@" | column -t -s, | less  -F -S -X -K
 }
 
 function mytail { tail -n1000000 -f *$1* }
@@ -294,7 +278,6 @@ function myavg () {
       ')
       echo "$OUTPUT$OUTPUT2" | sed -e 's/^/| /' -e 's/,/,| /g' -e 's/$/,|/' | column -t -s,
 }
-
 
 if command -v mongo >/dev/null; then
 	function mongodbtojson {
@@ -569,7 +552,7 @@ function youtube_playlist_previewer {
 
         TMPFILE=$RANDOM.txt
 
-        youtube-dl -j --flat-playlist $PLAYLIST | jq -r '.id' > $TMPFILE
+        yt-dlp -j --flat-playlist $PLAYLIST | jq -r '.id' > $TMPFILE
 
         FILENAME=index.html
 
@@ -587,7 +570,7 @@ function youtube_playlist_previewer {
                 $id = $_; 
                 $title = q##;
                 if(!-e qq#.$id# || -z qq#.$id#) {
-                        system(qq#youtube-dl --get-filename -o "%(title)s" -- $id > .$id#);
+                        system(qq#yt-dlp --get-filename -o "%(title)s" -- $id > .$id#);
                 }
                 $title = qx(cat .$id);
                 print qq#<a href="https://youtube.com/watch?v=$id"><img src="https://i.ytimg.com/vi/$id/hqdefault.jpg" width="150px"><div class="caption">$title</div></a>\n#;
@@ -617,7 +600,6 @@ function mc () {
 	mkdir $1
 	cd $1
 }
-
 
 function forceumountcifs () { sudo umount -a -t cifs -l }
 
@@ -691,6 +673,16 @@ function arp {
 	fi
 }
 
+yt () {
+	if ! command -v yt-dlp 2>/dev/null >/dev/null; then
+		curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ~/.local/bin/yt-dlp
+		mkdir -p $HOME/.local/bin/
+		chmod a+rx $HOME/.local/bin/yt-dlp
+		export PATH
+	fi
+
+	yt-dlp $*
+}
 
 cut_domian() {
 	set -x
@@ -707,12 +699,11 @@ cut_domian() {
 	outputfilename="$outputfilename.mp4"
 
 	TMPFILEYTDL=".$RANDOM.mp3"
-	youtube-dl -i -x --audio-format mp3 --audio-quality 0  $1 --output=$TMPFILEYTDL
+	yt -i -x --audio-format mp3 --audio-quality 0  $1 --output=$TMPFILEYTDL
 
 	if [[ ! -e domian.jpg ]]; then
 		wget optimalbliss.de/domian.jpg
 	fi
-
 
 	set -x
 
@@ -736,7 +727,6 @@ audiodomian () {
 		echo "First parameter cannot be empty, must be existing audio file"
 		return
 	fi
-
 
 	if [[ ! -e $inputfile ]]; then
 		echo "First parameter cannot be empty, must be existing audio file"
@@ -828,30 +818,11 @@ function merge_all_out_pdfs {
         pdftk *.pdf cat output gesamt.pdf
 }
 
-function pn { set -x; for var in "$@"; do play -qn synth 2 pluck $var & sleep 0.25; done; set +x; wait }
-
-function _vlc {
-
-        VIDEOS=()
-
-        IFS=$'\n'
-        for line in $(ls **/*.mp4 **/*.MP4 **/*.mp3 **/*.MP3 **/*.OGV **/*.ogv *.mp4 *.mp3 *.ogv *.MP4 *.MP3 *.OGV); do
-                VIDEOS+=("$line")
-        done
-
-        FILES=$(printf "\n'%s'" "${VIDEOS[@]}")
-
-        eval "_describe 'command' \"($FILES)\""
-}
-
-
-compdef _vlc "vlc"
-
 function upgr {
 	sudo apt-get update &&
 	sudo apt-get -y upgrade &&
 	sudo apt-get autoremove &&
-	sudo apt-get upgrade linux-headers-amd64 linux-image-amd64 &&
+	sudo apt-get upgrade -y linux-headers-amd64 linux-image-amd64 &&
 	sudo apt-get autoremove
 	sudo apt-get -y upgrade &&
 	sudo apt-get upgrade linux-headers-amd64 linux-image-amd64
@@ -863,12 +834,99 @@ mcd () {
 }
 
 function mp4_to_gif {
-	ffmpeg \
-		-i $1 \
-		-r 15 \
-		$1.gif
+	if command -v ffmpeg 2>/dev/null >/dev/null; then
+		ffmpeg -i $1 -r 15 $1.gif
+	else
+		echo "Error: Cannot find ffmpeg. Try installing it."
+	fi
 }
 
 ytmp3 () {
-        yt-dlp -x --audio-format mp3 --audio-quality 0 $*
+        yt -x --audio-format mp3 --audio-quality 0 $*
 }
+
+PATH=/home/$USER/.local/bin:/home/$USER/repos/smartlocate:$PATH
+
+function keep_idle {
+	SLEEPTIME=${1:-60}
+
+	while true; do
+	    eval $(xdotool getmouselocation --shell)
+	    
+	    IDLETIME=$(xprintidle)
+	    IDLETIME=$(($IDLETIME/1000))
+	    if [[ $IDLETIME -gt $SLEEPTIME ]]; then
+		xdotool mousemove $X $((Y-1))
+	    fi
+
+	    sleep $SLEEPTIME
+	done
+}
+
+cpwd() {
+	if command -v xclip &>/dev/null; then
+		pwd | xclip -selection clipboard
+		echo "Current path was copied to the clipboard"
+	elif command -v pbcopy &>/dev/null; then
+		pwd | pbcopy
+		echo "Current path was copied to the clipboard"
+	else
+		echo "Error: Neither xclip (Linux) nor pbcopy (macOS) are available. Install one of them."
+	fi
+}
+
+if command -v squeue 2>/dev/null >/dev/null; then
+	alias sq="squeue --me"
+
+	function scancel_all {
+		for i in $(squeue --me | grep -v JOBID | sed -e 's#^\s*##' -e 's#\s.*##'); do
+			scancel $i
+		done
+	}
+fi
+
+if [[ -d $HOME/bin/ ]]; then
+	PATH="$PATH:$HOME/bin/"
+fi
+
+function ft {
+	tail -n1000000 -f $1
+}
+
+if command -v sbatch 2>/dev/null >/dev/null; then
+	function _scancel {
+		SQUEUE_OUTPUT=$(squeue -o "%i:%j" -u $USER | grep -v "JOBID:NAME")
+		SCANCEL_COMMANDS=(
+			'--signal=:Signal type (USR1, USR2, INT etc.)'
+			'--batch:Send signal to all batch steps'
+		)
+
+		while IFS= read -r line; do
+			if [[ ! -z $line ]]; then
+				SCANCEL_COMMANDS+=("$line")
+			fi
+		done <<< "$SQUEUE_OUTPUT"
+		SCANCEL_COMMANDS_STR=$(printf "\n'%s'" "${SCANCEL_COMMANDS[@]}")
+		eval "_describe 'command' \"($SCANCEL_COMMANDS_STR)\""
+	}
+
+	compdef _scancel "scancel"
+fi
+
+if command -v ml 2>/dev/null >/dev/null; then
+	function _ml {
+		ML_COMMANDS=(
+			'-t:Show computer parsable output'
+			'unload:Unload a Module'
+			'spider:Search for a module'
+			'avail:Show available modules'
+			'list:List loaded modules'
+		)
+		ML_COMMANDS_STR=$(printf "\n'%s'" "${ML_COMMANDS[@]}")
+		eval "_describe 'command' \"($ML_COMMANDS_STR)\""
+		_values -s ' ' 'flags' $(ml -t avail | sed -e 's#/$##' | tr '\n' ' ')
+	}
+
+	compdef _ml "ml"
+fi
+
