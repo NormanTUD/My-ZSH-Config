@@ -82,7 +82,7 @@ function _apt_install {
 			fi
 
 			green_text "[$progress%] Installing $package..."
-			sudo dpkg --configure -a
+			sudo dpkg --configure -a 2>/dev/null >/dev/null
 			sudo apt-get -y install "$package" >/dev/null
 		fi
 	done
@@ -196,7 +196,7 @@ if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
 	fi
 
 	green_text "Just in case anything failed, I will reconfigure dpkg-packages now..."
-	sudo dpkg --configure -a
+	sudo dpkg --configure -a 2>/dev/null >/dev/null
 	green_text "Done reconfiguring dpkg-packages"
 
 	green_text "Autoremoving old dependencies"
