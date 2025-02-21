@@ -70,6 +70,8 @@ function dpkg_reconfigure {
 		red_text "sudo dpkg --configure -a failed with exit-code $exit_code. Trying again, but this time, showing the output:"
 		sudo dpkg --configure -a
 
+		kill_all_background_jobs
+
 		exit $?
 	fi
 	set -e
