@@ -58,6 +58,12 @@ backup_file() {
 	fi
 }
 
+function dpkg_reconfigure {
+	green_text "Reconfiguring dpkg-packages..."
+	sudo dpkg --configure -a 2>/dev/null >/dev/null
+	green_text "Done reconfiguring dpkg-packages"
+}
+
 APT_INSTALL_QUEUE=()
 
 function apt_install {
@@ -84,7 +90,7 @@ function _apt_install {
 			fi
 
 			green_text "[$progress%] Installing $package..."
-			sudo dpkg --configure -a 2>/dev/null >/dev/null
+			dpkg_reconfigure
 			sudo apt-get -yqq install "$package" >/dev/null
 			green_text "[$progress%] $package installed!"
 		fi
@@ -148,7 +154,9 @@ if [[ $has_root_rights -eq 1 ]]; then
 	fi
 
 	if [[ $install_usefull_stuff -eq 1 ]]; then
+		green_text "Adding i386-architecture"
 		sudo dpkg --add-architecture i386
+		green_text "Done adding i386-architecture"
 
 		if ! command -v docker 2>/dev/null >/dev/null; then
 			green_text "Installing docker..."
@@ -209,9 +217,7 @@ if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
 		go install github.com/claudiodangelis/qrcp@latest >/dev/null 2>/dev/null
 	fi
 
-	green_text "Just in case anything failed, I will reconfigure dpkg-packages now..."
-	sudo dpkg --configure -a 2>/dev/null >/dev/null
-	green_text "Done reconfiguring dpkg-packages"
+	dpkg_reconfigure
 
 	green_text "Autoremoving old stuff"
 	sudo apt autoremove 2>/dev/null >/dev/null
