@@ -54,6 +54,7 @@ if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not,
 	HASROOTRIGHTS=1
 
 	sudo groupadd docker 2>/dev/null >/dev/null || true
+	sudo usermod -aG docker $USER  2>/dev/null >/dev/null || true
 
 	apt_install whiptail curl zsh vim git exa hstr
 
@@ -108,6 +109,9 @@ fi
 if command -v apt &> /dev/null; then
 	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
 		sudo dpkg --add-architecture i386
+
+		curl -fsSL https://get.docker.com -o get-docker.sh | bash
+
 		apt_install arp-scan \
 			aptitude \
 			phpmd \
@@ -147,8 +151,6 @@ if command -v apt &> /dev/null; then
 			texlive-extra-utils \
 			thunderbird
 		go install github.com/claudiodangelis/qrcp@latest
-		curl -fsSL https://get.docker.com -o get-docker.sh | bash
-		sudo usermod -aG docker $USER
 	fi
 fi
 
