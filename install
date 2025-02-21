@@ -175,13 +175,6 @@ if [[ $has_root_rights -eq 1 ]]; then
 			texlive-full \
 			texlive-extra-utils \
 			thunderbird
-		go install github.com/claudiodangelis/qrcp@latest
-
-		green_text "Autoremoving old dependencies"
-		sudo apt autoremove 2>/dev/null >/dev/null
-
-		green_text "Cleaning apt cache"
-		sudo apt clean 2>/dev/null >/dev/null
 	fi
 else
 	red_text "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"
@@ -245,6 +238,21 @@ if [[ $install_vim_stuff -eq 1 ]]; then
 		git clone --depth 1 https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-airline 2>/dev/null >/dev/null
 		green_text "Cloned vim-airline"
 	fi
+fi
+
+if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
+	_apt_install
+
+	if command -v go >/dev/null 2>/dev/null; then
+		green_text "Installing qrcp"
+		go install github.com/claudiodangelis/qrcp@latest >/dev/null 2>/dev/null
+	fi
+
+	green_text "Autoremoving old dependencies"
+	sudo apt autoremove 2>/dev/null >/dev/null
+
+	green_text "Cleaning apt cache"
+	sudo apt clean 2>/dev/null >/dev/null
 fi
 
 echo ""
