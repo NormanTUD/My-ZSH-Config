@@ -70,8 +70,6 @@ function dpkg_reconfigure {
 		red_text "sudo dpkg --configure -a failed with exit-code $exit_code. Trying again, but this time, showing the output:"
 		sudo dpkg --configure -a
 
-		kill_all_background_jobs
-
 		exit $?
 	fi
 	set -e
@@ -88,14 +86,6 @@ APT_INSTALL_QUEUE=()
 
 function apt_install {
 	APT_INSTALL_QUEUE+=("$@")
-}
-
-function kill_all_background_jobs {
-	if [[ $(jobs | wc -l) -gt 0 ]]; then
-		for job_id in $(seq 0 $(jobs | wc -l)); do
-			eval "kill %$job_id"
-		done
-	fi
 }
 
 function _apt_install {
@@ -327,7 +317,3 @@ fi
 echo ""
 green_text "Done! Restart your system for everything to take effect."
 echo ""
-
-if [[ $has_root_rights -eq 1 ]]; then
-	kill_all_background_jobs
-fi
