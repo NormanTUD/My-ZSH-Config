@@ -100,7 +100,7 @@ if command -v apt &> /dev/null; then
 			cmake \
 			make \
 			evince \
-			ffmpeg
+			ffmpeg \
 			flatpak \
 			inkscape \
 			kcolorchooser \
