@@ -100,9 +100,6 @@ if command -v apt &> /dev/null; then
 		sudo apt install -y kompare
 		sudo apt install -y libopenglrecorder
 		sudo apt install -y libsdl2-dev
-		sudo apt install -y shaderc
-		sudo apt install -y libshaderc1
-		sudo apt install -y libshaderc-dev
 		sudo apt install -y locate
 		sudo apt install -y php
 		sudo apt install -y php-mbstring
