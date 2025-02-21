@@ -195,6 +195,10 @@ if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
 		go install github.com/claudiodangelis/qrcp@latest >/dev/null 2>/dev/null
 	fi
 
+	green_text "Just in case anything failed, I will reconfigure dpkg-packages now..."
+	sudo dpkg --configure -a
+	green_text "Done reconfiguring dpkg-packages"
+
 	green_text "Autoremoving old dependencies"
 	sudo apt autoremove 2>/dev/null >/dev/null
 	green_text "Done autoremoving old dependencies"
