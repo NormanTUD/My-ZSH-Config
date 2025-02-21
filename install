@@ -11,14 +11,13 @@ if ! command -v dpkg >/dev/null 2>/dev/null; then
 	exit 1
 fi
 
-
-if ! command -v sudo >/dev/null 2>/dev/null; then
-	red_text "sudo not found. Please install it first."
+if ! command -v apt >/dev/null 2>/dev/null; then
+	red_text "apt not found. This installer only works on debian-based systems."
 	exit 1
 fi
 
-if ! command -v apt >/dev/null 2>/dev/null; then
-	red_text "apt not found. This installer only works on debian-based systems."
+if ! command -v git >/dev/null 2>/dev/null; then
+	red_text "git not found. Please install it first."
 	exit 1
 fi
 
@@ -47,6 +46,7 @@ backup_file() {
 	local backup="${file}_ORIGINAL"
 	local counter=1
 
+	green_text "Backing up file $file"
 	if [ -e "$file" ]; then
 		while [ -e "${backup}.${counter}" ]; do
 			((counter++))
@@ -199,28 +199,34 @@ if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
 
 	green_text "Autoremoving old dependencies"
 	sudo apt autoremove 2>/dev/null >/dev/null
+	green_text "Done autoremoving old dependencies"
 
 	green_text "Cleaning apt cache"
 	sudo apt clean 2>/dev/null >/dev/null
+	green_text "Done cleaning apt cache"
 fi
 
 if command -v zsh &> /dev/null; then
 	backup_file ~/.zshrc
 	backup_file ~/.zsh
 
+	green_text "Copying zshrc"
 	cp zshrc ~/.zshrc
+
+	green_text "Copying oh-my-zsh-folder"
 	cp -r oh-my-zsh ~/.oh-my-zsh
 	cp -r oh-my-zsh/plugins/zsh-syntax-highlighting/highlighters ~/.oh-my-zsh/plugins/zsh-syntax-highlighting/
-	if command -v git &> /dev/null; then
-		if [[ ! -d $HOME/.oh-my-zsh/plugins/zsh-autosuggestions ]]; then
-			git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.oh-my-zsh/plugins/zsh-autosuggestions 2>/dev/null >/dev/null
-		fi
-	else
-		red_text "Without git, autosuggestions cannot be cloned"
+
+	if [[ ! -d $HOME/.oh-my-zsh/plugins/zsh-autosuggestions ]]; then
+		green_text "Cloning zsh-autosuggestions..."
+		git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.oh-my-zsh/plugins/zsh-autosuggestions 2>/dev/null >/dev/null
+		green_text "Done cloning zsh-autosuggestions"
 	fi
 
+	green_text "Copying powerlevel10k..."
 	cp -r p10k.zsh ~/.p10k.zsh
 	cp -r powerlevel10k/ ~/.powerlevel10k/
+	green_text "Done copying powerlevel10k"
 
 	if [[ $set_zsh_to_default -eq 1 ]]; then
 		green_text "Enter your password for setting Zsh as default shell"
@@ -232,18 +238,9 @@ else
 fi
 
 if [[ $install_vim_stuff -eq 1 ]]; then
-	if [ -f ~/.vimrc ]; then
-		backup=~/.vimrc_ORIGINAL
-		counter=1
-
-		while [ -f "${backup}.${counter}" ]; do
-			((counter++))
-		done
-
-		mv ~/.vimrc "${backup}.${counter}"
-		green_text "Moved ~/.vimrc to ${backup}.${counter}"
-	fi
-
+	backup_file ~/.vimrc
+	backup_file ~/.vim
+	backup_file ~/.vim_runtime
 
 	cp -r vim_runtime ~/.vim_runtime
 	cp -r vimrc ~/.vimrc
@@ -254,7 +251,10 @@ if [[ $install_vim_stuff -eq 1 ]]; then
 		green_text "Cloning vim-surround..."
 		git clone --depth 1 https://tpope.io/vim/surround.git 2>/dev/null >/dev/null
 		green_text "Cloned vim-surround"
+
+		green_text "Initalizing helptags for surround/doc"
 		vim -u NONE -c "helptags surround/doc" -c q
+		green_text "Done initalizing helptags for surround/doc"
 	fi
 
 	if [[ ! -d ~/.vim/pack/dist/start/vim-airline ]]; then
