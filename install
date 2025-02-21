@@ -85,7 +85,7 @@ function _apt_install {
 
 			green_text "[$progress%] Installing $package..."
 			sudo dpkg --configure -a 2>/dev/null >/dev/null
-			sudo apt-get -yqq install "$package" >/dev/null
+			sudo apt-get -yq install "$package" >/dev/null
 		fi
 	done
 
