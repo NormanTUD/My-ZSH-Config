@@ -73,6 +73,7 @@ fi
 
 
 install_vim_stuff=0
+install_usefull_stuff=0
 
 if command -v vim &> /dev/null; then
 	if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This installs a sane vim environment." 8 78); then
@@ -80,6 +81,12 @@ if command -v vim &> /dev/null; then
 	fi
 else
 	red_text "vim does not seem to be installed"
+fi
+
+if command -v apt &> /dev/null; then
+	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
+		install_usefull_stuff=1
+	fi
 fi
 
 if command -v zsh &> /dev/null; then
@@ -123,55 +130,53 @@ else
 	red_text "ZSH does not seem to be installed correctly."
 fi
 
-if command -v apt &> /dev/null; then
-	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
-		sudo dpkg --add-architecture i386
+if [[ $install_usefull_stuff -eq 1 ]]; then
+	sudo dpkg --add-architecture i386
 
-		curl -fsSL https://get.docker.com -o get-docker.sh | bash
+	curl -fsSL https://get.docker.com -o get-docker.sh | bash
 
-		apt_install arp-scan \
-			aptitude \
-			phpmd \
-			cmake \
-			make \
-			evince \
-			ffmpeg \
-			flatpak \
-			inkscape \
-			kcolorchooser \
-			kdeconnect \
-			kompare \
-			libsdl2-dev \
-			locate \
-			php \
-			php-mbstring \
-			plotutils \
-			pv \
-			gnuplot \
-			python3 python3-pip python3-venv python3-rich \
-			simplescreenrecorder \
-			speedcrunch \
-			uuid-runtime \
-			xdotool \
-			xprintidle \
-			etckeeper \
-			sqlite3 \
-			pdf2svg \
-			kdenlive \
-			node-npm \
-			net-tools \
-			wine wine32:i386 \
-			gdebi lame vorbis-tools flac libopus0 opus-tools k3b \
-			fonts-powerline \
-			golang-go \
-			texlive-full \
-			texlive-extra-utils \
-			thunderbird
-		go install github.com/claudiodangelis/qrcp@latest
+	apt_install arp-scan \
+		aptitude \
+		phpmd \
+		cmake \
+		make \
+		evince \
+		ffmpeg \
+		flatpak \
+		inkscape \
+		kcolorchooser \
+		kdeconnect \
+		kompare \
+		libsdl2-dev \
+		locate \
+		php \
+		php-mbstring \
+		plotutils \
+		pv \
+		gnuplot \
+		python3 python3-pip python3-venv python3-rich \
+		simplescreenrecorder \
+		speedcrunch \
+		uuid-runtime \
+		xdotool \
+		xprintidle \
+		etckeeper \
+		sqlite3 \
+		pdf2svg \
+		kdenlive \
+		node-npm \
+		net-tools \
+		wine wine32:i386 \
+		gdebi lame vorbis-tools flac libopus0 opus-tools k3b \
+		fonts-powerline \
+		golang-go \
+		texlive-full \
+		texlive-extra-utils \
+		thunderbird
+	go install github.com/claudiodangelis/qrcp@latest
 
-		apt-get autoremove 2>/dev/null >/dev/null
-		apt-get clean 2>/dev/null >/dev/null
-	fi
+	apt-get autoremove 2>/dev/null >/dev/null
+	apt-get clean 2>/dev/null >/dev/null
 fi
 
 if [[ $install_vim_stuff -eq 1 ]]; then
@@ -198,7 +203,6 @@ if [[ $install_vim_stuff -eq 1 ]]; then
 		green_text "Cloned vim-airline"
 	fi
 fi
-
 
 green_text "Done!"
 echo ""
