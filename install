@@ -156,7 +156,6 @@ if [[ $has_root_rights -eq 1 ]]; then
 			sqlite3 \
 			pdf2svg \
 			kdenlive \
-			node-npm \
 			net-tools \
 			wine wine32:i386 \
 			gdebi lame vorbis-tools flac libopus0 opus-tools k3b \
