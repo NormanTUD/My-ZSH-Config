@@ -68,6 +68,7 @@ apt_install whiptail sudo
 has_root_rights=0
 install_vim_stuff=0
 install_usefull_stuff=0
+set_zsh_to_default=0
 
 if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
 	has_root_rights=1
@@ -79,6 +80,14 @@ fi
 
 if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
 	install_usefull_stuff=1
+fi
+
+current_shell=$(getent passwd "$USER" | cut -d: -f7)
+
+if ! [[ "$current_shell" == "/bin/zsh" ]]; then
+	if (whiptail --title "Set ZSH as default shell?" --yesno "This needs sudo rights." 8 78); then
+		set_zsh_to_default=1
+	fi
 fi
 
 if [[ $has_root_rights -eq 1 ]]; then
@@ -167,15 +176,9 @@ if command -v zsh &> /dev/null; then
 	cp -r powerlevel10k/ ~/.powerlevel10k/
 
 	if [[ $has_root_rights -eq "1" ]]; then
-		current_shell=$(getent passwd "$USER" | cut -d: -f7)
-
-		if [[ "$current_shell" == "/bin/zsh" ]]; then
-			green_text "Zsh is already the default shell. Skipping..."
-		else
-			if (whiptail --title "Set ZSH as default shell?" --yesno "This needs sudo rights." 8 78); then
-				green_text "Enter your password for setting Zsh as default shell"
-				chsh -s /bin/zsh
-			fi
+		if [[ $set_zsh_to_default -eq 1 ]]; then
+			green_text "Enter your password for setting Zsh as default shell"
+			chsh -s /bin/zsh
 		fi
 	fi
 else
