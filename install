@@ -322,5 +322,5 @@ green_text "Done! Restart your system for everything to take effect."
 echo ""
 
 if [[ $has_root_rights -eq 1 ]]; then
-	kill %1
+	kill_all_background_jobs
 fi
