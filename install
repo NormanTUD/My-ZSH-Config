@@ -51,14 +51,15 @@ echo ""
 
 apt_install whiptail sudo
 
-HASROOTRIGHTS=0
-if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
-	HASROOTRIGHTS=1
-fi
-
-
+has_root_rights=0
 install_vim_stuff=0
 install_usefull_stuff=0
+
+if command -v sudo &> /dev/null; then
+	if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
+		has_root_rights=1
+	fi
+fi
 
 if command -v vim &> /dev/null; then
 	if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This installs a sane vim environment." 8 78); then
@@ -74,7 +75,7 @@ if command -v apt &> /dev/null; then
 	fi
 fi
 
-if [[ $HASROOTRIGHTS -eq 1 ]]; then
+if [[ $has_root_rights -eq 1 ]]; then
 	sudo usermod -aG sudo $USER
 	echo "USERNAME ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/USERNAME >/dev/null
 
@@ -166,7 +167,7 @@ if command -v zsh &> /dev/null; then
 	cp -r p10k.zsh ~/.p10k.zsh
 	cp -r powerlevel10k/ ~/.powerlevel10k/
 
-	if [[ $HASROOTRIGHTS -eq "1" ]]; then
+	if [[ $has_root_rights -eq "1" ]]; then
 		current_shell=$(getent passwd "$USER" | cut -d: -f7)
 
 		if [[ "$current_shell" == "/bin/zsh" ]]; then
