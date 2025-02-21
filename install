@@ -104,6 +104,7 @@ APT_INSTALL_QUEUE=()
 has_root_rights=0
 install_vim_stuff=0
 install_usefull_stuff=0
+install_latex=0
 set_zsh_to_default=0
 
 if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
@@ -117,6 +118,10 @@ fi
 if [[ $has_root_rights -eq 1 ]]; then
 	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
 		install_usefull_stuff=1
+	fi
+
+	if (whiptail --title "Do you want to install LaTeX?" --yesno "This installs LaTeX." 8 78); then
+		install_latex=1
 	fi
 fi
 
@@ -181,9 +186,12 @@ if [[ $has_root_rights -eq 1 ]]; then
 			gdebi lame vorbis-tools flac opus-tools k3b \
 			fonts-powerline \
 			golang-go \
-			texlive-full \
-			texlive-extra-utils \
 			thunderbird
+	fi
+
+	if [[ $install_latex -eq 1 ]]; then
+		apt_install texlive-full \
+			texlive-extra-utils
 	fi
 else
 	red_text "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"
