@@ -73,12 +73,8 @@ if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not,
 	has_root_rights=1
 fi
 
-if command -v vim &> /dev/null; then
-	if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This installs a sane vim environment." 8 78); then
-		install_vim_stuff=1
-	fi
-else
-	red_text "vim does not seem to be installed"
+if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This installs a sane vim environment." 8 78); then
+	install_vim_stuff=1
 fi
 
 if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
