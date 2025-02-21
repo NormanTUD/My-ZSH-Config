@@ -20,6 +20,21 @@ function green_text {
 	echo -ne "\r\033[1;32m$1\033[0m\033[K"
 }
 
+function calltracer {
+	exit_code=$?
+
+	LINE_AND_FUNCTION="$(caller)"
+	if [[ "$LINE_AND_FUNCTION" != *"./omniopt"* ]] && [[ "$LINE_AND_FUNCTION" != *"./.tests/main_tests"* ]]; then
+		red_text "Error occurred in file/line: $LINE_AND_FUNCTION"
+	fi
+
+	echo ""
+	caller
+	echo "Runtime (calltracer): $(displaytime $SECONDS), PID: $$"
+}
+
+trap 'calltracer' ERR
+
 APT_UPDATE_DONE=0
 
 backup_file() {
