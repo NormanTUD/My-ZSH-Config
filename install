@@ -158,7 +158,7 @@ if [[ $has_root_rights -eq 1 ]]; then
 			kdenlive \
 			net-tools \
 			wine wine32:i386 \
-			gdebi lame vorbis-tools flac libopus0 opus-tools k3b \
+			gdebi lame vorbis-tools flac opus-tools k3b \
 			fonts-powerline \
 			golang-go \
 			texlive-full \
