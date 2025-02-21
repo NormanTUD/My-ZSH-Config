@@ -93,8 +93,10 @@ if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This 
 	install_vim_stuff=1
 fi
 
-if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
-	install_usefull_stuff=1
+if [[ $has_root_rights -eq 1 ]]; then
+	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
+		install_usefull_stuff=1
+	fi
 fi
 
 current_shell=$(getent passwd "$USER" | cut -d: -f7)
