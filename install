@@ -51,7 +51,7 @@ HASROOTRIGHTS=0
 if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
 	HASROOTRIGHTS=1
 
-	sudo groupadd docker || true 2>/dev/null >/dev/null
+	sudo groupadd docker 2>/dev/null >/dev/null || true
 
 	apt_install whiptail curl zsh vim git exa hstr
 
