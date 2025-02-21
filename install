@@ -29,6 +29,9 @@ green_text "My-ZSH-Config installer for Debian based systems"
 HASROOTRIGHTS=0
 if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
 	HASROOTRIGHTS=1
+
+	sudo groupadd docker
+
 	install_if_not_exists "whiptail"
 	install_if_not_exists "curl"
 	install_if_not_exists "zsh"
