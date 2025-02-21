@@ -110,7 +110,7 @@ function _apt_install {
 green_text "My-ZSH-Config installer for Debian based systems"
 echo ""
 
-apt_install whiptail sudo curl bash
+apt_install whiptail sudo curl
 _apt_install
 
 APT_INSTALL_QUEUE=()
