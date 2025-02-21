@@ -157,6 +157,9 @@ if command -v apt &> /dev/null; then
 			texlive-extra-utils \
 			thunderbird
 		go install github.com/claudiodangelis/qrcp@latest
+
+		apt-get autoremove 2>/dev/null >/dev/null
+		apt-get clean 2>/dev/null >/dev/null
 	fi
 fi
 
