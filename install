@@ -17,7 +17,7 @@ if ! command -v apt >/dev/null 2>/dev/null; then
 fi
 
 function green_text {
-	echo -e "\e[46m\e[103m$1\e[0m"
+	echo -ne "\r\033[K\033[1;32m$1\033[0m\n"
 }
 
 APT_UPDATE_DONE=0
