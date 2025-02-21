@@ -20,7 +20,14 @@ function green_text {
 	echo -e "\e[46m\e[103m$1\e[0m"
 }
 
+APT_UPDATE_DONE=0
+
 function apt_install {
+	if [[ APT_UPDATE_DONE -eq 0 ]]; then
+		sudo apt update
+
+		APT_UPDATE_DONE=1
+	fi
 	for package in "$@"; do
 		sudo apt-get -y install $package >/dev/null
 	done
@@ -100,7 +107,6 @@ fi
 if command -v apt &> /dev/null; then
 	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
 		sudo dpkg --add-architecture i386
-		sudo apt update
 		apt_install arp-scan
 		apt_install aptitude
 		apt_install phpmd
