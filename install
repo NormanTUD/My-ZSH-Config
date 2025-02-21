@@ -90,9 +90,15 @@ if command -v zsh &> /dev/null; then
 	cp -r powerlevel10k/ ~/.powerlevel10k/
 
 	if [[ $HASROOTRIGHTS -eq "1" ]]; then
-		if (whiptail --title "Set ZSH as default shell?" --yesno "This needs sudo rights." 8 78); then
-			green_text "Enter your password for setting zsh as default shell"
-			chsh -s /bin/zsh
+		current_shell=$(getent passwd "$USER" | cut -d: -f7)
+
+		if [[ "$current_shell" == "/bin/zsh" ]]; then
+			green_text "Zsh is already the default shell. Skipping..."
+		else
+			if (whiptail --title "Set ZSH as default shell?" --yesno "This needs sudo rights." 8 78); then
+				green_text "Enter your password for setting Zsh as default shell"
+				chsh -s /bin/zsh
+			fi
 		fi
 	fi
 else
