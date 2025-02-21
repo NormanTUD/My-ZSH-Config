@@ -87,6 +87,12 @@ function apt_install {
 	APT_INSTALL_QUEUE+=("$@")
 }
 
+function kill_all_background_jobs {
+	for $job_id in $(seq 0 $(jobs | wc -l)); do
+		eval "kill %$job_id"
+	done
+}
+
 function _apt_install {
 	total_packages=${#APT_INSTALL_QUEUE[@]}
 	installed=0
