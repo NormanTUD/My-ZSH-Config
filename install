@@ -71,6 +71,17 @@ else
 	red_text "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"
 fi
 
+
+install_vim_stuff=0
+
+if command -v vim &> /dev/null; then
+	if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This installs a sane vim environment." 8 78); then
+		install_vim_stuff=1
+	fi
+else
+	red_text "vim does not seem to be installed"
+fi
+
 if command -v zsh &> /dev/null; then
 	if [ -f ~/.zshrc ]; then
 		mv ~/.zshrc ~/.zshrc_ORIGINAL
@@ -163,34 +174,31 @@ if command -v apt &> /dev/null; then
 	fi
 fi
 
-if command -v vim &> /dev/null; then
-	if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This installs a sane vim environment." 8 78); then
-		if [ -f ~/.vimrc ]; then
-			mv ~/.vimrc ~/.vimrc_ORIGINAL
-			green_text "Moved ~/.vimrc to ~/.vimrc_ORIGINAL"
-		fi
-
-		cp -r vim_runtime ~/.vim_runtime
-		cp -r vimrc ~/.vimrc
-
-		if [[ ! -d ~/.vim/pack/tpope/start ]]; then
-			mkdir -p ~/.vim/pack/tpope/start
-			cd ~/.vim/pack/tpope/start
-			green_text "Cloning vim-surround..."
-			git clone --depth 1 https://tpope.io/vim/surround.git 2>/dev/null >/dev/null
-			green_text "Cloned vim-surround"
-			vim -u NONE -c "helptags surround/doc" -c q
-		fi
-
-		if [[ ! -d ~/.vim/pack/dist/start/vim-airline ]]; then
-			green_text "Cloning vim-airline..."
-			git clone --depth 1 https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-airline 2>/dev/null >/dev/null
-			green_text "Cloned vim-airline"
-		fi
+if [[ $install_vim_stuff -eq 1 ]]; then
+	if [ -f ~/.vimrc ]; then
+		mv ~/.vimrc ~/.vimrc_ORIGINAL
+		green_text "Moved ~/.vimrc to ~/.vimrc_ORIGINAL"
 	fi
-else
-	red_text "vim does not seem to be installed"
+
+	cp -r vim_runtime ~/.vim_runtime
+	cp -r vimrc ~/.vimrc
+
+	if [[ ! -d ~/.vim/pack/tpope/start ]]; then
+		mkdir -p ~/.vim/pack/tpope/start
+		cd ~/.vim/pack/tpope/start
+		green_text "Cloning vim-surround..."
+		git clone --depth 1 https://tpope.io/vim/surround.git 2>/dev/null >/dev/null
+		green_text "Cloned vim-surround"
+		vim -u NONE -c "helptags surround/doc" -c q
+	fi
+
+	if [[ ! -d ~/.vim/pack/dist/start/vim-airline ]]; then
+		green_text "Cloning vim-airline..."
+		git clone --depth 1 https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-airline 2>/dev/null >/dev/null
+		green_text "Cloned vim-airline"
+	fi
 fi
+
 
 green_text "Done!"
 echo ""
