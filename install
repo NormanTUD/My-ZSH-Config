@@ -186,7 +186,7 @@ if command -v zsh &> /dev/null; then
 	cp -r oh-my-zsh/plugins/zsh-syntax-highlighting/highlighters ~/.oh-my-zsh/plugins/zsh-syntax-highlighting/
 	if command -v git &> /dev/null; then
 		if [[ ! -d $HOME/.oh-my-zsh/plugins/zsh-autosuggestions ]]; then
-			git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.oh-my-zsh/plugins/zsh-autosuggestions
+			git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.oh-my-zsh/plugins/zsh-autosuggestions 2>/dev/null >/dev/null
 		fi
 	else
 		red_text "Without git, autosuggestions cannot be cloned"
