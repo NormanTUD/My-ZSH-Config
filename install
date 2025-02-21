@@ -30,7 +30,6 @@ function calltracer {
 
 	echo ""
 	caller
-	echo "Runtime (calltracer): $(displaytime $SECONDS), PID: $$"
 }
 
 trap 'calltracer' ERR
