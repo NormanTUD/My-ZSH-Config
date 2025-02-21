@@ -213,9 +213,9 @@ if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
 	sudo dpkg --configure -a 2>/dev/null >/dev/null
 	green_text "Done reconfiguring dpkg-packages"
 
-	green_text "Autoremoving old dependencies"
+	green_text "Autoremoving old stuff"
 	sudo apt autoremove 2>/dev/null >/dev/null
-	green_text "Done autoremoving old dependencies"
+	green_text "Done autoremoving old stuff"
 
 	green_text "Cleaning apt cache"
 	sudo apt clean 2>/dev/null >/dev/null
