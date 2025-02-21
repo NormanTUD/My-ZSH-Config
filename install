@@ -46,6 +46,7 @@ function apt_install {
 }
 
 green_text "My-ZSH-Config installer for Debian based systems"
+echo ""
 
 HASROOTRIGHTS=0
 if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
