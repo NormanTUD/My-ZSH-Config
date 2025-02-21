@@ -23,29 +23,19 @@ function green_text {
 APT_UPDATE_DONE=0
 
 function apt_install {
-	if [[ APT_UPDATE_DONE -eq 0 ]]; then
+	if [[ $APT_UPDATE_DONE -eq 0 ]]; then
 		sudo apt update
-
 		APT_UPDATE_DONE=1
 	fi
+
 	for package in "$@"; do
-		green_text "Installing $package..."
-		sudo apt-get -y install $package >/dev/null
+		if dpkg -s "$package" &>/dev/null; then
+			green_text "$package is already installed. Skipping..."
+		else
+			green_text "Installing $package..."
+			sudo apt-get -y install "$package" >/dev/null
+		fi
 	done
-}
-
-function install_if_not_exists {
-	PROGNAME=$1
-	INSTALL=$2
-
-	if [[ -z $INSTALL ]]; then
-		INSTALL=$PROGNAME
-	fi
-
-	if ! which $PROGNAME >/dev/null; then
-		red_text "$PROGNAME could not be found. Enter your user password so you can install it via apt-get."
-		apt_install $INSTALL
-	fi
 }
 
 green_text "My-ZSH-Config installer for Debian based systems"
@@ -56,13 +46,13 @@ if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not,
 
 	sudo groupadd docker || true
 
-	install_if_not_exists "whiptail"
-	install_if_not_exists "curl"
-	install_if_not_exists "zsh"
-	install_if_not_exists "vim"
-	install_if_not_exists "git"
-	install_if_not_exists "exa"
-	install_if_not_exists "hstr"
+	apt_install whiptail
+	apt_install curl
+	apt_install zsh
+	apt_install vim
+	apt_install git
+	apt_install exa
+	apt_install hstr
 	if command -v hstr &> /dev/null; then
 		hstr --show-configuration >> ~/.zshrc
 	fi
@@ -108,47 +98,47 @@ fi
 if command -v apt &> /dev/null; then
 	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
 		sudo dpkg --add-architecture i386
-		install_if_not_exists arp-scan
-		install_if_not_exists aptitude
-		install_if_not_exists phpmd
-		install_if_not_exists cmake
-		install_if_not_exists make
-		install_if_not_exists evince
-		install_if_not_exists ffmpeg
-		install_if_not_exists flatpak
-		install_if_not_exists fonts-powerline
-		install_if_not_exists inkscape
-		install_if_not_exists kcolorchooser
-		install_if_not_exists kdeconnect
-		install_if_not_exists kompare
-		install_if_not_exists libsdl2-dev
-		install_if_not_exists locate
-		install_if_not_exists php
-		install_if_not_exists php-mbstring
-		install_if_not_exists plotutils
-		install_if_not_exists pv
-		install_if_not_exists gnuplot
-		install_if_not_exists python3
-		install_if_not_exists python3-venv
-		install_if_not_exists simplescreenrecorder
-		install_if_not_exists speedcrunch
-		install_if_not_exists thunderbird
-		install_if_not_exists uuidgen
-		install_if_not_exists uuid-runtime
-		install_if_not_exists xdotool
-		install_if_not_exists xprintidle
-		install_if_not_exists etckeeper
-		install_if_not_exists sqlite3
-		install_if_not_exists python3-pip
-		install_if_not_exists pdf2svg
-		install_if_not_exists texlive-full
-		install_if_not_exists texlive-extra-utils
-		install_if_not_exists kdenlive
-		install_if_not_exists node-npm
-		install_if_not_exists net-tools
-		install_if_not_exists wine wine32:i386
-		install_if_not_exists gdebi lame vorbis-tools flac libopus0 opus-tools k3b
-		install_if_not_exists golang-go
+		apt_install arp-scan
+		apt_install aptitude
+		apt_install phpmd
+		apt_install cmake
+		apt_install make
+		apt_install evince
+		apt_install ffmpeg
+		apt_install flatpak
+		apt_install fonts-powerline
+		apt_install inkscape
+		apt_install kcolorchooser
+		apt_install kdeconnect
+		apt_install kompare
+		apt_install libsdl2-dev
+		apt_install locate
+		apt_install php
+		apt_install php-mbstring
+		apt_install plotutils
+		apt_install pv
+		apt_install gnuplot
+		apt_install python3
+		apt_install python3-venv
+		apt_install simplescreenrecorder
+		apt_install speedcrunch
+		apt_install thunderbird
+		apt_install uuidgen
+		apt_install uuid-runtime
+		apt_install xdotool
+		apt_install xprintidle
+		apt_install etckeeper
+		apt_install sqlite3
+		apt_install python3-pip
+		apt_install pdf2svg
+		apt_install texlive-full
+		apt_install texlive-extra-utils
+		apt_install kdenlive
+		apt_install node-npm
+		apt_install net-tools
+		apt_install wine wine32:i386
+		apt_install gdebi lame vorbis-tools flac libopus0 opus-tools k3b
+		apt_install golang-go
 		go install github.com/claudiodangelis/qrcp@latest
 		curl -fsSL https://get.docker.com -o get-docker.sh | bash
 		sudo usermod -aG docker $USER
