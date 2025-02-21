@@ -29,11 +29,17 @@ function apt_install {
 		APT_UPDATE_DONE=1
 	fi
 
+	total_packages=$#
+	installed=0
+
 	for package in "$@"; do
+		installed=$((installed + 1))
+		progress=$((installed * 100 / total_packages))
+
 		if dpkg -s "$package" &>/dev/null; then
-			green_text "$package is already installed. Skipping..."
+			green_text "[$progress%] $package is already installed. Skipping..."
 		else
-			green_text "Installing $package..."
+			green_text "[$progress%] Installing $package..."
 			sudo apt-get -y install "$package" >/dev/null
 		fi
 	done
