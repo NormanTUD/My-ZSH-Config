@@ -60,7 +60,7 @@ backup_file() {
 
 function dpkg_reconfigure {
 	green_text "Reconfiguring dpkg-packages..."
-	sudo dpkg --configure -a -q 2>/dev/null >/dev/null
+	sudo dpkg --configure -a 2>/dev/null >/dev/null
 	green_text "Done reconfiguring dpkg-packages"
 }
 
