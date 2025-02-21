@@ -66,6 +66,7 @@ function dpkg_reconfigure {
 	if [[ $exit_code -eq 0 ]]; then
 		green_text "Done reconfiguring dpkg-packages"
 	else
+		echo ""
 		red_text "sudo dpkg --configure -a failed with exit-code $exit_code. Trying again, but this time, showing the output:"
 		sudo dpkg --configure -a
 
