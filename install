@@ -55,10 +55,8 @@ has_root_rights=0
 install_vim_stuff=0
 install_usefull_stuff=0
 
-if command -v sudo &> /dev/null; then
-	if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
-		has_root_rights=1
-	fi
+if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
+	has_root_rights=1
 fi
 
 if command -v vim &> /dev/null; then
@@ -69,10 +67,8 @@ else
 	red_text "vim does not seem to be installed"
 fi
 
-if command -v apt &> /dev/null; then
-	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
-		install_usefull_stuff=1
-	fi
+if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
+	install_usefull_stuff=1
 fi
 
 if [[ $has_root_rights -eq 1 ]]; then
