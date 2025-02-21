@@ -64,6 +64,13 @@ function dpkg_reconfigure {
 	green_text "Done reconfiguring dpkg-packages"
 }
 
+renew_sudo() {
+	while true; do
+		sudo -v  # Verlängert das Sudo-Timeout
+		sleep 60
+	done
+}
+
 APT_INSTALL_QUEUE=()
 
 function apt_install {
@@ -116,6 +123,12 @@ set_zsh_to_default=0
 
 if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
 	has_root_rights=1
+
+	green_text "Please enter your sudo-password"
+	echo ""
+	sudo true
+
+	renew_sudo &
 fi
 
 if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This installs a sane vim environment." 8 78); then
@@ -289,3 +302,7 @@ fi
 echo ""
 green_text "Done! Restart your system for everything to take effect."
 echo ""
+
+if [[ $has_root_rights -eq 1 ]]; then
+	kill %1
+fi
