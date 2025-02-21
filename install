@@ -6,6 +6,12 @@ function red_text {
 	echo -e "\e[101m$1\e[0m"
 }
 
+if ! command -v dpkg >/dev/null 2>/dev/null; then
+	red_text "dpkg not found. This installer only works for debian-based systems."
+	exit 1
+fi
+
+
 if ! command -v sudo >/dev/null 2>/dev/null; then
 	red_text "sudo not found. Please install it first."
 	exit 1
