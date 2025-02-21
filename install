@@ -46,13 +46,8 @@ if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not,
 
 	sudo groupadd docker || true
 
-	apt_install whiptail
-	apt_install curl
-	apt_install zsh
-	apt_install vim
-	apt_install git
-	apt_install exa
-	apt_install hstr
+	apt_install whiptail curl zsh vim git exa hstr
+
 	if command -v hstr &> /dev/null; then
 		hstr --show-configuration >> ~/.zshrc
 	fi
