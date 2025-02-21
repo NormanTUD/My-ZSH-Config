@@ -49,6 +49,8 @@ function apt_install {
 green_text "My-ZSH-Config installer for Debian based systems"
 echo ""
 
+apt_install whiptail sudo
+
 HASROOTRIGHTS=0
 if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
 	HASROOTRIGHTS=1
@@ -60,7 +62,7 @@ if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not,
 	sudo usermod -aG docker $USER  2>/dev/null >/dev/null || true
 
 
-	apt_install whiptail curl zsh vim git exa hstr
+	apt_install curl zsh vim git exa hstr
 
 	if command -v hstr &> /dev/null; then
 		hstr --show-configuration >> ~/.zshrc
