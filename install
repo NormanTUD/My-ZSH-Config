@@ -121,7 +121,6 @@ if command -v apt &> /dev/null; then
 		install_if_not_exists kcolorchooser
 		install_if_not_exists kdeconnect
 		install_if_not_exists kompare
-		install_if_not_exists libopenglrecorder
 		install_if_not_exists libsdl2-dev
 		install_if_not_exists locate
 		install_if_not_exists php
