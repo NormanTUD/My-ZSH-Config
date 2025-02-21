@@ -50,11 +50,18 @@ backup_file() {
 	fi
 }
 
-function apt_install {
-	total_packages=$#
-	installed=0
+APT_INSTALL_QUEUE=()
 
-	for package in "$@"; do
+function apt_install {
+	APT_INSTALL_QUEUE+=("$@")
+}
+
+function _apt_install {
+	total_packages=${#APT_INSTALL_QUEUE[@]}
+	installed=0
+	APT_UPDATE_DONE=0
+
+	for package in "${APT_INSTALL_QUEUE[@]}"; do
 		installed=$((installed + 1))
 		progress=$((installed * 100 / total_packages))
 
@@ -73,6 +80,9 @@ function apt_install {
 			sudo apt-get -y install "$package" >/dev/null
 		fi
 	done
+
+    # Nach der Installation das Array leeren
+    APT_INSTALL_QUEUE=()
 }
 
 green_text "My-ZSH-Config installer for Debian based systems"
