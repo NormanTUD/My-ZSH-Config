@@ -150,9 +150,11 @@ if [[ $has_root_rights -eq 1 ]]; then
 	if [[ $install_usefull_stuff -eq 1 ]]; then
 		sudo dpkg --add-architecture i386
 
-		green_text "Installing docker..."
-		curl -fsSL https://get.docker.com | bash 2>/dev/null >/dev/null
-		green_text "Done installing docker"
+		if ! command -v docker 2>/dev/null >/dev/null; then
+			green_text "Installing docker..."
+			curl -fsSL https://get.docker.com | bash 2>/dev/null >/dev/null
+			green_text "Done installing docker"
+		fi
 
 		apt_install arp-scan \
 			aptitude \
