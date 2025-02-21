@@ -24,7 +24,8 @@ APT_UPDATE_DONE=0
 
 function apt_install {
 	if [[ $APT_UPDATE_DONE -eq 0 ]]; then
-		sudo apt update
+		green_text "Doing apt-get update"
+		sudo apt-get update >/dev/null
 		APT_UPDATE_DONE=1
 	fi
 
