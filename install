@@ -140,7 +140,6 @@ if [[ $has_root_rights -eq 1 ]]; then
 	sudo groupadd docker 2>/dev/null >/dev/null || true
 	sudo usermod -aG docker $USER  2>/dev/null >/dev/null || true
 
-
 	apt_install curl zsh vim git exa hstr
 
 	if command -v hstr &> /dev/null; then
