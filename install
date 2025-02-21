@@ -22,6 +22,20 @@ function green_text {
 
 APT_UPDATE_DONE=0
 
+backup_file() {
+	local file="$1"
+	local backup="${file}_ORIGINAL"
+	local counter=1
+
+	if [ -e "$file" ]; then
+		while [ -e "${backup}.${counter}" ]; do
+			((counter++))
+		done
+		mv "$file" "${backup}.${counter}"
+		green_text "Moved $file to ${backup}.${counter}"
+	fi
+}
+
 function apt_install {
 	if [[ $APT_UPDATE_DONE -eq 0 ]]; then
 		green_text "Doing apt-get update"
@@ -139,15 +153,8 @@ fi
 fi
 
 if command -v zsh &> /dev/null; then
-	if [ -f ~/.zshrc ]; then
-		mv ~/.zshrc ~/.zshrc_ORIGINAL
-		green_text "Moved ~/.zshrc to ~/.zshrc_ORIGINAL"
-	fi
-
-	if [ -d ~/.zsh ]; then
-		mv ~/.zsh ~/.zsh_ORIGINAL
-		green_text "Moved ~/.zsh to ~/.zsh_ORIGINAL"
-	fi
+	backup_file ~/.zshrc
+	backup_file ~/.zsh
 
 	cp zshrc ~/.zshrc
 	cp -r oh-my-zsh ~/.oh-my-zsh
@@ -181,9 +188,17 @@ fi
 
 if [[ $install_vim_stuff -eq 1 ]]; then
 	if [ -f ~/.vimrc ]; then
-		mv ~/.vimrc ~/.vimrc_ORIGINAL
-		green_text "Moved ~/.vimrc to ~/.vimrc_ORIGINAL"
+		backup=~/.vimrc_ORIGINAL
+		counter=1
+
+		while [ -f "${backup}.${counter}" ]; do
+			((counter++))
+		done
+
+		mv ~/.vimrc "${backup}.${counter}"
+		green_text "Moved ~/.vimrc to ${backup}.${counter}"
 	fi
+
 
 	cp -r vim_runtime ~/.vim_runtime
 	cp -r vimrc ~/.vimrc
