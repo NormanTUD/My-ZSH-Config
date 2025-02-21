@@ -234,7 +234,7 @@ if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
 	dpkg_reconfigure
 
 	green_text "Autoremoving old stuff"
-	sudo apt autoremove 2>/dev/null >/dev/null
+	sudo apt autoremove -y 2>/dev/null >/dev/null
 	green_text "Done autoremoving old stuff"
 
 	green_text "Cleaning apt cache"
