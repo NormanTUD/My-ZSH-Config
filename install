@@ -52,13 +52,6 @@ backup_file() {
 }
 
 function apt_install {
-	if [[ $APT_UPDATE_DONE -eq 0 ]]; then
-		green_text "Doing apt-get update"
-		sudo apt-get update >/dev/null
-		green_text "Done apt-get update"
-		APT_UPDATE_DONE=1
-	fi
-
 	total_packages=$#
 	installed=0
 
@@ -69,6 +62,13 @@ function apt_install {
 		if dpkg -s "$package" &>/dev/null; then
 			green_text "[$progress%] $package is already installed. Skipping..."
 		else
+			if [[ $APT_UPDATE_DONE -eq 0 ]]; then
+				green_text "Doing apt-get update"
+				sudo apt-get update >/dev/null
+				green_text "Done apt-get update"
+				APT_UPDATE_DONE=1
+			fi
+
 			green_text "[$progress%] Installing $package..."
 			sudo dpkg --configure -a
 			sudo apt-get -y install "$package" >/dev/null
