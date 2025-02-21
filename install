@@ -120,11 +120,9 @@ fi
 
 current_shell=$(getent passwd "$USER" | cut -d: -f7)
 
-if ! [[ "$current_shell" == "/bin/zsh" ]]; then
-	if [[ $has_root_rights -eq "1" ]]; then
-		if (whiptail --title "Set ZSH as default shell?" --yesno "This needs sudo rights." 8 78); then
-			set_zsh_to_default=1
-		fi
+if ! [[ "$current_shell" == "/bin/zsh" ]] && [[ $has_root_rights -eq "1" ]]; then
+	if (whiptail --title "Set ZSH as default shell?" --yesno "This needs sudo rights." 8 78); then
+		set_zsh_to_default=1
 	fi
 fi
 
