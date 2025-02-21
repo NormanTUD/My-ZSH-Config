@@ -128,16 +128,16 @@ if command -v apt &> /dev/null; then
 			etckeeper \
 			sqlite3 \
 			pdf2svg \
-			texlive-full \
-			texlive-extra-utils \
 			kdenlive \
 			node-npm \
 			net-tools \
 			wine wine32:i386 \
 			gdebi lame vorbis-tools flac libopus0 opus-tools k3b \
-			thunderbird \
 			fonts-powerline \
-			golang-go
+			golang-go \
+			texlive-full \
+			texlive-extra-utils \
+			thunderbird
 		go install github.com/claudiodangelis/qrcp@latest
 		curl -fsSL https://get.docker.com -o get-docker.sh | bash
 		sudo usermod -aG docker $USER
