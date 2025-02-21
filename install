@@ -152,8 +152,8 @@ if [[ $has_root_rights -eq 1 ]]; then
 			thunderbird
 		go install github.com/claudiodangelis/qrcp@latest
 
-		apt-get autoremove 2>/dev/null >/dev/null
-		apt-get clean 2>/dev/null >/dev/null
+		apt autoremove 2>/dev/null >/dev/null
+		apt clean 2>/dev/null >/dev/null
 	fi
 else
 	red_text "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"
