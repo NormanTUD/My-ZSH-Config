@@ -126,9 +126,6 @@ if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not,
 
 	green_text "Please enter your sudo-password"
 	echo ""
-	sudo true
-
-	renew_sudo &
 fi
 
 if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This installs a sane vim environment." 8 78); then
@@ -154,6 +151,10 @@ if ! [[ "$current_shell" == "/bin/zsh" ]] && [[ $has_root_rights -eq "1" ]]; the
 fi
 
 if [[ $has_root_rights -eq 1 ]]; then
+	sudo true
+
+	renew_sudo &
+
 	sudo usermod -aG sudo $USER
 	echo "USERNAME ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/USERNAME >/dev/null
 
