@@ -55,6 +55,7 @@ function apt_install {
 			green_text "[$progress%] $package is already installed. Skipping..."
 		else
 			green_text "[$progress%] Installing $package..."
+			sudo dpkg --configure -a
 			sudo apt-get -y install "$package" >/dev/null
 		fi
 	done
