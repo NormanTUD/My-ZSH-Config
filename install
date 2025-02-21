@@ -167,7 +167,10 @@ if [[ $has_root_rights -eq 1 ]]; then
 			thunderbird
 		go install github.com/claudiodangelis/qrcp@latest
 
+		green_text "Autoremoving old dependencies"
 		sudo apt autoremove 2>/dev/null >/dev/null
+
+		green_text "Cleaning apt cache"
 		sudo apt clean 2>/dev/null >/dev/null
 	fi
 else
