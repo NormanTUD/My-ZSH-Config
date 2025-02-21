@@ -117,6 +117,7 @@ function _apt_install {
 
 			green_text "[$progress%] Installing $package..."
 			dpkg_reconfigure
+			green_text "[$progress%] Installing $package..."
 			sudo apt-get -yqq install "$package" >/dev/null
 			green_text "[$progress%] $package installed!"
 		fi
