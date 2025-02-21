@@ -119,7 +119,6 @@ if command -v apt &> /dev/null; then
 		apt_install fonts-powerline
 		apt_install inkscape
 		apt_install kcolorchooser
-		apt_install kde-connect
 		apt_install kdeconnect
 		apt_install kompare
 		apt_install libopenglrecorder
