@@ -173,7 +173,6 @@ if [[ $has_root_rights -eq 1 ]]; then
 else
 	red_text "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"
 fi
-fi
 
 if command -v zsh &> /dev/null; then
 	backup_file ~/.zshrc
