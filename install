@@ -170,3 +170,6 @@ if command -v vim &> /dev/null; then
 else
 	red_text "vim does not seem to be installed"
 fi
+
+green_text "Done!"
+echo ""
