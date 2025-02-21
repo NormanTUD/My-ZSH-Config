@@ -2,6 +2,8 @@
 
 set -e
 
+export DEBIAN_FRONTEND=noninteractive
+
 function red_text {
 	echo -e "\e[101m$1\e[0m"
 }
