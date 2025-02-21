@@ -102,7 +102,6 @@ if command -v apt &> /dev/null; then
 			evince \
 			ffmpeg
 			flatpak \
-			fonts-powerline \
 			inkscape \
 			kcolorchooser \
 			kdeconnect \
@@ -132,6 +131,7 @@ if command -v apt &> /dev/null; then
 			net-tools \
 			wine wine32:i386 \
 			gdebi lame vorbis-tools flac libopus0 opus-tools k3b \
+			fonts-powerline \
 			golang-go
 		go install github.com/claudiodangelis/qrcp@latest
 		curl -fsSL https://get.docker.com -o get-docker.sh | bash
