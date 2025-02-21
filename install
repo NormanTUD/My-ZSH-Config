@@ -133,7 +133,6 @@ if command -v apt &> /dev/null; then
 			wine wine32:i386 \
 			gdebi lame vorbis-tools flac libopus0 opus-tools k3b \
 			golang-go
-		go install github.com/claudiodangelis/qrcp@latest
 		curl -fsSL https://get.docker.com -o get-docker.sh | bash
 		sudo usermod -aG docker $USER
 	fi
