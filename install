@@ -85,8 +85,10 @@ fi
 current_shell=$(getent passwd "$USER" | cut -d: -f7)
 
 if ! [[ "$current_shell" == "/bin/zsh" ]]; then
-	if (whiptail --title "Set ZSH as default shell?" --yesno "This needs sudo rights." 8 78); then
-		set_zsh_to_default=1
+	if [[ $has_root_rights -eq "1" ]]; then
+		if (whiptail --title "Set ZSH as default shell?" --yesno "This needs sudo rights." 8 78); then
+			set_zsh_to_default=1
+		fi
 	fi
 fi
 
@@ -175,11 +177,9 @@ if command -v zsh &> /dev/null; then
 	cp -r p10k.zsh ~/.p10k.zsh
 	cp -r powerlevel10k/ ~/.powerlevel10k/
 
-	if [[ $has_root_rights -eq "1" ]]; then
-		if [[ $set_zsh_to_default -eq 1 ]]; then
-			green_text "Enter your password for setting Zsh as default shell"
-			chsh -s /bin/zsh
-		fi
+	if [[ $set_zsh_to_default -eq 1 ]]; then
+		green_text "Enter your password for setting Zsh as default shell"
+		chsh -s /bin/zsh
 	fi
 else
 	red_text "ZSH does not seem to be installed correctly."
