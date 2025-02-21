@@ -89,6 +89,9 @@ green_text "My-ZSH-Config installer for Debian based systems"
 echo ""
 
 apt_install whiptail sudo
+_apt_install
+
+APT_INSTALL_QUEUE=()
 
 has_root_rights=0
 install_vim_stuff=0
@@ -180,6 +183,21 @@ else
 	red_text "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"
 fi
 
+if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
+	_apt_install
+
+	if command -v go >/dev/null 2>/dev/null; then
+		green_text "Installing qrcp"
+		go install github.com/claudiodangelis/qrcp@latest >/dev/null 2>/dev/null
+	fi
+
+	green_text "Autoremoving old dependencies"
+	sudo apt autoremove 2>/dev/null >/dev/null
+
+	green_text "Cleaning apt cache"
+	sudo apt clean 2>/dev/null >/dev/null
+fi
+
 if command -v zsh &> /dev/null; then
 	backup_file ~/.zshrc
 	backup_file ~/.zsh
@@ -238,21 +256,6 @@ if [[ $install_vim_stuff -eq 1 ]]; then
 		git clone --depth 1 https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-airline 2>/dev/null >/dev/null
 		green_text "Cloned vim-airline"
 	fi
-fi
-
-if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
-	_apt_install
-
-	if command -v go >/dev/null 2>/dev/null; then
-		green_text "Installing qrcp"
-		go install github.com/claudiodangelis/qrcp@latest >/dev/null 2>/dev/null
-	fi
-
-	green_text "Autoremoving old dependencies"
-	sudo apt autoremove 2>/dev/null >/dev/null
-
-	green_text "Cleaning apt cache"
-	sudo apt clean 2>/dev/null >/dev/null
 fi
 
 echo ""
