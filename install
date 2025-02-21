@@ -110,41 +110,40 @@ if command -v apt &> /dev/null; then
 		apt_install ffmpeg
 		apt_install flatpak
 		apt_install fonts-powerline
-		apt_install inkcsape
-		sudo apt install -y inkscape
-		sudo apt install -y kcolorchooser
-		sudo apt install -y kde-connect
-		sudo apt install -y kdeconnect
-		sudo apt install -y kompare
-		sudo apt install -y libopenglrecorder
-		sudo apt install -y libsdl2-dev
-		sudo apt install -y locate
-		sudo apt install -y php
-		sudo apt install -y php-mbstring
-		sudo apt install -y plotutils
-		sudo apt install -y pv
-		sudo apt install -y gnuplot
-		sudo apt install -y python3
-		sudo apt install -y python3-venv
-		sudo apt install -y simplescreenrecorder
-		sudo apt install -y speedcrunch
-		sudo apt install -y thunderbird
-		sudo apt install -y uuidgen
-		sudo apt install -y uuid-runtime
-		sudo apt install -y xdotool
-		sudo apt install -y xprintidle
-		sudo apt install -y etckeeper
-		sudo apt install -y sqlite3
-		sudo apt install -y python3-pip
-		sudo apt install -y pdf2svg
-		sudo apt install -y texlive-full
-		sudo apt install -y texlive-extra-utils
-		sudo apt install -y kdenlive
-		sudo apt install -y node-npm
-		sudo apt install -y net-tools
-		sudo apt install -y wine wine32:i386
-		sudo apt install -y gdebi lame vorbis-tools flac libopus0 opus-tools k3b
-		sudo apt install -y golang-go
+		apt_install inkscape
+		apt_install kcolorchooser
+		apt_install kde-connect
+		apt_install kdeconnect
+		apt_install kompare
+		apt_install libopenglrecorder
+		apt_install libsdl2-dev
+		apt_install locate
+		apt_install php
+		apt_install php-mbstring
+		apt_install plotutils
+		apt_install pv
+		apt_install gnuplot
+		apt_install python3
+		apt_install python3-venv
+		apt_install simplescreenrecorder
+		apt_install speedcrunch
+		apt_install thunderbird
+		apt_install uuidgen
+		apt_install uuid-runtime
+		apt_install xdotool
+		apt_install xprintidle
+		apt_install etckeeper
+		apt_install sqlite3
+		apt_install python3-pip
+		apt_install pdf2svg
+		apt_install texlive-full
+		apt_install texlive-extra-utils
+		apt_install kdenlive
+		apt_install node-npm
+		apt_install net-tools
+		apt_install wine wine32:i386
+		apt_install gdebi lame vorbis-tools flac libopus0 opus-tools k3b
+		apt_install golang-go
 		go install github.com/claudiodangelis/qrcp@latest
 		curl -fsSL https://get.docker.com -o get-docker.sh | bash
 		sudo usermod -aG docker $USER
