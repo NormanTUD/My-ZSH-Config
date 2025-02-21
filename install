@@ -219,5 +219,5 @@ if [[ $install_vim_stuff -eq 1 ]]; then
 	fi
 fi
 
-green_text "Done!"
+green_text "Done! Restart your system for everything to take effect."
 echo ""
