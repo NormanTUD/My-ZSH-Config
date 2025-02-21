@@ -197,6 +197,7 @@ if command -v zsh &> /dev/null; then
 
 	if [[ $set_zsh_to_default -eq 1 ]]; then
 		green_text "Enter your password for setting Zsh as default shell"
+		echo ""
 		chsh -s /bin/zsh
 	fi
 else
