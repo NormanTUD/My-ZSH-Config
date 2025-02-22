@@ -209,6 +209,7 @@ if [[ $has_root_rights -eq 1 ]]; then
 			php-mbstring \
 			plotutils \
 			libusb-dev \
+			libusb-1.0-0-dev \
 			pv \
 			gnuplot \
 			python3 python3-pip python3-venv python3-rich \
