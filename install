@@ -190,6 +190,8 @@ if [[ $has_root_rights -eq 1 ]]; then
 			green_text "Done installing docker"
 		fi
 
+		# libusb-1.0.0-dev especially for ptouch
+
 		apt_install arp-scan \
 			libgd-dev \
 			aptitude \
