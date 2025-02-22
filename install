@@ -208,6 +208,7 @@ if [[ $has_root_rights -eq 1 ]]; then
 			libsdl2-dev \
 			locate \
 			php \
+			printer-driver-ptouch \
 			php-mbstring \
 			plotutils \
 			libusb-dev \
