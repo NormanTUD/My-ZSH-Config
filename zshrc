@@ -752,12 +752,14 @@ audiodomiandir () {
 	done
 }
 
-function scan_here () {
-        max_number=$(ls | grep out | grep jpg | sed -e 's/out//' | sed -e 's/\.jpg//' | sort -nr | head -n1)
-        STARTPDF=$(echo "$max_number+1" | bc)
-        echo "Starting at $STARTPDF"
-        scanimage --batch --batch-start=$STARTPDF --source="ADF Duplex" --resolution 300 --format=jpeg --mode Color
-}
+if command -v scanimage 2>/dev/null >/dev/null; then
+	function scan_here () {
+		max_number=$(ls | grep out | grep jpg | sed -e 's/out//' | sed -e 's/\.jpg//' | sort -nr | head -n1)
+		STARTPDF=$(echo "$max_number+1" | bc)
+		echo "Starting at $STARTPDF"
+		scanimage --batch --batch-start=$STARTPDF --source="ADF Duplex" --resolution 300 --format=jpeg --mode Color
+	}
+fi
 
 function move_empty_scanned_pages {
         if [[ "$NOMOVE" -eq "1" ]]; then
