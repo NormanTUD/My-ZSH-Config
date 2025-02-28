@@ -859,7 +859,7 @@ else
 fi
 
 if command -v sudo 2>/dev/null; then
-	if command -v apt-get 2>/dev/null; then
+	if command -v apt-get >/dev/null 2>/dev/null; then
 		function upgr {
 			sudo apt-get update &&
 			sudo apt-get -y upgrade &&
