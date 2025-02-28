@@ -203,6 +203,9 @@ if [[ $has_root_rights -eq 1 ]]; then
 			flatpak \
 			inkscape \
 			kcolorchooser \
+			pdftk \
+			tesseract-ocr \
+			arp-scan \
 			kdeconnect \
 			kompare \
 			libsdl2-dev \
