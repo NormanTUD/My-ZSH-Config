@@ -92,6 +92,7 @@ function _apt_install {
 	total_packages=${#APT_INSTALL_QUEUE[@]}
 	installed=0
 	APT_UPDATE_DONE=0
+	start_time=$(date +%s)  # Startzeit speichern
 
 	for package in "${APT_INSTALL_QUEUE[@]}"; do
 		installed=$((installed + 1))
@@ -109,14 +110,24 @@ function _apt_install {
 
 			green_text "[$progress%] Installing $package..."
 			dpkg_reconfigure
-			green_text "[$progress%] Installing $package..."
+			install_start=$(date +%s)  # Startzeit für das einzelne Paket
 			sudo apt-get -yqq install "$package" >/dev/null
+			install_end=$(date +%s)  # Endzeit für das einzelne Paket
 			green_text "[$progress%] $package installed!"
+
+			# Durchschnittliche Dauer pro Paket berechnen
+			elapsed_time=$((install_end - start_time))
+			avg_time_per_package=$((elapsed_time / installed))
+			remaining_packages=$((total_packages - installed))
+			estimated_remaining_time=$((avg_time_per_package * remaining_packages))
+
+			# Geschätzte verbleibende Zeit lesbar ausgeben
+			remaining_human_readable=$(date -u -d @${estimated_remaining_time} +%H:%M:%S)
+			green_text "Estimated remaining time: $remaining_human_readable"
 		fi
 	done
 
-    # Nach der Installation das Array leeren
-    APT_INSTALL_QUEUE=()
+	APT_INSTALL_QUEUE=()
 }
 
 green_text "My-ZSH-Config installer for Debian based systems"
