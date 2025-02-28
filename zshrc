@@ -2,7 +2,12 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+EXPORT_THIS_ZSH_DIR="$HOME/.oh-my-zsh"
+if [[ -d $EXPORT_THIS_ZSH_DIR ]]; then
+	export ZSH=$EXPORT_THIS_ZSH_DIR
+else
+	echo "Error: $EXPORT_THIS_ZSH_DIR cannot be found."
+fi
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -21,7 +26,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
