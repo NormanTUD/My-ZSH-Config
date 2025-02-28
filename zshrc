@@ -825,7 +825,7 @@ if command -v scanimage 2>/dev/null >/dev/null; then
 	}
 fi
 
-if command -v tesseract 2>/dev/null; then
+if command -v tesseract >/dev/null 2>/dev/null; then
 	function ocr_this_folder () {
 		for file in *.jpg; do
 			pdfname=$(echo $file | sed -e 's/\..*//');
