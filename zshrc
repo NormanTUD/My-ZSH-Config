@@ -195,7 +195,7 @@ mkdir -p $HOME/.local/bin/
 PATH=$HOME/.local/bin/:$PATH
 export PATH
 
-if ! which curl 2>/dev/null >/dev/null; then
+if which curl 2>/dev/null >/dev/null; then
 	if ! command -v yt-dlp 2>/dev/null >/dev/null; then
 		mkdir -p $HOME/.local/bin/
 		curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ~/.local/bin/yt-dlp
