@@ -769,7 +769,7 @@ if command -v apt-cache 2>/dev/null >/dev/null; then
 	}
 fi
 
-if command -v arp-scan 2>/dev/null >/dev/null; then
+if command -v arp-scan 2>/dev/null >/dev/null || [[ -e /usr/sbin/arp-scan ]] ; then
 	if command -v dialog 2>/dev/null >/dev/null; then
 		function arp {
 			let i=0 # define counting variable
@@ -823,6 +823,8 @@ if command -v scanimage 2>/dev/null >/dev/null; then
 		echo "Starting at $STARTPDF"
 		scanimage --batch --batch-start=$STARTPDF --source="ADF Duplex" --resolution 300 --format=jpeg --mode Color
 	}
+else
+	echo "scanimage not found"
 fi
 
 if command -v tesseract >/dev/null 2>/dev/null; then
