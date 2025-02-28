@@ -191,6 +191,10 @@ rtest () {
         set +x
 }
 
+mkdir -p $HOME/.local/bin/
+PATH=$HOME/.local/bin/:$PATH
+export PATH
+
 if ! command -v curl 2>/dev/null >/dev/null; then
 	if ! command -v yt-dlp 2>/dev/null >/dev/null; then
 		mkdir -p $HOME/.local/bin/
