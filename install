@@ -127,122 +127,108 @@ _apt_install
 
 APT_INSTALL_QUEUE=()
 
-has_root_rights=0
 install_vim_stuff=0
 install_usefull_stuff=0
 install_latex=0
 set_zsh_to_default=0
 
-if (whiptail --title "Do you have sudo rights on this machine?" --yesno "If not, no new programs can be installed automatically" 8 78); then
-	has_root_rights=1
-
-	green_text "Please enter your sudo-password"
-	echo ""
-fi
-
 if (whiptail --title "Do you want to install my vimrc files too?" --yesno "This installs a sane vim environment." 8 78); then
 	install_vim_stuff=1
 fi
 
-if [[ $has_root_rights -eq 1 ]]; then
-	if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
-		install_usefull_stuff=1
+if (whiptail --title "Do you want to install what I deem as useful packages?" --yesno "This installs some useful packages." 8 78); then
+	install_usefull_stuff=1
 
-		if (whiptail --title "Do you want to install LaTeX?" --yesno "This installs LaTeX." 8 78); then
-			install_latex=1
-		fi
+	if (whiptail --title "Do you want to install LaTeX?" --yesno "This installs LaTeX." 8 78); then
+		install_latex=1
 	fi
 fi
 
 current_shell=$(getent passwd "$USER" | cut -d: -f7)
 
-if ! [[ "$current_shell" == "/bin/zsh" ]] && [[ $has_root_rights -eq "1" ]]; then
+if ! [[ "$current_shell" == "/bin/zsh" ]]; then
 	if (whiptail --title "Set ZSH as default shell?" --yesno "This needs sudo rights." 8 78); then
 		set_zsh_to_default=1
 	fi
 fi
 
-if [[ $has_root_rights -eq 1 ]]; then
-	sudo true
+sudo true
 
-	renew_sudo &
+renew_sudo &
 
-	sudo usermod -aG sudo $USER
-	echo "USERNAME ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/USERNAME >/dev/null
+sudo usermod -aG sudo $USER
+echo "USERNAME ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/USERNAME >/dev/null
 
-	sudo groupadd docker 2>/dev/null >/dev/null || true
-	sudo usermod -aG docker $USER  2>/dev/null >/dev/null || true
+sudo groupadd docker 2>/dev/null >/dev/null || true
+sudo usermod -aG docker $USER  2>/dev/null >/dev/null || true
 
-	apt_install curl zsh vim git exa hstr
+apt_install curl zsh vim git exa hstr
 
-	if command -v hstr &> /dev/null; then
-		hstr --show-configuration >> ~/.zshrc
+if command -v hstr &> /dev/null; then
+	hstr --show-configuration >> ~/.zshrc
+fi
+
+if [[ $install_usefull_stuff -eq 1 ]]; then
+	green_text "Adding i386-architecture"
+	sudo dpkg --add-architecture i386
+	green_text "Done adding i386-architecture"
+
+	if ! command -v docker 2>/dev/null >/dev/null; then
+		green_text "Installing docker..."
+		curl -fsSL https://get.docker.com | bash 2>/dev/null >/dev/null
+		green_text "Done installing docker"
 	fi
 
-	if [[ $install_usefull_stuff -eq 1 ]]; then
-		green_text "Adding i386-architecture"
-		sudo dpkg --add-architecture i386
-		green_text "Done adding i386-architecture"
+	# libusb-1.0.0-dev especially for ptouch
 
-		if ! command -v docker 2>/dev/null >/dev/null; then
-			green_text "Installing docker..."
-			curl -fsSL https://get.docker.com | bash 2>/dev/null >/dev/null
-			green_text "Done installing docker"
-		fi
+	apt_install arp-scan \
+		libgd-dev \
+		aptitude \
+		phpmd \
+		cmake \
+		make \
+		evince \
+		ffmpeg \
+		flatpak \
+		inkscape \
+		kcolorchooser \
+		pdftk \
+		tesseract-ocr \
+		dialog \
+		arp-scan \
+		kdeconnect \
+		kompare \
+		libsdl2-dev \
+		locate \
+		php \
+		printer-driver-ptouch \
+		php-mbstring \
+		plotutils \
+		libusb-dev \
+		libusb-1.0-0-dev \
+		pv \
+		gnuplot \
+		python3 python3-pip python3-venv python3-rich \
+		simplescreenrecorder \
+		speedcrunch \
+		uuid-runtime \
+		xdotool \
+		xprintidle \
+		etckeeper \
+		sqlite3 \
+		pdf2svg \
+		kdenlive \
+		net-tools \
+		wine wine32:i386 \
+		gdebi lame vorbis-tools flac opus-tools k3b \
+		fonts-powerline \
+		golang-go \
+		thunderbird
+fi
 
-		# libusb-1.0.0-dev especially for ptouch
-
-		apt_install arp-scan \
-			libgd-dev \
-			aptitude \
-			phpmd \
-			cmake \
-			make \
-			evince \
-			ffmpeg \
-			flatpak \
-			inkscape \
-			kcolorchooser \
-			pdftk \
-			tesseract-ocr \
-			dialog \
-			arp-scan \
-			kdeconnect \
-			kompare \
-			libsdl2-dev \
-			locate \
-			php \
-			printer-driver-ptouch \
-			php-mbstring \
-			plotutils \
-			libusb-dev \
-			libusb-1.0-0-dev \
-			pv \
-			gnuplot \
-			python3 python3-pip python3-venv python3-rich \
-			simplescreenrecorder \
-			speedcrunch \
-			uuid-runtime \
-			xdotool \
-			xprintidle \
-			etckeeper \
-			sqlite3 \
-			pdf2svg \
-			kdenlive \
-			net-tools \
-			wine wine32:i386 \
-			gdebi lame vorbis-tools flac opus-tools k3b \
-			fonts-powerline \
-			golang-go \
-			thunderbird
-	fi
-
-	if [[ $install_latex -eq 1 ]]; then
-		apt_install texlive-full \
-			texlive-extra-utils
-	fi
-else
-	red_text "Without sudo rights, you cannot install stuff. I will try to continue anyway for the programs that I can find"
+if [[ $install_latex -eq 1 ]]; then
+	apt_install texlive-full \
+		texlive-extra-utils
 fi
 
 if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
