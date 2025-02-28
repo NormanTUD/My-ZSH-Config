@@ -916,6 +916,7 @@ if command -v xdotool 2>/dev/null >/dev/null; then
 		}
 	else
 		echo "xprintidle not found"
+	fi
 else
 	echo "xdotool not found"
 fi
