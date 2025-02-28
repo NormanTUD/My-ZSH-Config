@@ -844,7 +844,7 @@ else
 	echo "tesseract not found"
 fi
 
-if command -v pdftk 2>/dev/null; then
+if command -v pdftk >/dev/null 2>/dev/null; then
 	function merge_all_out_pdfs {
 		outname=gesamt.pdf
 		i=1
