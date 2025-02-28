@@ -868,7 +868,7 @@ else
 	echo "pdftk not found"
 fi
 
-if command -v sudo 2>/dev/null; then
+if command -v sudo >/dev/null 2>/dev/null; then
 	if command -v apt-get >/dev/null 2>/dev/null; then
 		function upgr {
 			sudo apt-get update &&
