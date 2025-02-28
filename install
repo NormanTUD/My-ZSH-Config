@@ -246,13 +246,6 @@ fi
 if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
 	_apt_install
 
-	if command -v go >/dev/null 2>/dev/null; then
-		if ! command -v qrcp >/dev/null 2>/dev/null; then
-			green_text "Installing qrcp"
-			go install github.com/claudiodangelis/qrcp@latest >/dev/null 2>/dev/null
-		fi
-	fi
-
 	dpkg_reconfigure
 
 	green_text "Autoremoving old stuff"
