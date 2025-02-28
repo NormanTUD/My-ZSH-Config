@@ -64,7 +64,8 @@ function dpkg_reconfigure {
 	sudo dpkg --configure -a 2>/dev/null >/dev/null
 	exit_code=$?
 	if [[ $exit_code -eq 0 ]]; then
-		green_text "Done reconfiguring dpkg-packages"
+		#green_text "Done reconfiguring dpkg-packages"
+		true
 	else
 		echo ""
 		red_text "sudo dpkg --configure -a failed with exit-code $exit_code. Trying again, but this time, showing the output:"
