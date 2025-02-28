@@ -191,11 +191,15 @@ rtest () {
         set +x
 }
 
-if ! command -v yt-dlp 2>/dev/null >/dev/null; then
-	mkdir -p $HOME/.local/bin/
-	curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ~/.local/bin/yt-dlp
-	chmod a+rx $HOME/.local/bin/yt-dlp
-	export PATH
+if ! command -v curl 2>/dev/null >/dev/null; then
+	if ! command -v yt-dlp 2>/dev/null >/dev/null; then
+		mkdir -p $HOME/.local/bin/
+		curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ~/.local/bin/yt-dlp
+		chmod a+rx $HOME/.local/bin/yt-dlp
+		export PATH
+	fi
+else
+	echo "curl is not installed. Cannot auto-download yt-dlp"
 fi
 
 if command -v yt-dlp >/dev/null; then
