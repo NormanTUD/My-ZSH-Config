@@ -205,6 +205,7 @@ if [[ $has_root_rights -eq 1 ]]; then
 			kcolorchooser \
 			pdftk \
 			tesseract-ocr \
+			dialog \
 			arp-scan \
 			kdeconnect \
 			kompare \
