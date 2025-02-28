@@ -116,7 +116,7 @@ else
 fi
 
 if command -v zle 2>/dev/null >/dev/null;/dev/null 
-	if command -v bindkey 2>/dev/null >/dev/null;/dev/null 
+	if command -v bindkey 2>/dev/null >/dev/null; then
 		rationalise-dot() {
 			if [[ $LBUFFER = *.. ]]; then
 				LBUFFER+=/..
