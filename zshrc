@@ -192,8 +192,8 @@ rtest () {
 }
 
 if ! command -v yt-dlp 2>/dev/null >/dev/null; then
-	curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ~/.local/bin/yt-dlp
 	mkdir -p $HOME/.local/bin/
+	curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ~/.local/bin/yt-dlp
 	chmod a+rx $HOME/.local/bin/yt-dlp
 	export PATH
 fi
