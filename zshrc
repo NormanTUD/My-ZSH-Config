@@ -881,7 +881,7 @@ mcd () {
         cd $1
 }
 
-if command -v ffmpeg 2>/dev/null; then
+if command -v ffmpeg >/dev/null 2>/dev/null; then
 	function mp4_to_gif {
 		if command -v ffmpeg 2>/dev/null >/dev/null; then
 			ffmpeg -i $1 -r 15 $1.gif
