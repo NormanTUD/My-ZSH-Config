@@ -208,6 +208,7 @@ if [[ $install_usefull_stuff -eq 1 ]]; then
 		tesseract-ocr \
 		dialog \
 		arp-scan \
+		cabextract \
 		kdeconnect \
 		kompare \
 		libsdl2-dev \
