@@ -209,6 +209,7 @@ if [[ $install_usefull_stuff -eq 1 ]]; then
 		dialog \
 		arp-scan \
 		cabextract \
+		unshield \
 		kdeconnect \
 		kompare \
 		libsdl2-dev \
@@ -240,8 +241,7 @@ if [[ $install_usefull_stuff -eq 1 ]]; then
 fi
 
 if [[ $install_latex -eq 1 ]]; then
-	apt_install texlive-full \
-		texlive-extra-utils
+	apt_install texlive-full texlive-extra-utils
 fi
 
 if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
