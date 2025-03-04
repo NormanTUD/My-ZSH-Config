@@ -226,6 +226,7 @@ if [[ $install_usefull_stuff -eq 1 ]]; then
 		simplescreenrecorder \
 		speedcrunch \
 		uuid-runtime \
+		mtools \
 		xdotool \
 		xprintidle \
 		etckeeper \
