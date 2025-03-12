@@ -127,8 +127,6 @@ if command -v zle 2>/dev/null >/dev/null; then
 
 		zle -N rationalise-dot
 		bindkey . rationalise-dot
-	else
-		echo "bindkey not found"
 	fi
 else
 	echo "zle cannot be found"
@@ -153,8 +151,6 @@ alias mkdir='mkdir -p'
 
 if command -v vim 2>/dev/null >/dev/null; then
 	alias vim="vim -p"
-else
-	echo "vim not found"
 fi
 
 if command -v bindkey 2>/dev/null >/dev/null; then
@@ -164,8 +160,6 @@ if command -v bindkey 2>/dev/null >/dev/null; then
 
 	# Delete next word with alt del
 	bindkey '^[[3;3~' kill-word
-else
-	echo "bindkey not found"
 fi
 
 #powerlevel10k
@@ -281,14 +275,8 @@ if command -v yt-dlp >/dev/null; then
 						audiodomian $i
 					done
 				}
-			else
-				echo "wget not found"
 			fi
-		else
-			echo "whiptail not found"
 		fi
-	else
-		echo "ffmpeg not found"
 	fi
 
 	yt () {
@@ -350,8 +338,6 @@ if command -v gs >/dev/null; then
 			gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$RANDPDF" "$1"
 			mv "$1" "$1.old"
 			mv "$RANDPDF" "$1"
-		else
-			echo "pdf file $1 not found";
 		fi
 	}
 fi
@@ -817,11 +803,7 @@ if command -v arp-scan 2>/dev/null >/dev/null || [[ -e /usr/sbin/arp-scan ]] ; t
 				return 0
 			fi
 		}
-	else
-		echo "dialog not found"
 	fi
-else
-	echo "arp-scan not found"
 fi
 
 if command -v scanimage 2>/dev/null >/dev/null; then
@@ -831,8 +813,6 @@ if command -v scanimage 2>/dev/null >/dev/null; then
 		echo "Starting at $STARTPDF"
 		scanimage --batch --batch-start=$STARTPDF --source="ADF Duplex" --resolution 300 --format=jpeg --mode Color
 	}
-else
-	echo "scanimage not found"
 fi
 
 if command -v tesseract >/dev/null 2>/dev/null; then
@@ -850,8 +830,6 @@ if command -v tesseract >/dev/null 2>/dev/null; then
 			fi
 		done
 	}
-else
-	echo "tesseract not found"
 fi
 
 if command -v pdftk >/dev/null 2>/dev/null; then
@@ -864,8 +842,6 @@ if command -v pdftk >/dev/null 2>/dev/null; then
 		done
 		pdftk *.pdf cat output gesamt.pdf
 	}
-else
-	echo "pdftk not found"
 fi
 
 if command -v sudo >/dev/null 2>/dev/null; then
@@ -879,11 +855,7 @@ if command -v sudo >/dev/null 2>/dev/null; then
 			sudo apt-get -y upgrade &&
 			sudo apt-get upgrade linux-headers-amd64 linux-image-amd64
 		}
-	else
-		echo "apt-get not found"
 	fi
-else
-	echo "sudo not found"
 fi
 
 mcd () {
@@ -899,8 +871,6 @@ if command -v ffmpeg >/dev/null 2>/dev/null; then
 			echo "Error: Cannot find ffmpeg. Try installing it."
 		fi
 	}
-else
-	echo "ffmpeg not found"
 fi
 
 
@@ -924,11 +894,7 @@ if command -v xdotool 2>/dev/null >/dev/null; then
 			    sleep $SLEEPTIME
 			done
 		}
-	else
-		echo "xprintidle not found"
 	fi
-else
-	echo "xdotool not found"
 fi
 
 cpwd() {
