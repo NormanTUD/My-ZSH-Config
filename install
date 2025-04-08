@@ -232,6 +232,7 @@ if [[ $install_usefull_stuff -eq 1 ]]; then
 		xprintidle \
 		etckeeper \
 		sqlite3 \
+		pdfgrep \
 		pdf2svg \
 		kdenlive \
 		net-tools \
