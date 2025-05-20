@@ -964,3 +964,4 @@ if command -v ml 2>/dev/null >/dev/null; then
 	compdef _ml "ml"
 fi
 
+alias git='nocorrect git'
