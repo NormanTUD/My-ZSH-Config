@@ -240,7 +240,8 @@ if [[ $install_usefull_stuff -eq 1 ]]; then
 		gdebi lame vorbis-tools flac opus-tools k3b \
 		fonts-powerline \
 		golang-go \
-		thunderbird
+		thunderbird \
+		gparted
 fi
 
 if [[ $install_latex -eq 1 ]]; then
