@@ -965,3 +965,8 @@ if command -v ml 2>/dev/null >/dev/null; then
 fi
 
 alias git='nocorrect git'
+
+function dstop {
+	docker stop $1
+	docker rm $1
+}
