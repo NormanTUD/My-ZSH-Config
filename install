@@ -196,7 +196,6 @@ if [[ $install_usefull_stuff -eq 1 ]]; then
 	apt_install arp-scan \
 		libgd-dev \
 		aptitude \
-		phpmd \
 		cmake \
 		make \
 		evince \
