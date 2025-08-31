@@ -970,3 +970,58 @@ function dstop {
 	docker stop $1
 	docker rm $1
 }
+
+plot_yolo_results_csv() {
+    local file="results.csv"
+
+    if ! command -v gnuplot >/dev/null 2>&1; then
+        echo "Error: gnuplot is not installed." >&2
+        echo "Please install it, e.g. on Ubuntu/Debian: sudo apt-get install gnuplot" >&2
+        return 1
+    fi
+
+    if [ ! -f "$file" ]; then
+        echo "Error: $file not found in the current directory: $(pwd)" >&2
+        echo "Please copy or move your YOLO training CSV file here and name it 'results.csv'." >&2
+        return 1
+    fi
+
+    gnuplot -persist <<EOF
+set datafile separator ","
+set key autotitle columnhead
+set grid
+set xlabel "Epoch"
+
+set multiplot layout 2,2 title "YOLO Training Overview"
+
+# Training losses
+set title "Training Losses"
+set ylabel "Loss"
+plot "$file" using 1:3 with lines lw 2, \
+     "$file" using 1:4 with lines lw 2, \
+     "$file" using 1:5 with lines lw 2
+
+# Validation losses
+set title "Validation Losses"
+set ylabel "Loss"
+plot "$file" using 1:10 with lines lw 2, \
+     "$file" using 1:11 with lines lw 2, \
+     "$file" using 1:12 with lines lw 2
+
+# Metrics (precision, recall)
+set title "Precision & Recall"
+set ylabel "Score"
+set yrange [0:1]
+plot "$file" using 1:6 with lines lw 2, \
+     "$file" using 1:7 with lines lw 2
+
+# Metrics (mAPs)
+set title "mAP Scores"
+set ylabel "Score"
+set yrange [0:1]
+plot "$file" using 1:8 with lines lw 2, \
+     "$file" using 1:9 with lines lw 2
+
+unset multiplot
+EOF
+}
