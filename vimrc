@@ -227,3 +227,10 @@ nnoremap <F9> :call FrameImageCaption(input('Filename: '), input("Caption: "))<C
 tnoremap <Esc> <C-\><C-n>
 noremap < <gv
 noremap > >gv
+
+call plug#begin('~/.vim/plugged')
+
+" Mistfly Statusline
+Plug 'bluz71/vim-mistfly-statusline'
+
+call plug#end()
