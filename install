@@ -293,6 +293,8 @@ else
 fi
 
 if [[ $install_vim_stuff -eq 1 ]]; then
+	sudo apt install nodejs npm
+
 	backup_file ~/.vimrc
 	backup_file ~/.vim
 	backup_file ~/.vim_runtime
