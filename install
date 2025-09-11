@@ -174,7 +174,7 @@ echo "USERNAME ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/USERNAME >/dev/
 sudo groupadd docker 2>/dev/null >/dev/null || true
 sudo usermod -aG docker $USER  2>/dev/null >/dev/null || true
 
-apt_install curl zsh vim git hstr
+apt_install curl zsh vim git hstr vim-nox python3-dev
 
 if command -v hstr &> /dev/null; then
 	hstr --show-configuration >> ~/.zshrc
