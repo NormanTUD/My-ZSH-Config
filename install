@@ -293,7 +293,7 @@ else
 fi
 
 if [[ $install_vim_stuff -eq 1 ]]; then
-	sudo apt install nodejs npm
+	sudo apt install nodejs npm python3 python3-pip -y
 
 	backup_file ~/.vimrc
 	backup_file ~/.vim
@@ -301,6 +301,8 @@ if [[ $install_vim_stuff -eq 1 ]]; then
 
 	cp -r vim_runtime ~/.vim_runtime
 	cp -r vimrc ~/.vimrc
+
+	pip install jedi --break-system-packages
 
 	if [[ ! -d ~/.vim/pack/tpope/start ]]; then
 		mkdir -p ~/.vim/pack/tpope/start

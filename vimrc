@@ -255,3 +255,15 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nvie/vim-flake8'
 
 call plug#end()
+
+call plug#begin('~/.vim/plugged')
+Plug 'davidhalter/jedi-vim'
+call plug#end()
+
+" Autocomplete mit <C-Space>
+let g:jedi#completions_command = "<C-Space>"
+
+" Keine seltsamen Einfügungen
+let g:jedi#popup_select_first = 0
+let g:jedi#auto_vim_completion = 1
+let g:jedi#completions_return_single = 1
