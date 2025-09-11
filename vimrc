@@ -234,3 +234,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'bluz71/vim-mistfly-statusline'
 
 call plug#end()
+
+let g:mistfly_theme = 'gruvbox'  " optional, anderes Farbschema
+set laststatus=2                " Statusline immer anzeigen
