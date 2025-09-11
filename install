@@ -317,6 +317,11 @@ if [[ $install_vim_stuff -eq 1 ]]; then
 		git clone --depth 1 https://github.com/vim-airline/vim-airline ~/.vim/pack/dist/start/vim-airline 2>/dev/null >/dev/null
 		green_text "Cloned vim-airline"
 	fi
+
+	mkdir -p ~/.vim/pack/tpope/start
+	cd ~/.vim/pack/tpope/start
+	git clone https://tpope.io/vim/fugitive.git
+	vim -u NONE -c "helptags fugitive/doc" -c q
 fi
 
 echo ""
