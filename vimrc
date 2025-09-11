@@ -237,3 +237,21 @@ call plug#end()
 
 let g:mistfly_theme = 'gruvbox'  " optional, anderes Farbschema
 set laststatus=2                " Statusline immer anzeigen
+
+call plug#begin('~/.vim/plugged')
+
+" Statusline
+Plug 'bluz71/vim-mistfly-statusline'
+
+" Fuzzy Finder
+Plug 'junegunn/fzf.vim'
+
+" Auto-Pairs & Surround
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
+
+" Python Autocomplete & Linting
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'nvie/vim-flake8'
+
+call plug#end()
