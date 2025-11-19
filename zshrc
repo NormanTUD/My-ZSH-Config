@@ -1026,3 +1026,7 @@ plot "$data_source" using 1:8 with lines lw 2, "$data_source" using 1:9 with lin
 unset multiplot
 EOF
 }
+
+function drm {
+	for id in "$@"; do n=$(docker inspect --format '{{.Name}}' "$id" 2>/dev/null | sed 's:^/::'); echo "$id  ->  $n"; docker stop "$id" && docker rm "$id"; done
+}
