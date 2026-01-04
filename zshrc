@@ -1030,3 +1030,66 @@ EOF
 function drm {
 	for id in "$@"; do n=$(docker inspect --format '{{.Name}}' "$id" 2>/dev/null | sed 's:^/::'); echo "$id  ->  $n"; docker stop "$id" && docker rm "$id"; done
 }
+
+# Pfad für die Ziel-Konfiguration
+BACKUP_CONFIG="$HOME/.backup_destination"
+
+encrypt_backup() {
+    local source_dir=$1
+
+    # Ziel abfragen, falls nicht gespeichert
+    if [ ! -f "$BACKUP_CONFIG" ]; then
+        read -p "Wohin soll das Backup standardmäßig gespeichert werden? (Pfad): " target_base
+        echo "$target_base" > "$BACKUP_CONFIG"
+    fi
+    local target_dir=$(cat "$BACKUP_CONFIG")
+
+    # Prüfen ob Zielordner existiert
+    if [ ! -d "$target_dir" ]; then
+        read -p "Ordner $target_dir existiert nicht. Anlegen? (y/n): " confirm
+        if [ "$confirm" == "y" ]; then
+            mkdir -p "$target_dir"
+        else
+            return 1
+        fi
+    fi
+
+    # Mount-Status anzeigen
+    echo "--- System Info ---"
+    mount | grep "on $target_dir" || echo "Hinweis: $target_dir ist kein separater Mountpoint (lokale Partition)."
+    echo "-------------------"
+
+    # Dynamischer Dateiname (Inkrementell durch Zeitstempel)
+    local timestamp=$(date +%Y-%m-%d_%H-%M-%S)
+    local folder_name=$(basename "$source_dir")
+    local output_file="$target_dir/${folder_name}_$timestamp.tar.gz.enc"
+
+    # Verschlüsselung starten
+    echo "Verschlüssele $source_dir nach $output_file..."
+    tar -czf - -C "$(dirname "$source_dir")" "$(basename "$source_dir")" | \
+    openssl enc -aes-256-cbc -salt -pbkdf2 -out "$output_file"
+
+    # How-To Datei erstellen
+    cat <<EOF > "$target_dir/how_to_decrypt.txt"
+ANLEITUNG ZUR ENTSCHLÜSSELUNG
+Datei: $(basename "$output_file")
+Befehl: openssl enc -aes-256-cbc -d -salt -pbkdf2 -in <DATEINAME> | tar -xzf - -C /ziel/pfad
+Oder nutze die Funktion: decrypt_backup <DATEINAME> <ZIELORDNER>
+EOF
+
+    echo "Backup abgeschlossen: $output_file"
+}
+
+decrypt_backup() {
+    local enc_file=$1
+    local dest_dir=$2
+
+    if [ -z "$enc_file" ] || [ -z "$dest_dir" ]; then
+        echo "Nutzung: decrypt_backup <verschlüsselte_datei> <ziel_ordner>"
+        return 1
+    fi
+
+    mkdir -p "$dest_dir"
+    echo "Entschlüssele $enc_file nach $dest_dir..."
+    openssl enc -aes-256-cbc -d -salt -pbkdf2 -in "$enc_file" | tar -xzf - -C "$dest_dir"
+}

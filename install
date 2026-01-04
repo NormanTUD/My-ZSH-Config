@@ -247,6 +247,8 @@ if [[ $install_latex -eq 1 ]]; then
 	apt_install texlive-full texlive-extra-utils
 fi
 
+_apt_install openssl tar
+
 if [[ ${#APT_INSTALL_QUEUE[@]} -gt 0 ]]; then
 	_apt_install
 
