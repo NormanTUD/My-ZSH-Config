@@ -883,15 +883,11 @@ if command -v xdotool 2>/dev/null >/dev/null; then
 			SLEEPTIME=${1:-60}
 
 			while true; do
-			    eval $(xdotool getmouselocation --shell)
-			    
-			    IDLETIME=$(xprintidle)
-			    IDLETIME=$(($IDLETIME/1000))
-			    if [[ $IDLETIME -gt $SLEEPTIME ]]; then
-				xdotool mousemove $X $((Y-1))
-			    fi
+				eval $(xdotool getmouselocation --shell)
 
-			    sleep $SLEEPTIME
+				xdotool mousemove $X $((Y-1))
+
+				sleep $SLEEPTIME
 			done
 		}
 	fi
