@@ -878,19 +878,17 @@ fi
 PATH=/home/$USER/.local/bin:/home/$USER/repos/smartlocate:$PATH
 
 if command -v xdotool 2>/dev/null >/dev/null; then
-	if command -v xprintidle 2>/dev/null >/dev/null; then
-		function keep_idle {
-			SLEEPTIME=${1:-60}
+	function keep_idle {
+		SLEEPTIME=${1:-60}
 
-			while true; do
-				eval $(xdotool getmouselocation --shell)
+		while true; do
+			eval $(xdotool getmouselocation --shell)
 
-				xdotool mousemove $X $((Y-1))
+			xdotool mousemove $X $((Y-1))
 
-				sleep $SLEEPTIME
-			done
-		}
-	fi
+			sleep $SLEEPTIME
+		done
+	}
 fi
 
 cpwd() {
