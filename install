@@ -224,7 +224,6 @@ if [[ $install_usefull_stuff -eq 1 ]]; then
 		gnuplot \
 		python3 python3-pip python3-venv python3-rich \
 		simplescreenrecorder \
-		speedcrunch \
 		uuid-runtime \
 		mtools \
 		xdotool \

@@ -877,19 +877,31 @@ fi
 
 PATH=/home/$USER/.local/bin:/home/$USER/repos/smartlocate:$PATH
 
-if command -v xdotool 2>/dev/null >/dev/null; then
-	function keep_idle {
-		SLEEPTIME=${1:-60}
+keep_idle() {
+	if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+		if ! command -v ydotool &> /dev/null; then
+			echo "Error: Wayland detected but ydotool is missing."
+			echo "Run: sudo apt update && sudo apt install ydotool"
+			return 1
+		fi
 
 		while true; do
-			eval $(xdotool getmouselocation --shell)
-
-			xdotool mousemove $X $((Y-1))
-
-			sleep $SLEEPTIME
+			ydotool key 107:1 107:0
+			sleep 60
 		done
-	}
-fi
+	else
+		if ! command -v xdotool &> /dev/null; then
+			echo "Error: X11 detected but xdotool is missing."
+			echo "Run: sudo apt update && sudo apt install xdotool"
+			return 1
+		fi
+
+		while true; do
+			xdotool key F15
+			sleep 60
+		done
+	fi
+}
 
 cpwd() {
 	if command -v xclip &>/dev/null; then
