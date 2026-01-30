@@ -1087,3 +1087,23 @@ decrypt_backup() {
     echo "Entschlüssele $enc_file nach $dest_dir..."
     openssl enc -aes-256-cbc -d -salt -pbkdf2 -in "$enc_file" | tar -xzf - -C "$dest_dir"
 }
+
+wayback_save() {
+	local target_url="$1"
+	if [[ -z "$target_url" ]]; then
+		echo "Usage: wayback_save <URL>"
+		return 1
+	fi
+
+	# URL-Encoding der Eingabe-URL
+	local encoded_url=$(printf '%s' "$target_url" | jq -sRr @uri)
+
+	echo "Sende $target_url an Web Archive..."
+
+	curl 'https://web.archive.org/save/' \
+		-X POST \
+		-H 'Content-Type: application/x-www-form-urlencoded' \
+		-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0' \
+		--data-raw "url=${encoded_url}&capture_all=on" \
+		--compressed
+	}
