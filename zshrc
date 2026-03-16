@@ -1119,3 +1119,7 @@ wayback_save() {
 		--data-raw "url=${encoded_url}&capture_all=on" \
 		--compressed
 	}
+
+function set_bright_screen {
+	echo $(cat /sys/class/backlight/intel_backlight/max_brightness) | sudo tee /sys/class/backlight/intel_backlight/brightness
+}
