@@ -199,6 +199,7 @@ if [[ $install_usefull_stuff -eq 1 ]]; then
 		cmake \
 		make \
 		evince \
+		direnv \
 		ffmpeg \
 		flatpak \
 		inkscape \
