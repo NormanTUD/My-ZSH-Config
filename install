@@ -209,7 +209,6 @@ if [[ $install_usefull_stuff -eq 1 ]]; then
 		arp-scan \
 		cura \
 		cabextract \
-		zoxide \
 		unshield \
 		kdeconnect \
 		kompare \
