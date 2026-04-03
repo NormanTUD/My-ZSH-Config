@@ -174,7 +174,6 @@ export http_proxy=
 export https_proxy=
 
 rtest () {
-        set -x
         RANDOMNUMBER=$(shuf -i 1-100000 -n 1)
         while [[ -e "$HOME/test/randomtest_$RANDOMNUMBER" ]]
         do
@@ -182,7 +181,6 @@ rtest () {
         done
         mkdir -p -p "$HOME/test/randomtest_$RANDOMNUMBER"
         cd "$HOME/test/randomtest_$RANDOMNUMBER"
-        set +x
 }
 
 mkdir -p $HOME/.local/bin/
@@ -1123,3 +1121,5 @@ wayback_save() {
 function set_bright_screen {
 	echo $(cat /sys/class/backlight/intel_backlight/max_brightness) | sudo tee /sys/class/backlight/intel_backlight/brightness
 }
+
+set -o "vi"
