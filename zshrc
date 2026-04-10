@@ -1121,5 +1121,3 @@ wayback_save() {
 function set_bright_screen {
 	echo $(cat /sys/class/backlight/intel_backlight/max_brightness) | sudo tee /sys/class/backlight/intel_backlight/brightness
 }
-
-set -o "vi"
