@@ -1121,3 +1121,17 @@ wayback_save() {
 function set_bright_screen {
 	echo $(cat /sys/class/backlight/intel_backlight/max_brightness) | sudo tee /sys/class/backlight/intel_backlight/brightness
 }
+
+lmk() {
+    # Entfernt .tex oder .pdf Endung, falls vorhanden, um den reinen Dateinamen zu bekommen
+    local filename="${1%.*}"
+
+    # Prüfen, ob die Datei überhaupt existiert
+    if [[ ! -f "$filename.tex" ]]; then
+        echo "Fehler: $filename.tex wurde nicht gefunden."
+        return 1
+    fi
+
+    # Kompilieren und bei Erfolg Evince im Hintergrund starten
+    latexmk -pdf -interaction=nonstopmode -f "$filename.tex" && (evince "$filename.pdf" &)
+}
