@@ -1135,3 +1135,41 @@ lmk() {
     # Kompilieren und bei Erfolg Evince im Hintergrund starten
     latexmk -pdf -interaction=nonstopmode -f "$filename.tex" && (evince "$filename.pdf" &)
 }
+
+arxiv() {
+  # Extrahiere die Paper-ID aus verschiedenen Eingabeformaten
+  local input="$1"
+  local id=$(echo "$input" | grep -oP '(\d{4}\.\d{4,5}(v\d+)?)')
+
+  if [[ -z "$id" ]]; then
+    echo "Fehler: Konnte keine gültige arXiv-ID extrahieren."
+    return 1
+  fi
+
+  # Titel von der arXiv Abstract-Seite holen
+  local abs_url="https://arxiv.org/abs/${id}"
+  local title=$(curl -s "$abs_url" | grep -oP '(?<=<title>)\[.*?\] (.*?)(?=</title>)' | sed 's/^\[.*\] //')
+
+  if [[ -z "$title" ]]; then
+    echo "Fehler: Konnte den Titel nicht ermitteln."
+    return 1
+  fi
+
+  # Ungültige Zeichen für Dateinamen entfernen/ersetzen
+  local safe_title=$(echo "$title" | sed 's/[\/\\:*?"<>|]/-/g')
+
+  # PDF herunterladen
+  local pdf_url="https://arxiv.org/pdf/${id}.pdf"
+  local output_file="${safe_title}.pdf"
+
+  echo "Lade herunter: ${safe_title}"
+  echo "URL: ${pdf_url}"
+  curl -L -o "$output_file" "$pdf_url"
+
+  if [[ $? -eq 0 ]]; then
+    echo "✓ Gespeichert als: ${output_file}"
+  else
+    echo "✗ Download fehlgeschlagen."
+    return 1
+  fi
+}
