@@ -235,7 +235,7 @@ if [[ $install_usefull_stuff -eq 1 ]]; then
 		pdf2svg \
 		kdenlive \
 		net-tools \
-		wine wine32:i386 \
+		wine \
 		gdebi lame vorbis-tools flac opus-tools k3b \
 		fonts-powerline \
 		golang-go \
